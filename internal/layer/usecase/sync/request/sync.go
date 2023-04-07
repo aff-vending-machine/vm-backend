@@ -8,7 +8,7 @@ type Sync struct {
 	MachineID uint `json:"machine_id" query:"machine_id" validate:"required"`
 }
 
-func (r *Sync) ToFilter() []string {
+func (r *Sync) ToSlotFilter() []string {
 	return []string{
 		fmt.Sprintf("machine_id:=:%d", r.MachineID),
 		":PRELOAD:Product",

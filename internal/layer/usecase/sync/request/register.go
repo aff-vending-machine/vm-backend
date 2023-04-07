@@ -5,20 +5,20 @@ import (
 	"time"
 
 	"github.com/aff-vending-machine/vm-backend/internal/core/domain/entity"
-	"github.com/aff-vending-machine/vm-backend/internal/core/domain/model"
+	"github.com/aff-vending-machine/vm-backend/internal/core/domain/sync"
 )
 
-type SyncRegister struct {
-	Data model.Machine
+type RegisterMachine struct {
+	Data sync.Machine `json:"data"`
 }
 
-func (r *SyncRegister) ToFilter() []string {
+func (r *RegisterMachine) ToFilter() []string {
 	return []string{
 		fmt.Sprintf("serial_number:=:%s", r.Data.SerialNumber),
 	}
 }
 
-func (r *SyncRegister) ToEntity() *entity.Machine {
+func (r *RegisterMachine) ToEntity() *entity.Machine {
 	t := time.Now()
 	return &entity.Machine{
 		Name:           r.Data.Name,
@@ -31,7 +31,7 @@ func (r *SyncRegister) ToEntity() *entity.Machine {
 	}
 }
 
-func (r *SyncRegister) ToJsonUpdate(count int) map[string]interface{} {
+func (r *RegisterMachine) ToJsonUpdate(count int) map[string]interface{} {
 	return map[string]interface{}{
 		"last_active_time": time.Now(),
 		"status":           "active",

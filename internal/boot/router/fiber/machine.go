@@ -12,6 +12,4 @@ func routeMachine(api fiber.Router, endpoint http.Machine) {
 	api.Post("machines", endpoint.Create)
 	api.Put("machines/:id", endpoint.Update)
 	api.Delete("machines/:id", endpoint.Delete)
-
-	api.Post("machines/:id/sync-get", endpoint.SyncGet)
 }

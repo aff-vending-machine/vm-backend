@@ -8,6 +8,7 @@ type Transaction struct {
 	ID                  uint       `json:"id" gorm:"primarykey"`
 	CreatedAt           time.Time  `json:"created_at"`
 	UpdatedAt           time.Time  `json:"updated_at"`
+	MachineID           uint       `json:"machine_id" gorm:"not null"`
 	MerchantOrderID     string     `json:"merchant_order_id" gorm:"not null,uniqueIndex"` // key to find order
 	MachineSerialNumber string     `json:"machine_serial_number" gorm:"not null"`         // key to find machine
 	Location            string     `json:"location"`                                      // ordered

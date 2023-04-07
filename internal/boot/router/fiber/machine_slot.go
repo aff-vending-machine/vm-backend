@@ -14,7 +14,4 @@ func routeMachineSlot(router fiber.Router, endpoint http.MachineSlot) {
 	api.Post("slots", endpoint.Create)
 	api.Put("slots/:id", endpoint.Update)
 	api.Delete("slots/:id", endpoint.Delete)
-
-	api.Post("slots/sync-get", endpoint.SyncGet)
-	api.Post("slots/sync-set", endpoint.SyncSet)
 }

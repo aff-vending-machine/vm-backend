@@ -1,4 +1,4 @@
-package model
+package sync
 
 import "github.com/aff-vending-machine/vm-backend/internal/core/domain/entity"
 

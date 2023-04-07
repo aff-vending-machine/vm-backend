@@ -6,7 +6,7 @@ import (
 )
 
 func (s *server) Serve(queue string, driver registry.TopicTransport) {
-	s.routeMachine(driver.Machine)
+	s.routeSync(driver.Sync)
 
 	go s.Listen(queue)
 
