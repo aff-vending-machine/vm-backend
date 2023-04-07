@@ -1,10 +1,14 @@
 package registry
 
-import "github.com/aff-vending-machine/vm-backend/internal/layer/transport/http"
+import (
+	"github.com/aff-vending-machine/vm-backend/internal/layer/transport/http"
+	"github.com/aff-vending-machine/vm-backend/internal/layer/transport/topic"
+)
 
 // Interface Adapter layers (driver)
 type Transport struct {
-	HTTP HTTPTransport
+	HTTP  HTTPTransport
+	Topic TopicTransport
 }
 
 type HTTPTransport struct {
@@ -16,4 +20,8 @@ type HTTPTransport struct {
 	Role           http.Role
 	Transaction    http.Transaction
 	User           http.User
+}
+
+type TopicTransport struct {
+	Machine topic.Machine
 }

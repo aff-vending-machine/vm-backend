@@ -23,3 +23,13 @@ func ToProduct(e *entity.Product) *Product {
 		Price:    e.Price,
 	}
 }
+
+func (m *Product) ToEntity() *entity.Product {
+	return &entity.Product{
+		SKU:      m.SKU,
+		Name:     m.Name,
+		Type:     m.Type,
+		ImageURL: m.ImageURL,
+		Price:    m.Price,
+	}
+}

@@ -15,6 +15,8 @@ import (
 	role_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/role/usecase"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/system"
 	system_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/system/usecase"
+	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/transaction"
+	transaction_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/transaction/usecase"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/user"
 	user_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/user/usecase"
 )
@@ -28,6 +30,7 @@ type Usecase struct {
 	Product        interface{ product.Usecase }
 	Role           interface{ role.Usecase }
 	System         interface{ system.Usecase }
+	Transaction    interface{ transaction.Usecase }
 	User           interface{ user.Usecase }
 }
 
@@ -60,6 +63,9 @@ func NewUsecase(adapter Service) Usecase {
 			adapter.Repository.Role,
 		),
 		system_usecase.New(),
+		transaction_usecase.New(
+			adapter.Repository.Transaction,
+		),
 		user_usecase.New(
 			adapter.Repository.User,
 			adapter.Repository.Role,

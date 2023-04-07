@@ -9,7 +9,7 @@ type MachineStatus struct {
 	Status string `json:"status"`
 }
 
-func MachineEntityToStatusView(e *entity.Machine) *MachineStatus {
+func ToMachineStatus(e *entity.Machine) *MachineStatus {
 	return &MachineStatus{
 		ID:     e.ID,
 		Status: e.Status,

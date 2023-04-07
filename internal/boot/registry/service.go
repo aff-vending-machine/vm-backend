@@ -28,5 +28,6 @@ type RepositoryService struct {
 	PaymentChannel repository.PaymentChannel
 	Product        repository.Product
 	Role           repository.Role
+	Transaction    repository.Transaction
 	User           repository.User
 }

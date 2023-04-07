@@ -2,9 +2,9 @@ package app
 
 import (
 	"github.com/aff-vending-machine/vm-backend/internal/boot/registry"
+	"github.com/aff-vending-machine/vm-backend/internal/layer/service/api/rpc"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/service/crypto/password"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/service/crypto/token"
-	"github.com/aff-vending-machine/vm-backend/internal/layer/service/api/rpc"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/service/repository/machine"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/service/repository/machine_slot"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/service/repository/payment_channel"

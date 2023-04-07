@@ -24,7 +24,7 @@ func (uc *usecaseImpl) SyncSet(ctx context.Context, req *request.Sync) error {
 		return errors.Wrapf(err, "unable to find slot in machine %d", req.MachineID)
 	}
 
-	err = uc.rpcAPI.SlotSet(ctx, machine.SerialNumber, model.ToSlotList(slots))
+	err = uc.rpcAPI.SetSlot(ctx, machine.SerialNumber, model.ToSlotList(slots))
 	if err != nil {
 		return errors.Wrapf(err, "unable to sync set to real machine %s", machine.SerialNumber)
 	}
