@@ -10,6 +10,7 @@ import (
 	"github.com/aff-vending-machine/vm-backend/internal/layer/service/repository/payment_channel"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/service/repository/product"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/service/repository/role"
+	"github.com/aff-vending-machine/vm-backend/internal/layer/service/repository/transaction"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/service/repository/user"
 )
 
@@ -28,6 +29,7 @@ func NewService(module Module) registry.Service {
 			PaymentChannel: payment_channel.New(module.PostgreSQL.DB),
 			Product:        product.New(module.PostgreSQL.DB),
 			Role:           role.New(module.PostgreSQL.DB),
+			Transaction:    transaction.New(module.PostgreSQL.DB),
 			User:           user.New(module.PostgreSQL.DB),
 		},
 	}

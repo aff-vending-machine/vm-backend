@@ -14,6 +14,4 @@ type Usecase interface {
 	Delete(context.Context, *request.Delete) error
 	List(context.Context, *request.Filter) ([]response.Machine, error)
 	Update(context.Context, *request.Update) error
-	SyncGet(context.Context, *request.Sync) (*response.MachineStatus, error)
-	SyncRegister(context.Context, *request.SyncRegister) error
 }

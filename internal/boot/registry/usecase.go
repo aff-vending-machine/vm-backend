@@ -1,6 +1,7 @@
 package registry
 
 import (
+	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/auth"
 	auth_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/auth/usecase"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/machine"
@@ -13,6 +14,7 @@ import (
 	product_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/product/usecase"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/role"
 	role_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/role/usecase"
+	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/sync"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/system"
 	system_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/system/usecase"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/transaction"
@@ -29,6 +31,7 @@ type Usecase struct {
 	PaymentChannel interface{ payment_channel.Usecase }
 	Product        interface{ product.Usecase }
 	Role           interface{ role.Usecase }
+	Sync           usecase.Sync
 	System         interface{ system.Usecase }
 	Transaction    interface{ transaction.Usecase }
 	User           interface{ user.Usecase }
@@ -43,12 +46,10 @@ func NewUsecase(adapter Service) Usecase {
 			adapter.Crypto.Token,
 		),
 		machine_usecase.New(
-			adapter.API.RPC,
 			adapter.Repository.Machine,
 			adapter.Repository.MachineSlot,
 		),
 		machine_slot_usecase.New(
-			adapter.API.RPC,
 			adapter.Repository.Machine,
 			adapter.Repository.MachineSlot,
 			adapter.Repository.Product,
@@ -62,8 +63,17 @@ func NewUsecase(adapter Service) Usecase {
 		role_usecase.New(
 			adapter.Repository.Role,
 		),
+		sync.New(
+			adapter.API.RPC,
+			adapter.Repository.Machine,
+			adapter.Repository.MachineSlot,
+			adapter.Repository.Product,
+			adapter.Repository.Transaction,
+		),
 		system_usecase.New(),
 		transaction_usecase.New(
+			adapter.API.RPC,
+			adapter.Repository.Machine,
 			adapter.Repository.Transaction,
 		),
 		user_usecase.New(

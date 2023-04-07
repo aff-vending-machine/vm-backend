@@ -16,7 +16,6 @@ type Machine interface {
 	Create(ctx *fiber.Ctx) error  // POST 	{machines}
 	Update(ctx *fiber.Ctx) error  // PUT 		{machines/:id}
 	Delete(ctx *fiber.Ctx) error  // DELETE {machines/:id}
-	SyncGet(ctx *fiber.Ctx) error // POST 	{machines/:id/sync-get}
 }
 
 type MachineSlot interface {
@@ -26,8 +25,6 @@ type MachineSlot interface {
 	Create(ctx *fiber.Ctx) error  // POST 	{machines/:machine_id/slots}
 	Update(ctx *fiber.Ctx) error  // PUT 		{machines/:machine_id/slots/:id}
 	Delete(ctx *fiber.Ctx) error  // DELETE {machines/:machine_id/slots/:id}
-	SyncGet(ctx *fiber.Ctx) error // POST 	{machines/:machine_id/slots/sync-get}
-	SyncSet(ctx *fiber.Ctx) error // POST 	{machines/:machine_id/slots/sync-set}
 }
 
 type PaymentChannel interface {
@@ -56,6 +53,13 @@ type Role interface {
 	Create(ctx *fiber.Ctx) error  // POST
 	Update(ctx *fiber.Ctx) error  // PUT {:id}
 	Delete(ctx *fiber.Ctx) error  // DELETE {:id}
+}
+
+type Sync interface {
+	GetMachine(ctx *fiber.Ctx) error     // POST 	{sync-machines/:machine_id/get}
+	GetSlot(ctx *fiber.Ctx) error        // POST 	{sync-machines/:machine_id/slots/get}
+	SetSlot(ctx *fiber.Ctx) error        // POST 	{sync-machines/:machine_id/slots/set}
+	GetTransaction(ctx *fiber.Ctx) error // POST 	{sync-machines/:machine_id/transactions/get}
 }
 
 type Transaction interface {

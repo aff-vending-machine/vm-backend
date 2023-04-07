@@ -18,10 +18,11 @@ type HTTPTransport struct {
 	PaymentChannel http.PaymentChannel
 	Product        http.Product
 	Role           http.Role
+	Sync           http.Sync
 	Transaction    http.Transaction
 	User           http.User
 }
 
 type TopicTransport struct {
-	Machine topic.Machine
+	Sync topic.Sync
 }

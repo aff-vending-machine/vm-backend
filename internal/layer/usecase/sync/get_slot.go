@@ -1,18 +1,18 @@
-package machine_slot_usecase
+package sync
 
 import (
 	"context"
 	"fmt"
 
-	"github.com/aff-vending-machine/vm-backend/internal/core/domain/model"
-	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/machine_slot/request"
+	"github.com/aff-vending-machine/vm-backend/internal/core/domain/sync"
+	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/sync/request"
 	"github.com/aff-vending-machine/vm-backend/pkg/errs"
 	"github.com/gookit/validate"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 )
 
-func (uc *usecaseImpl) SyncGet(ctx context.Context, req *request.Sync) error {
+func (uc *usecaseImpl) GetSlot(ctx context.Context, req *request.Sync) error {
 	if v := validate.Struct(req); !v.Validate() {
 		return errors.Wrap(v.Errors.OneError(), "validate failed")
 	}
@@ -65,7 +65,7 @@ func (uc *usecaseImpl) SyncGet(ctx context.Context, req *request.Sync) error {
 	return nil
 }
 
-func (uc *usecaseImpl) findProductID(ctx context.Context, slot model.Slot) uint {
+func (uc *usecaseImpl) findProductID(ctx context.Context, slot sync.Slot) uint {
 	productID := uint(0)
 	if slot.Product != nil {
 		product, err := uc.productRepo.FindOne(ctx, []string{fmt.Sprintf("sku:=:%s", slot.Product.SKU)})

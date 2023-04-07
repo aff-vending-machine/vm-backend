@@ -1,11 +1,11 @@
-package machine_slot_http
+package sync_http
 
 import (
 	"github.com/aff-vending-machine/vm-backend/internal/core/module/fiber/http"
 	"github.com/gofiber/fiber/v2"
 )
 
-func (r *restImpl) SyncSet(c *fiber.Ctx) error {
+func (r *httpImpl) SetSlot(c *fiber.Ctx) error {
 	ctx := c.UserContext()
 
 	req, err := makeSyncRequest(c)
@@ -14,7 +14,7 @@ func (r *restImpl) SyncSet(c *fiber.Ctx) error {
 	}
 
 	// usecase execution
-	err = r.usecase.SyncSet(ctx, req)
+	err = r.usecase.SetSlot(ctx, req)
 	if err != nil {
 		return http.UsecaseError(c, err)
 	}

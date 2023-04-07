@@ -17,6 +17,7 @@ func (s *server) Serve(driver registry.HTTPTransport) {
 	routePaymentChannel(v1, driver.PaymentChannel)
 	routeProduct(v1, driver.Product)
 	routeRole(v1, driver.Role)
+	routeSync(v1, driver.Sync)
 	routeTransaction(v1, driver.Transaction)
 	routeUser(v1, driver.User)
 

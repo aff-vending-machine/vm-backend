@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (r *restImpl) Update(c *fiber.Ctx) error {
+func (r *httpImpl) Update(c *fiber.Ctx) error {
 	ctx, span := trace.Start(c.Context())
 	defer span.End()
 

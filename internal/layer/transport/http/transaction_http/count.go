@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (t *restImpl) Count(c *fiber.Ctx) error {
+func (t *httpImpl) Count(c *fiber.Ctx) error {
 	ctx, span := trace.Start(c.Context())
 	defer span.End()
 

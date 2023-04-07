@@ -1,4 +1,4 @@
-package model
+package sync
 
 type Machine struct {
 	Name         string `json:"name"`

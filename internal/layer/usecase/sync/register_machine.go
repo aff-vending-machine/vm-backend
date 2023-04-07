@@ -1,15 +1,15 @@
-package machine_usecase
+package sync
 
 import (
 	"context"
 
-	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/machine/request"
+	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/sync/request"
 	"github.com/aff-vending-machine/vm-backend/pkg/errs"
 	"github.com/gookit/validate"
 	"github.com/pkg/errors"
 )
 
-func (uc *usecaseImpl) SyncRegister(ctx context.Context, req *request.SyncRegister) error {
+func (uc *usecaseImpl) RegisterMachine(ctx context.Context, req *request.RegisterMachine) error {
 	if v := validate.Struct(req); !v.Validate() {
 		return errors.Wrap(v.Errors.OneError(), "validate failed")
 	}
