@@ -9,23 +9,23 @@ import (
 	"github.com/aff-vending-machine/vm-backend/pkg/trace"
 )
 
-type MachineGetResponse struct {
+type GetMachineResponse struct {
 	Code    int            `json:"code"`
 	Data    *model.Machine `json:"data"`
 	Message string         `json:"message"`
 	Error   string         `json:"error"`
 }
 
-func (r *rpcImpl) MachineGet(ctx context.Context, target string) (*model.Machine, error) {
+func (r *rpcImpl) GetMachine(ctx context.Context, target string) (*model.Machine, error) {
 	_, span := trace.Start(ctx)
 	defer span.End()
 
-	bres, err := r.Emit(ctx, target, "slot.get", nil)
+	bres, err := r.EmitRPC(ctx, target, "machine.get", nil)
 	if err != nil {
 		return nil, err
 	}
 
-	var res MachineGetResponse
+	var res GetMachineResponse
 	err = json.Unmarshal(bres, &res)
 	if err != nil {
 		return nil, err

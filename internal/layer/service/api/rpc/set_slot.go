@@ -9,32 +9,32 @@ import (
 	"github.com/aff-vending-machine/vm-backend/pkg/trace"
 )
 
-type SlotSetRequest struct {
+type SetSlotRequest struct {
 	Data []model.Slot `json:"data"`
 }
 
-type SlotSetResponse struct {
+type SetSlotResponse struct {
 	Code    int    `json:"code"`
 	Message string `json:"message"`
 	Error   string `json:"error"`
 }
 
-func (r *rpcImpl) SlotSet(ctx context.Context, target string, data []model.Slot) error {
+func (r *rpcImpl) SetSlot(ctx context.Context, target string, data []model.Slot) error {
 	_, span := trace.Start(ctx)
 	defer span.End()
 
-	req := SlotSetRequest{Data: data}
+	req := SetSlotRequest{Data: data}
 	breq, err := json.Marshal(req)
 	if err != nil {
 		return err
 	}
 
-	bres, err := r.Emit(ctx, target, "slot.set", breq)
+	bres, err := r.EmitRPC(ctx, target, "slot.set", breq)
 	if err != nil {
 		return err
 	}
 
-	var res SlotSetResponse
+	var res SetSlotResponse
 	err = json.Unmarshal(bres, &res)
 	if err != nil {
 		return err

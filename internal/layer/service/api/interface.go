@@ -7,7 +7,7 @@ import (
 )
 
 type RPC interface {
-	MachineGet(context.Context, string) (*model.Machine, error)
-	SlotGet(context.Context, string) ([]model.Slot, error)
-	SlotSet(context.Context, string, []model.Slot) error
+	GetMachine(context.Context, string) (*model.Machine, error)
+	GetSlot(context.Context, string) ([]model.Slot, error)
+	SetSlot(context.Context, string, []model.Slot) error
 }

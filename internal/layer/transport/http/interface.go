@@ -10,12 +10,13 @@ type Auth interface {
 }
 
 type Machine interface {
-	Read(ctx *fiber.Ctx) error    // GET
-	Count(ctx *fiber.Ctx) error   // GET {count}
-	ReadOne(ctx *fiber.Ctx) error // GET {:id}
-	Create(ctx *fiber.Ctx) error  // POST
-	Update(ctx *fiber.Ctx) error  // PUT {:id}
-	Delete(ctx *fiber.Ctx) error  // DELETE {:id}
+	Read(ctx *fiber.Ctx) error    // GET 		{machines}
+	Count(ctx *fiber.Ctx) error   // GET 		{machines/count}
+	ReadOne(ctx *fiber.Ctx) error // GET 		{machines/:id}
+	Create(ctx *fiber.Ctx) error  // POST 	{machines}
+	Update(ctx *fiber.Ctx) error  // PUT 		{machines/:id}
+	Delete(ctx *fiber.Ctx) error  // DELETE {machines/:id}
+	SyncGet(ctx *fiber.Ctx) error // POST 	{machines/:id/sync-get}
 }
 
 type MachineSlot interface {

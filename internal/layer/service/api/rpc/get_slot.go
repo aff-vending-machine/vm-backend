@@ -9,23 +9,23 @@ import (
 	"github.com/aff-vending-machine/vm-backend/pkg/trace"
 )
 
-type SlotGetResponse struct {
+type GetSlotResponse struct {
 	Code    int          `json:"code"`
 	Data    []model.Slot `json:"data"`
 	Message string       `json:"message"`
 	Error   string       `json:"error"`
 }
 
-func (r *rpcImpl) SlotGet(ctx context.Context, target string) ([]model.Slot, error) {
+func (r *rpcImpl) GetSlot(ctx context.Context, target string) ([]model.Slot, error) {
 	_, span := trace.Start(ctx)
 	defer span.End()
 
-	bres, err := r.Emit(ctx, target, "slot.get", nil)
+	bres, err := r.EmitRPC(ctx, target, "slot.get", nil)
 	if err != nil {
 		return nil, err
 	}
 
-	var res SlotGetResponse
+	var res GetSlotResponse
 	err = json.Unmarshal(bres, &res)
 	if err != nil {
 		return nil, err

@@ -7,4 +7,5 @@ type RabbitMQConfig struct {
 	Username string `default:"" mapstructure:"USERNAME"`
 	Password string `default:"" mapstructure:"PASSWORD"`
 	Path     string `default:"" mapstructure:"PATH"`
+	Queue    string `default:"CT-APP-CENTER" mapstructure:"QUEUE"`
 }

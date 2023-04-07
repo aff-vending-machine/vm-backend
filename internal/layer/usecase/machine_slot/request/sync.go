@@ -11,13 +11,13 @@ type Sync struct {
 func (r *Sync) ToFilter() []string {
 	return []string{
 		fmt.Sprintf("machine_id:=:%d", r.MachineID),
-		"preload::Product",
+		":PRELOAD:Product",
 	}
 }
 
 func (r *Sync) ToMachineFilter() []string {
 	return []string{
 		fmt.Sprintf("id:=:%d", r.MachineID),
-		"preload::Slots",
+		":PRELOAD:Slots",
 	}
 }
