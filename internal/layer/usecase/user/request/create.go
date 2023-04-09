@@ -5,15 +5,17 @@ import (
 )
 
 type Create struct {
-	Username string `json:"username" validate:"required"`
-	Password string `json:"password" validate:"required"`
-	RoleID   uint   `json:"role_id" validate:"required"`
+	Username  string `json:"username" validate:"required"`
+	Password  string `json:"password" validate:"required"`
+	CreatedBy string `json:"created_by" validate:"required"`
+	RoleID    uint   `json:"role_id" validate:"required"`
 }
 
 func (r *Create) ToEntity(hash string) *entity.User {
 	return &entity.User{
-		Username: r.Username,
-		Password: hash,
-		RoleID:   r.RoleID,
+		Username:  r.Username,
+		Password:  hash,
+		CreatedBy: r.CreatedBy,
+		RoleID:    r.RoleID,
 	}
 }

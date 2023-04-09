@@ -12,5 +12,6 @@ func (r *Get) ToFilter() []string {
 	return []string{
 		fmt.Sprintf("id||=||%d", r.ID),
 		"||PRELOAD||Slots",
+		"||PRELOAD||Slots.Product",
 	}
 }

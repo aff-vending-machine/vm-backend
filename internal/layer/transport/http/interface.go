@@ -47,8 +47,8 @@ type Product interface {
 }
 
 type Report interface {
-	GetStock(ctx *fiber.Ctx) error       // GET 	{reports/stock}
-	GetTransaction(ctx *fiber.Ctx) error // GET 	{reports/transaction}
+	GetStock(ctx *fiber.Ctx) error   // GET 	{reports/stock}
+	GetPayment(ctx *fiber.Ctx) error // GET 	{reports/transaction}
 }
 
 type Role interface {

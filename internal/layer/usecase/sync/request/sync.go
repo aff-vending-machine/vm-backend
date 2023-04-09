@@ -19,5 +19,6 @@ func (r *Sync) ToMachineFilter() []string {
 	return []string{
 		fmt.Sprintf("id||=||%d", r.MachineID),
 		"||PRELOAD||Slots",
+		"||PRELOAD||Slots.Product",
 	}
 }

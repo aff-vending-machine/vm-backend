@@ -24,7 +24,7 @@ func (r *Report) ToSlotFilter() []string {
 	return filter
 }
 
-func (r *Report) ToTransactionFilter() []string {
+func (r *Report) ToPaymentFilter() []string {
 	layout := "2006-01-02 15:04:05"
 
 	filter := []string{

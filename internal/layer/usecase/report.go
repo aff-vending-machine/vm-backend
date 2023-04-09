@@ -9,5 +9,5 @@ import (
 
 type Report interface {
 	Stock(context.Context, *request.Report) ([]response.Stock, error)
-	Transaction(context.Context, *request.Report) ([]response.Transaction, error)
+	Payment(context.Context, *request.Report) ([]response.Payment, error)
 }

@@ -23,7 +23,7 @@ func (uc *usecaseImpl) Stock(ctx context.Context, req *request.Report) ([]respon
 		return nil, errors.Wrap(err, "unable to find slot")
 	}
 
-	transactions, err := uc.transactionRepo.FindMany(ctx, req.ToTransactionFilter())
+	transactions, err := uc.transactionRepo.FindMany(ctx, req.ToPaymentFilter())
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to find transaction")
 	}
@@ -90,7 +90,7 @@ func (uc *usecaseImpl) Stock(ctx context.Context, req *request.Report) ([]respon
 	}
 
 	if req.Available != nil && *req.Available {
-		var result []response.Stock
+		result := make([]response.Stock, 0)
 		for _, stock := range stocks {
 			if stock.Sold != 0 {
 				result = append(result, stock)

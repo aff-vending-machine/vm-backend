@@ -12,6 +12,7 @@ type User struct {
 	Password  string     `json:"-"`
 	RoleID    uint       `json:"role_id"`
 	Role      Role       `json:"role"`
+	CreatedBy string     `json:"created_by"`
 	LastLogin *time.Time `json:"last_login"`
 }
 

@@ -10,7 +10,7 @@ func (s *server) Serve(driver registry.HTTPTransport) {
 	v1 := s.App.Group("/api/v1")
 	routeAuth(v1, driver.Auth)
 
-	// v1.Use(driver.Auth.AuthorizationRequired, driver.Auth.PermissionRequired)
+	v1.Use(driver.Auth.AuthorizationRequired, driver.Auth.PermissionRequired)
 
 	routeMachine(v1, driver.Machine)
 	routeMachineSlot(v1, driver.MachineSlot)
