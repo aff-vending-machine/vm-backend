@@ -29,7 +29,7 @@ func (uc *usecaseImpl) GetTransaction(ctx context.Context, req *request.Sync) er
 	ids := make([]uint, len(transactions))
 	for i, transaction := range transactions {
 		ids[i] = transaction.ID
-		_, err := uc.transactionRepo.FindOne(ctx, []string{fmt.Sprintf("merchant_order_id:=:%s", transaction.MerchantOrderID)})
+		_, err := uc.transactionRepo.FindOne(ctx, []string{fmt.Sprintf("merchant_order_id||=||%s", transaction.MerchantOrderID)})
 		if errs.Is(err, "not found") {
 			err = uc.transactionRepo.InsertOne(ctx, transaction.ToEntity(machine.ID))
 		}

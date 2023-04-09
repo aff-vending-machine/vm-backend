@@ -10,6 +10,6 @@ type Delete struct {
 
 func (r *Delete) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.ID),
+		fmt.Sprintf("id||=||%d", r.ID),
 	}
 }

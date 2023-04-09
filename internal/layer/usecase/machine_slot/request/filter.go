@@ -15,28 +15,29 @@ type Filter struct {
 
 func (r *Filter) ToFilter() []string {
 	filter := []string{
-		fmt.Sprintf("machine_id:=:%d", r.MachineID),
-		":PRELOAD:Product",
+		fmt.Sprintf("machine_id||=||%d", r.MachineID),
+		"||PRELOAD||Product",
+		"id||SORT||asc",
 	}
 
 	if r.ID != nil {
-		filter = append(filter, fmt.Sprintf("id:=:%d", *r.ID))
+		filter = append(filter, fmt.Sprintf("id||=||%d", *r.ID))
 	}
 
 	if r.ProductID != nil {
-		filter = append(filter, fmt.Sprintf("product_id:=:%d", *r.ProductID))
+		filter = append(filter, fmt.Sprintf("product_id||=||%d", *r.ProductID))
 	}
 
 	if r.Code != nil {
-		filter = append(filter, fmt.Sprintf("code:=:%s", *r.Code))
+		filter = append(filter, fmt.Sprintf("code||=||%s", *r.Code))
 	}
 
 	if r.Stock != nil {
-		filter = append(filter, fmt.Sprintf("stock:=:%d", *r.Stock))
+		filter = append(filter, fmt.Sprintf("stock||=||%d", *r.Stock))
 	}
 
 	if r.Capacity != nil {
-		filter = append(filter, fmt.Sprintf("capacity:=:%d", *r.Capacity))
+		filter = append(filter, fmt.Sprintf("capacity||=||%d", *r.Capacity))
 	}
 
 	return filter

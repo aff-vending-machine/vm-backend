@@ -22,7 +22,8 @@ func (r *restImpl) AuthorizationRequired(c *fiber.Ctx) error {
 	}
 
 	// save session data in context
-	c.Locals("x-access", claims.UserID)
+	c.Locals("x-access-id", claims.UserID)
+	c.Locals("x-access", claims.Username)
 
 	return c.Next()
 }

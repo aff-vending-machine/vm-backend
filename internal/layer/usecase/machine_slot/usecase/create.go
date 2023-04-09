@@ -17,7 +17,7 @@ func (uc *usecaseImpl) Create(ctx context.Context, req *request.Create) (uint, e
 		return 0, errors.Wrap(v.Errors.OneError(), "validate failed")
 	}
 
-	_, err := uc.machineRepo.FindOne(ctx, []string{fmt.Sprintf("id:=:%d", req.MachineID)})
+	_, err := uc.machineRepo.FindOne(ctx, []string{fmt.Sprintf("id||=||%d", req.MachineID)})
 	if err != nil {
 		log.Error().Err(err).Msgf("unable to find machine %s", req.MachineID)
 		return 0, errors.Wrapf(err, "unable to find machine %s", req.MachineID)
@@ -47,7 +47,7 @@ func (uc *usecaseImpl) findProduct(ctx context.Context, req *request.Create) (*m
 		return nil, nil
 	}
 
-	product, err := uc.productRepo.FindOne(ctx, []string{fmt.Sprintf("id:=:%d", req.ProductID)})
+	product, err := uc.productRepo.FindOne(ctx, []string{fmt.Sprintf("id||=||%d", req.ProductID)})
 	if errs.Not(err, "record not found") {
 		log.Error().Err(err).Msgf("unable to find product %d", req.ProductID)
 		return nil, err

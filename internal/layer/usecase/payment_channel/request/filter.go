@@ -14,23 +14,23 @@ func (r *Filter) ToFilter() []string {
 	filter := []string{}
 
 	if r.Limit != nil {
-		filter = append(filter, fmt.Sprintf(":LIMIT:%d", *r.Limit))
+		filter = append(filter, fmt.Sprintf("||LIMIT||%d", *r.Limit))
 	}
 
 	if r.Offset != nil {
-		filter = append(filter, fmt.Sprintf(":OFFSET:%d", *r.Offset))
+		filter = append(filter, fmt.Sprintf("||OFFSET||%d", *r.Offset))
 	}
 
 	if r.ID != nil {
-		filter = append(filter, fmt.Sprintf("id:=:%d", *r.ID))
+		filter = append(filter, fmt.Sprintf("id||=||%d", *r.ID))
 	}
 
 	if r.Channel != nil {
-		filter = append(filter, fmt.Sprintf("channel:=:%s", *r.Channel))
+		filter = append(filter, fmt.Sprintf("channel||=||%s", *r.Channel))
 	}
 
 	if r.Vendor != nil {
-		filter = append(filter, fmt.Sprintf("vendor:=:%s", *r.Vendor))
+		filter = append(filter, fmt.Sprintf("vendor||=||%s", *r.Vendor))
 	}
 
 	return filter

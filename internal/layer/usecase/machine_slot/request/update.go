@@ -17,14 +17,14 @@ type Update struct {
 
 func (r *Update) ToMachineFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.MachineID),
+		fmt.Sprintf("id||=||%d", r.MachineID),
 	}
 }
 
 func (r *Update) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("machine_id:=:%d", r.MachineID),
-		fmt.Sprintf("id:=:%d", r.ID),
+		fmt.Sprintf("machine_id||=||%d", r.MachineID),
+		fmt.Sprintf("id||=||%d", r.ID),
 	}
 }
 

@@ -17,7 +17,7 @@ type Create struct {
 
 func (r *Create) ToMachineFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.MachineID),
+		fmt.Sprintf("id||=||%d", r.MachineID),
 	}
 }
 

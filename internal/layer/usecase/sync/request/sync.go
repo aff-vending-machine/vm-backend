@@ -10,14 +10,14 @@ type Sync struct {
 
 func (r *Sync) ToSlotFilter() []string {
 	return []string{
-		fmt.Sprintf("machine_id:=:%d", r.MachineID),
-		":PRELOAD:Product",
+		fmt.Sprintf("machine_id||=||%d", r.MachineID),
+		"||PRELOAD||Product",
 	}
 }
 
 func (r *Sync) ToMachineFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.MachineID),
-		":PRELOAD:Slots",
+		fmt.Sprintf("id||=||%d", r.MachineID),
+		"||PRELOAD||Slots",
 	}
 }

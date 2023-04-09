@@ -9,7 +9,7 @@ type Login struct {
 
 func (r *Login) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("username:=:%s", r.Username),
-		":PRELOAD:Role",
+		fmt.Sprintf("username||=||%s", r.Username),
+		"||PRELOAD||Role",
 	}
 }

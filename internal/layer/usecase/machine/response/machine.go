@@ -28,7 +28,7 @@ func MachineEntityToView(e *entity.Machine) *Machine {
 		Location:            e.Location,
 		Type:                e.Type,
 		Vendor:              e.Vendor,
-		Slots:               response.MachineSlotEntityToList(e.Slots),
+		Slots:               response.ToMachineSlotList(e.Slots),
 		Status:              e.Status,
 		LastActiveTime:      e.LastActiveTime,
 		LastMaintenanceTime: e.LastMaintenanceTime,

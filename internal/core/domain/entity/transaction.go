@@ -13,6 +13,7 @@ type Transaction struct {
 	MachineSerialNumber string     `json:"machine_serial_number" gorm:"not null"`         // key to find machine
 	Location            string     `json:"location"`                                      // ordered
 	RawCart             string     `json:"raw_cart"`                                      // ordered
+	Note                string     `json:"note"`                                          // ordered
 	OrderQuantity       int        `json:"order_quantity" gorm:"not null"`                // ordered
 	OrderPrice          float64    `json:"order_price" gorm:"not null"`                   // ordered
 	OrderStatus         string     `json:"order_status" gorm:"not null"`                  // ordered

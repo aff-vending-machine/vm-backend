@@ -16,13 +16,13 @@ func (uc *usecaseImpl) Update(ctx context.Context, req *request.Update) error {
 		return errors.Wrap(v.Errors.OneError(), "validate failed")
 	}
 
-	_, err := uc.machineRepo.FindOne(ctx, []string{fmt.Sprintf("id:=:%d", req.MachineID)})
+	_, err := uc.machineRepo.FindOne(ctx, []string{fmt.Sprintf("id||=||%d", req.MachineID)})
 	if err != nil {
 		log.Error().Err(err).Msgf("unable to find machine %s", req.MachineID)
 		return errors.Wrapf(err, "unable to find machine %s", req.MachineID)
 	}
 
-	_, err = uc.machineSlotRepo.FindOne(ctx, []string{fmt.Sprintf("machine_id:=:%d", req.MachineID), fmt.Sprintf("id:=:%d", req.ID)})
+	_, err = uc.machineSlotRepo.FindOne(ctx, []string{fmt.Sprintf("machine_id||=||%d", req.MachineID), fmt.Sprintf("id||=||%d", req.ID)})
 	if err != nil {
 		log.Error().Err(err).Msgf("unable to find slot %d in machine %d", req.ID, req.MachineID)
 		return errors.Wrapf(err, "unable to find slot %d in machine %d", req.ID, req.MachineID)
@@ -42,7 +42,7 @@ func (uc *usecaseImpl) Update(ctx context.Context, req *request.Update) error {
 					Price:    0,
 				}
 			} else {
-				p, err := uc.productRepo.FindOne(ctx, []string{fmt.Sprintf("id:=:%d", req.ProductID)})
+				p, err := uc.productRepo.FindOne(ctx, []string{fmt.Sprintf("id||=||%d", req.ProductID)})
 				if err != nil {
 					log.Error().Err(err).Msgf("unable to find product %d in machine slot %d", req.ProductID, req.ID)
 					return errors.Wrapf(err, "unable to find product %d in machine slot %d", req.ProductID, req.ID)

@@ -7,6 +7,7 @@ import (
 	"github.com/aff-vending-machine/vm-backend/internal/layer/transport/http/machine_slot_http"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/transport/http/payment_channel_http"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/transport/http/product_http"
+	"github.com/aff-vending-machine/vm-backend/internal/layer/transport/http/report_http"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/transport/http/role_http"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/transport/http/sync_http"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/transport/http/transaction_http"
@@ -22,6 +23,7 @@ func NewTransport(uc registry.Usecase) registry.Transport {
 			MachineSlot:    machine_slot_http.New(uc.MachineSlot),
 			PaymentChannel: payment_channel_http.New(uc.PaymentChannel),
 			Product:        product_http.New(uc.Product),
+			Report:         report_http.New(uc.Report),
 			Role:           role_http.New(uc.Role),
 			Sync:           sync_http.New(uc.Sync),
 			Transaction:    transaction_http.New(uc.Transaction),

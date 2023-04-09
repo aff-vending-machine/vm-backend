@@ -1,0 +1,11 @@
+package fiber
+
+import (
+	"github.com/aff-vending-machine/vm-backend/internal/layer/transport/http"
+	"github.com/gofiber/fiber/v2"
+)
+
+func routeReport(api fiber.Router, endpoint http.Report) {
+	api.Get("reports/transaction", endpoint.GetTransaction)
+	api.Get("reports/stock", endpoint.GetStock)
+}

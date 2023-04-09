@@ -1,4 +1,4 @@
-package transaction_usecase
+package transaction
 
 import (
 	"context"
@@ -8,16 +8,16 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (uc *usecaseImpl) Count(ctx context.Context, req *request.Filter) (int64, error) {
+func (uc *usecaseImpl) Create(ctx context.Context, req *request.Create) (uint, error) {
 	if v := validate.Struct(req); !v.Validate() {
 		return 0, errors.Wrap(v.Errors.OneError(), "validate failed")
 	}
 
-	filter := req.ToFilter()
-	total, err := uc.transactionRepo.Count(ctx, filter)
+	entity := req.ToEntity()
+	err := uc.transactionRepo.InsertOne(ctx, entity)
 	if err != nil {
-		return 0, errors.Wrap(err, "unable to count role")
+		return 0, errors.Wrap(err, "unable to insert transaction")
 	}
 
-	return total, nil
+	return entity.ID, nil
 }

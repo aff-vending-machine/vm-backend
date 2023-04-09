@@ -20,5 +20,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Pro
 		return nil, errors.Wrapf(err, "unable to find product %d", req.ID)
 	}
 
-	return response.ProductEntityToView(entity), nil
+	return response.ToProduct(entity), nil
 }

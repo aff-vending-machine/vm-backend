@@ -15,27 +15,27 @@ func (r *Filter) ToFilter() []string {
 	filter := []string{}
 
 	if r.Limit != nil {
-		filter = append(filter, fmt.Sprintf("limit::%d", *r.Limit))
+		filter = append(filter, fmt.Sprintf("||LIMIT||%d", *r.Limit))
 	}
 
 	if r.Offset != nil {
-		filter = append(filter, fmt.Sprintf("offset::%d", *r.Offset))
+		filter = append(filter, fmt.Sprintf("||OFFSET||%d", *r.Offset))
 	}
 
 	if r.ID != nil {
-		filter = append(filter, fmt.Sprintf("id:=:%d", *r.ID))
+		filter = append(filter, fmt.Sprintf("id||=||%d", *r.ID))
 	}
 
 	if r.MachineID != nil {
-		filter = append(filter, fmt.Sprintf("machine_id:=:%d", *r.MachineID))
+		filter = append(filter, fmt.Sprintf("machine_id||=||%d", *r.MachineID))
 	}
 
 	if r.OrderID != nil {
-		filter = append(filter, fmt.Sprintf("order_id:=:%s", *r.OrderID))
+		filter = append(filter, fmt.Sprintf("order_id||=||%s", *r.OrderID))
 	}
 
 	if r.TransactionID != nil {
-		filter = append(filter, fmt.Sprintf("transaction_id:=:%d", *r.TransactionID))
+		filter = append(filter, fmt.Sprintf("transaction_id||=||%d", *r.TransactionID))
 	}
 
 	return filter

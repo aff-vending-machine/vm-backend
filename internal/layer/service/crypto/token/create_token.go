@@ -19,6 +19,7 @@ func (m *managerImpl) CreateAccessToken(ctx context.Context, data jwt.Token) (st
 		"aud":  m.audience,                        // claim to identify the intended recipient of the JWT.
 		"iss":  m.issuer,                          // claim to identify the issuer of the JWT.
 		"type": data.Type,
+		"name": data.Name,
 		"role": data.Role,
 	}
 
@@ -37,6 +38,7 @@ func (m *managerImpl) CreateRefreshToken(ctx context.Context, data jwt.Token) (s
 		"iss":  m.issuer,                          // claim to identify the issuer of the JWT.
 		"azp":  m.authorizedParty,                 // claim to identify the party authorized to generate access tokens using the refresh token.
 		"type": data.Type,
+		"name": data.Name,
 		"role": data.Role,
 	}
 

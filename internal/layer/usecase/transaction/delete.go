@@ -1,4 +1,4 @@
-package transaction_usecase
+package transaction
 
 import (
 	"context"
@@ -8,16 +8,15 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (uc *usecaseImpl) Update(ctx context.Context, req *request.Update) error {
+func (uc *usecaseImpl) Delete(ctx context.Context, req *request.Delete) error {
 	if v := validate.Struct(req); !v.Validate() {
 		return errors.Wrap(v.Errors.OneError(), "validate failed")
 	}
 
 	filter := req.ToFilter()
-	data := req.ToJson()
-	_, err := uc.transactionRepo.UpdateMany(ctx, filter, data)
+	_, err := uc.transactionRepo.DeleteMany(ctx, filter)
 	if err != nil {
-		return errors.Wrap(err, "unable to update transaction")
+		return errors.Wrapf(err, "unable to delete transaction %d", req.ID)
 	}
 
 	return nil

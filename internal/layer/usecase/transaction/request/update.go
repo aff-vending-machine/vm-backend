@@ -13,12 +13,11 @@ type Update struct {
 	OrderID             *string  `json:"order_id,omitempty"`
 	OrderQuantity       *int     `json:"order_quantity,omitempty"`
 	OrderPrice          *float64 `json:"order_price,omitempty"`
-	OrderStatus         *string  `json:"order_status,omitempty"`
 }
 
 func (r *Update) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.ID),
+		fmt.Sprintf("id||=||%d", r.ID),
 	}
 }
 

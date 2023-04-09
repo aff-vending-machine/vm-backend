@@ -15,31 +15,32 @@ type Filter struct {
 
 func (r *Filter) ToFilter() []string {
 	filter := []string{
-		":PRELOAD:Slots",
+		"||PRELOAD||Slots",
+		"id||SORT||asc",
 	}
 
 	if r.Limit != nil {
-		filter = append(filter, fmt.Sprintf(":LIMIT:%d", *r.Limit))
+		filter = append(filter, fmt.Sprintf("||LIMIT||%d", *r.Limit))
 	}
 
 	if r.Offset != nil {
-		filter = append(filter, fmt.Sprintf(":OFFSET:%d", *r.Offset))
+		filter = append(filter, fmt.Sprintf("||OFFSET||%d", *r.Offset))
 	}
 
 	if r.ID != nil {
-		filter = append(filter, fmt.Sprintf("id:=:%d", *r.ID))
+		filter = append(filter, fmt.Sprintf("id||=||%d", *r.ID))
 	}
 
 	if r.Name != nil {
-		filter = append(filter, fmt.Sprintf("name:=:%s", *r.Name))
+		filter = append(filter, fmt.Sprintf("name||=||%s", *r.Name))
 	}
 
 	if r.SerialNumber != nil {
-		filter = append(filter, fmt.Sprintf("serial_number:=:%s", *r.SerialNumber))
+		filter = append(filter, fmt.Sprintf("serial_number||=||%s", *r.SerialNumber))
 	}
 
 	if r.Activate != nil {
-		filter = append(filter, fmt.Sprintf("activate:=:%v", *r.Activate))
+		filter = append(filter, fmt.Sprintf("activate||=||%v||bool", *r.Activate))
 	}
 
 	return filter

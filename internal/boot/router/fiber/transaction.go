@@ -12,4 +12,7 @@ func routeTransaction(api fiber.Router, endpoint http.Transaction) {
 	api.Post("transactions", endpoint.Create)
 	api.Put("transactions/:id", endpoint.Update)
 	api.Delete("transactions/:id", endpoint.Delete)
+
+	api.Post("transactions/:id/done", endpoint.Done)
+	api.Post("transactions/:id/cancel", endpoint.Cancel)
 }

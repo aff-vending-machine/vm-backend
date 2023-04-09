@@ -8,8 +8,8 @@ import (
 func routeSync(router fiber.Router, endpoint http.Sync) {
 	api := router.Group("sync-machines/:machine_id")
 
-	api.Post("get", endpoint.GetMachine)
-	api.Post("slots/get", endpoint.GetSlot)
-	api.Post("slots/set", endpoint.SetSlot)
-	api.Post("transactions/get", endpoint.GetTransaction)
+	api.Get("sync-machines/:machine_id", endpoint.GetMachine)
+	api.Get("sync-machines/:machine_id/slots", endpoint.GetSlot)
+	api.Get("sync-machines/:machine_id/transactions", endpoint.GetTransaction)
+	api.Post("sync-machines/:machine_id/slots", endpoint.SetSlot)
 }

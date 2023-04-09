@@ -15,19 +15,19 @@ func (r *Filter) ToFilter() []string {
 	filter := []string{}
 
 	if r.Limit != nil {
-		filter = append(filter, fmt.Sprintf(":LIMIT:%d", *r.Limit))
+		filter = append(filter, fmt.Sprintf("||LIMIT||%d", *r.Limit))
 	}
 
 	if r.Offset != nil {
-		filter = append(filter, fmt.Sprintf(":OFFSET:%d", *r.Offset))
+		filter = append(filter, fmt.Sprintf("||OFFSET||%d", *r.Offset))
 	}
 
 	if r.ID != nil {
-		filter = append(filter, fmt.Sprintf("id:=:%d", *r.ID))
+		filter = append(filter, fmt.Sprintf("id||=||%d", *r.ID))
 	}
 
 	if r.Name != nil {
-		filter = append(filter, fmt.Sprintf("name:=:%s", *r.Name))
+		filter = append(filter, fmt.Sprintf("name||=||%s", *r.Name))
 	}
 
 	return filter

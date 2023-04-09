@@ -9,6 +9,8 @@ import (
 )
 
 func Run(cfg config.BootConfig) {
+	log.Debug().Msg("init application")
+
 	var (
 		module    = NewModule(cfg)
 		service   = NewService(module)

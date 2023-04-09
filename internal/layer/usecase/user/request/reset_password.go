@@ -11,7 +11,7 @@ type ResetPassword struct {
 
 func (r *ResetPassword) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.ID),
+		fmt.Sprintf("id||=||%d", r.ID),
 	}
 }
 
