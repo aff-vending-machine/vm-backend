@@ -7,5 +7,7 @@ import (
 
 func routeReport(api fiber.Router, endpoint http.Report) {
 	api.Get("report/payment", endpoint.GetPayment)
+	api.Get("report/payment/download", endpoint.DownloadPayment)
 	api.Get("report/stock", endpoint.GetStock)
+	api.Get("report/stock/download", endpoint.DownloadStock)
 }

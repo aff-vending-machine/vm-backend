@@ -20,7 +20,7 @@ func ToRole(e *entity.Role) *Role {
 		CreatedAt:   e.CreatedAt,
 		UpdatedAt:   e.UpdatedAt,
 		Name:        e.Name,
-		Permissions: PermissionEntityToList(e.Permissions),
+		Permissions: ToPermissionList(e.Permissions),
 	}
 }
 

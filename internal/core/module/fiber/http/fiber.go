@@ -1,6 +1,7 @@
 package http
 
 import (
+	"bytes"
 	"fmt"
 
 	"github.com/aff-vending-machine/vm-backend/pkg/errs"
@@ -15,6 +16,14 @@ func OK(ctx *fiber.Ctx, data interface{}) error {
 		"status": "done",
 		"data":   data,
 	})
+}
+
+// 200 - File
+func SendFile(ctx *fiber.Ctx, filename string, buf *bytes.Buffer) error {
+	ctx.Set("Content-Type", "text/csv")
+	ctx.Set("Content-Disposition", fmt.Sprintf("attachment; filename=%s", filename))
+
+	return ctx.Status(fiber.StatusOK).SendStream(buf)
 }
 
 // 204 - NoContent

@@ -6,26 +6,32 @@ import (
 	"github.com/aff-vending-machine/vm-backend/internal/core/domain/entity"
 )
 
-type UserView struct {
+type User struct {
 	ID        uint       `json:"id"`
+	CreatedAt time.Time  `json:"created_at"`
+	UpdatedAt time.Time  `json:"updated_at"`
 	Username  string     `json:"username"`
 	Role      string     `json:"role"`
+	CreatedBy string     `json:"created_by"`
 	LastLogin *time.Time `json:"last_login"`
 }
 
-func UserEntityToView(e *entity.User) *UserView {
-	return &UserView{
+func ToUser(e *entity.User) *User {
+	return &User{
 		ID:        e.ID,
+		CreatedAt: e.CreatedAt,
+		UpdatedAt: e.UpdatedAt,
 		Username:  e.Username,
 		Role:      e.Role.Name,
+		CreatedBy: e.CreatedBy,
 		LastLogin: e.LastLogin,
 	}
 }
 
-func UserEntityToList(users []entity.User) []UserView {
-	items := make([]UserView, len(users))
+func ToUserList(users []entity.User) []User {
+	items := make([]User, len(users))
 	for i, user := range users {
-		items[i] = *UserEntityToView(&user)
+		items[i] = *ToUser(&user)
 	}
 
 	return items

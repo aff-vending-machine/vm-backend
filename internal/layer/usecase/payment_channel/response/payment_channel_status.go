@@ -9,7 +9,7 @@ type PaymentChannelStatus struct {
 	Active bool `json:"active"`
 }
 
-func PaymentChannelEntityToStatusView(e *entity.PaymentChannel) *PaymentChannelStatus {
+func ToPaymentChannelStatus(e *entity.PaymentChannel) *PaymentChannelStatus {
 	return &PaymentChannelStatus{
 		ID:     e.ID,
 		Active: e.Active,

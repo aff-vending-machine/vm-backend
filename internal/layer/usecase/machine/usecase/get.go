@@ -20,5 +20,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Mac
 		return nil, errors.Wrapf(err, "unable to find machine %d", req.ID)
 	}
 
-	return response.MachineEntityToView(entity), nil
+	return response.ToMachine(entity), nil
 }

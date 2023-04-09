@@ -36,9 +36,10 @@ type Transaction struct {
 	ErrorAt             *time.Time `json:"error_at"`              // MakeTransactionRefund
 }
 
-func (m *Transaction) ToEntity(machineID uint) *entity.Transaction {
+func (m *Transaction) ToEntity(machineID uint, name string) *entity.Transaction {
 	return &entity.Transaction{
 		MachineID:           machineID,
+		MachineName:         name,
 		MerchantOrderID:     m.MerchantOrderID,
 		MachineSerialNumber: m.MachineSerialNumber,
 		Location:            m.Location,

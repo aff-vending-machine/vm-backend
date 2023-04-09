@@ -9,7 +9,6 @@ type Report struct {
 	MachineID *uint      `json:"machine_id,omitempty"`
 	From      *time.Time `json:"from,omitempty"`
 	To        *time.Time `json:"to,omitempty"`
-	Available *bool      `json:"available,omitempty"`
 }
 
 func (r *Report) ToSlotFilter() []string {
