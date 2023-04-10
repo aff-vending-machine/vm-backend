@@ -14,3 +14,9 @@ type CartItem struct {
 	Price    float64 `json:"price"`
 	Quantity int     `json:"quantity"`
 }
+
+type SortStockByCode []Stock
+
+func (p SortStockByCode) Len() int           { return len(p) }
+func (p SortStockByCode) Swap(i, j int)      { p[i], p[j] = p[j], p[i] }
+func (p SortStockByCode) Less(i, j int) bool { return p[i].Code < p[j].Code }

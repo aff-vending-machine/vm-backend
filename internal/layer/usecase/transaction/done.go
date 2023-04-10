@@ -27,10 +27,11 @@ func (uc *usecaseImpl) Done(ctx context.Context, req *request.Done) error {
 		"cancelled_by":      nil,
 		"cancelled_at":      nil,
 		"refund_at":         nil,
+		"order_status":      "DONE",
 		"refund_price":      0,
 		"received_item_at":  now,
 		"received_quantity": origin.OrderQuantity,
-		"paid_price":        origin.PaidPrice,
+		"paid_price":        origin.OrderPrice,
 		"note":              fmt.Sprintf("confirm order by %s", req.Caller),
 	}
 

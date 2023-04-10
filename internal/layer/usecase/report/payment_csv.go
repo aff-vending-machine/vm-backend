@@ -31,9 +31,9 @@ func (uc *usecaseImpl) PaymentCSV(ctx context.Context, req *request.Report, reco
 		"ReceivedQuantity",
 		"OrderPrice",
 		"PaidPrice",
-		"Reference1",
-		"Reference2",
-		"Reference3",
+		"Reference1 - QRCode",
+		"Reference2 - Gateway Order ID",
+		"Reference3 - Acquirer Order ID",
 		"Note",
 	}
 	err := writer.Write(header)
@@ -79,25 +79,25 @@ func createData(record response.Payment) []string {
 	}
 
 	if record.ConfirmedPaidBy != nil {
-		data[5] = *record.ConfirmedPaidBy
+		data[6] = *record.ConfirmedPaidBy
 	}
 	if record.PaymentRequestedAt != nil {
-		data[7] = record.PaymentRequestedAt.Format(TIME_LAYOUT)
+		data[8] = record.PaymentRequestedAt.Format(TIME_LAYOUT)
 	}
 	if record.ConfirmedPaidAt != nil {
-		data[8] = record.ConfirmedPaidAt.Format(TIME_LAYOUT)
+		data[9] = record.ConfirmedPaidAt.Format(TIME_LAYOUT)
 	}
 	if record.ReceivedItemAt != nil {
-		data[9] = record.ReceivedItemAt.Format(TIME_LAYOUT)
+		data[10] = record.ReceivedItemAt.Format(TIME_LAYOUT)
 	}
 	if record.Reference1 != nil {
-		data[14] = *record.Reference1
+		data[15] = *record.Reference1
 	}
 	if record.Reference2 != nil {
-		data[15] = *record.Reference2
+		data[16] = *record.Reference2
 	}
 	if record.Reference3 != nil {
-		data[16] = *record.Reference3
+		data[17] = *record.Reference3
 	}
 
 	return data

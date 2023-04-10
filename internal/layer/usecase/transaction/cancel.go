@@ -18,6 +18,7 @@ func (uc *usecaseImpl) Cancel(ctx context.Context, req *request.Cancel) error {
 	filter := req.ToFilter()
 
 	data := map[string]interface{}{
+		"order_status":      "CANCELLED",
 		"cancelled_by":      req.Caller,
 		"cancelled_at":      time.Now(),
 		"refund_at":         nil,

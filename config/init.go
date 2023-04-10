@@ -67,8 +67,8 @@ func bindEnvs(vp *viper.Viper, iface interface{}, parts ...string) {
 }
 
 func preview(conf BootConfig) {
-	log.Debug().Interface("App", conf.App).Msg("configuration")
-	log.Debug().Interface("Fiber", conf.Fiber).Msg("configuration")
-	log.Debug().Interface("PostgreSQL", conf.PostgreSQL).Msg("configuration")
-	log.Debug().Interface("RabbitMQ", conf.RabbitMQ).Msg("configuration")
+	log.Info().Interface("App", conf.App).Msg("configuration")
+	log.Info().Interface("Fiber", conf.Fiber).Msg("configuration")
+	log.Info().Interface("PostgreSQL", conf.PostgreSQL).Msg("configuration")
+	log.Info().Interface("RabbitMQ", conf.RabbitMQ).Msg("configuration")
 }

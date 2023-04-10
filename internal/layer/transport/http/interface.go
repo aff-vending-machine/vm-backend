@@ -63,10 +63,10 @@ type Role interface {
 }
 
 type Sync interface {
-	GetMachine(ctx *fiber.Ctx) error     // GET 	{sync-machines/:machine_id}
-	GetSlot(ctx *fiber.Ctx) error        // GET 	{sync-machines/:machine_id/slots}
-	SetSlot(ctx *fiber.Ctx) error        // POST 	{sync-machines/:machine_id/slots}
-	GetTransaction(ctx *fiber.Ctx) error // GET 	{sync-machines/:machine_id/transactions}
+	GetMachine(ctx *fiber.Ctx) error     // GET 	{sync/:machine_id}
+	GetSlot(ctx *fiber.Ctx) error        // GET 	{sync/:machine_id/slots}
+	SetSlot(ctx *fiber.Ctx) error        // POST 	{sync/:machine_id/slots}
+	GetTransaction(ctx *fiber.Ctx) error // GET 	{sync/:machine_id/transactions}
 }
 
 type Transaction interface {

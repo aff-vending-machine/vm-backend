@@ -4,9 +4,9 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
-	"sync"
 
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/report/request"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/report/response"
@@ -24,36 +24,29 @@ func (uc *usecaseImpl) Stock(ctx context.Context, req *request.Report) ([]respon
 	if err != nil {
 		return nil, errors.Wrap(err, "unable to find transaction")
 	}
+	if len(transactions) == 0 {
+		return []response.Stock{}, nil
+	}
 
 	carts := make([]string, len(transactions))
 	for i, transaction := range transactions {
 		carts[i] = transaction.RawCart
 	}
 
-	var wg sync.WaitGroup
-
 	quantityByCodename := make(map[string]int)
 	for _, cartJSON := range carts {
-		wg.Add(1)
+		var cart []response.CartItem
+		err := json.Unmarshal([]byte(cartJSON), &cart)
+		if err != nil {
+			log.Error().Err(err).Msg("unable to unmarshal cart")
+			continue
+		}
 
-		go func(cartJSON string) {
-			defer wg.Done()
-
-			var cart []response.CartItem
-			err := json.Unmarshal([]byte(cartJSON), &cart)
-			if err != nil {
-				log.Error().Err(err).Msg("unable to unmarshal cart")
-				return
-			}
-
-			for _, item := range cart {
-				codename := fmt.Sprintf("%s|||%s|||%0.02f", item.Code, item.Name, item.Price)
-				quantityByCodename[codename] = item.Quantity
-			}
-		}(cartJSON)
+		for _, item := range cart {
+			codename := fmt.Sprintf("%s|||%s|||%0.02f", item.Code, item.Name, item.Price)
+			quantityByCodename[codename] = item.Quantity
+		}
 	}
-	wg.Wait()
-
 	stocks := make([]response.Stock, 0)
 
 	for codename, quantity := range quantityByCodename {
@@ -71,6 +64,8 @@ func (uc *usecaseImpl) Stock(ctx context.Context, req *request.Report) ([]respon
 
 		stocks = append(stocks, stock)
 	}
+
+	sort.Sort(response.SortStockByCode(stocks))
 
 	return stocks, nil
 }
