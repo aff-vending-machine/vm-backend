@@ -20,5 +20,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Mac
 		return nil, errors.Wrapf(err, "unable to find slot %d in machine %d", req.ID, req.MachineID)
 	}
 
-	return response.MachineSlotEntityToView(entity), nil
+	return response.ToMachineSlot(entity), nil
 }

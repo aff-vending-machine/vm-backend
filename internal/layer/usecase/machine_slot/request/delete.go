@@ -11,13 +11,13 @@ type Delete struct {
 
 func (r *Delete) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.ID),
-		fmt.Sprintf("machine_id:=:%d", r.MachineID),
+		fmt.Sprintf("id||=||%d", r.ID),
+		fmt.Sprintf("machine_id||=||%d", r.MachineID),
 	}
 }
 
 func (r *Delete) ToMachineFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.MachineID),
+		fmt.Sprintf("id||=||%d", r.MachineID),
 	}
 }

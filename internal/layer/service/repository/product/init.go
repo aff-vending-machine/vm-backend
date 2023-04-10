@@ -12,5 +12,6 @@ type repositoryImpl struct {
 
 func New(db *gorm.DB) *repositoryImpl {
 	based := repository.New[entity.Product](db)
+	db.AutoMigrate(&entity.Product{})
 	return &repositoryImpl{based}
 }

@@ -12,7 +12,7 @@ type Active struct {
 
 func (r *Active) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.ID),
+		fmt.Sprintf("id||=||%d", r.ID),
 	}
 }
 

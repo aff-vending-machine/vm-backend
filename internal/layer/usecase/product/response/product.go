@@ -13,7 +13,11 @@ type Product struct {
 	Price    float64 `json:"price"`
 }
 
-func ProductEntityToView(e *entity.Product) *Product {
+func ToProduct(e *entity.Product) *Product {
+	if e == nil {
+		return nil
+	}
+
 	return &Product{
 		ID:       e.ID,
 		SKU:      e.SKU,
@@ -24,10 +28,10 @@ func ProductEntityToView(e *entity.Product) *Product {
 	}
 }
 
-func ProductEntityToList(es []entity.Product) []Product {
+func ToProductList(es []entity.Product) []Product {
 	items := make([]Product, len(es))
 	for i, e := range es {
-		items[i] = *ProductEntityToView(&e)
+		items[i] = *ToProduct(&e)
 	}
 
 	return items

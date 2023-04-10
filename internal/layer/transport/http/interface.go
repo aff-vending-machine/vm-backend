@@ -10,40 +10,47 @@ type Auth interface {
 }
 
 type Machine interface {
-	Read(ctx *fiber.Ctx) error    // GET 		{machines}
-	Count(ctx *fiber.Ctx) error   // GET 		{machines/count}
-	ReadOne(ctx *fiber.Ctx) error // GET 		{machines/:id}
+	Read(ctx *fiber.Ctx) error    // GET 	{machines}
+	Count(ctx *fiber.Ctx) error   // GET 	{machines/count}
+	ReadOne(ctx *fiber.Ctx) error // GET 	{machines/:id}
 	Create(ctx *fiber.Ctx) error  // POST 	{machines}
-	Update(ctx *fiber.Ctx) error  // PUT 		{machines/:id}
+	Update(ctx *fiber.Ctx) error  // PUT 	{machines/:id}
 	Delete(ctx *fiber.Ctx) error  // DELETE {machines/:id}
 }
 
 type MachineSlot interface {
-	Read(ctx *fiber.Ctx) error    // GET 		{machines/:machine_id/slots}
-	Count(ctx *fiber.Ctx) error   // GET 		{machines/:machine_id/slots/count}
-	ReadOne(ctx *fiber.Ctx) error // GET 		{machines/:machine_id/slots/:id}
+	Read(ctx *fiber.Ctx) error    // GET 	{machines/:machine_id/slots}
+	Count(ctx *fiber.Ctx) error   // GET 	{machines/:machine_id/slots/count}
+	ReadOne(ctx *fiber.Ctx) error // GET 	{machines/:machine_id/slots/:id}
 	Create(ctx *fiber.Ctx) error  // POST 	{machines/:machine_id/slots}
-	Update(ctx *fiber.Ctx) error  // PUT 		{machines/:machine_id/slots/:id}
+	Update(ctx *fiber.Ctx) error  // PUT 	{machines/:machine_id/slots/:id}
 	Delete(ctx *fiber.Ctx) error  // DELETE {machines/:machine_id/slots/:id}
 }
 
 type PaymentChannel interface {
 	Read(ctx *fiber.Ctx) error    // GET
-	Count(ctx *fiber.Ctx) error   // GET {count}
-	ReadOne(ctx *fiber.Ctx) error // GET {:id}
+	Count(ctx *fiber.Ctx) error   // GET 	{count}
+	ReadOne(ctx *fiber.Ctx) error // GET 	{:id}
 	Create(ctx *fiber.Ctx) error  // POST
-	Active(ctx *fiber.Ctx) error  // POST {:id/active}
-	Update(ctx *fiber.Ctx) error  // PUT {:id}
+	Active(ctx *fiber.Ctx) error  // POST 	{:id/active}
+	Update(ctx *fiber.Ctx) error  // PUT 	{:id}
 	Delete(ctx *fiber.Ctx) error  // DELETE {:id}
 }
 
 type Product interface {
-	Read(ctx *fiber.Ctx) error    // GET 		{products}
-	Count(ctx *fiber.Ctx) error   // GET 		{products/count}
-	ReadOne(ctx *fiber.Ctx) error // GET 		{products/:id}
+	Read(ctx *fiber.Ctx) error    // GET 	{products}
+	Count(ctx *fiber.Ctx) error   // GET 	{products/count}
+	ReadOne(ctx *fiber.Ctx) error // GET 	{products/:id}
 	Create(ctx *fiber.Ctx) error  // POST 	{products}
-	Update(ctx *fiber.Ctx) error  // PUT 		{products/:id}
+	Update(ctx *fiber.Ctx) error  // PUT 	{products/:id}
 	Delete(ctx *fiber.Ctx) error  // DELETE {products/:id}
+}
+
+type Report interface {
+	GetStock(ctx *fiber.Ctx) error        // GET 	{reports/stock}
+	GetPayment(ctx *fiber.Ctx) error      // GET 	{reports/payment}
+	DownloadStock(ctx *fiber.Ctx) error   // GET 	{reports/stock/download}
+	DownloadPayment(ctx *fiber.Ctx) error // GET 	{reports/payment/download}
 }
 
 type Role interface {
@@ -56,18 +63,20 @@ type Role interface {
 }
 
 type Sync interface {
-	GetMachine(ctx *fiber.Ctx) error     // POST 	{sync-machines/:machine_id/get}
-	GetSlot(ctx *fiber.Ctx) error        // POST 	{sync-machines/:machine_id/slots/get}
-	SetSlot(ctx *fiber.Ctx) error        // POST 	{sync-machines/:machine_id/slots/set}
-	GetTransaction(ctx *fiber.Ctx) error // POST 	{sync-machines/:machine_id/transactions/get}
+	GetMachine(ctx *fiber.Ctx) error     // GET 	{sync/:machine_id}
+	GetSlot(ctx *fiber.Ctx) error        // GET 	{sync/:machine_id/slots}
+	SetSlot(ctx *fiber.Ctx) error        // POST 	{sync/:machine_id/slots}
+	GetTransaction(ctx *fiber.Ctx) error // GET 	{sync/:machine_id/transactions}
 }
 
 type Transaction interface {
-	Read(ctx *fiber.Ctx) error    // GET		{transactions}
-	Count(ctx *fiber.Ctx) error   // GET 		{transactions/count}
-	ReadOne(ctx *fiber.Ctx) error // GET 		{transactions/:id}
+	Read(ctx *fiber.Ctx) error    // GET	{transactions}
+	Count(ctx *fiber.Ctx) error   // GET 	{transactions/count}
+	ReadOne(ctx *fiber.Ctx) error // GET 	{transactions/:id}
 	Create(ctx *fiber.Ctx) error  // POST 	{transactions}
-	Update(ctx *fiber.Ctx) error  // PUT 		{transactions/:id}
+	Done(ctx *fiber.Ctx) error    // POST 	{transactions/:id/done}
+	Cancel(ctx *fiber.Ctx) error  // POST 	{transactions/:id/cancel}
+	Update(ctx *fiber.Ctx) error  // PUT 	{transactions/:id}
 	Delete(ctx *fiber.Ctx) error  // DELETE {transactions/:id}
 }
 

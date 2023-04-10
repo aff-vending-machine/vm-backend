@@ -9,8 +9,8 @@ import (
 
 type Usecase interface {
 	Count(context.Context, *request.Filter) (int64, error)
-	Get(context.Context, *request.Get) (*response.UserView, error)
-	List(context.Context, *request.Filter) ([]response.UserView, error)
+	Get(context.Context, *request.Get) (*response.User, error)
+	List(context.Context, *request.Filter) ([]response.User, error)
 	Create(context.Context, *request.Create) (uint, error)
 	ChangeRole(context.Context, *request.ChangeRole) error
 	ChangePassword(context.Context, *request.ChangePassword) error

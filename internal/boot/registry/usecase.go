@@ -12,13 +12,13 @@ import (
 	payment_channel_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/payment_channel/usecase"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/product"
 	product_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/product/usecase"
+	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/report"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/role"
 	role_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/role/usecase"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/sync"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/system"
 	system_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/system/usecase"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/transaction"
-	transaction_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/transaction/usecase"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/user"
 	user_usecase "github.com/aff-vending-machine/vm-backend/internal/layer/usecase/user/usecase"
 )
@@ -30,10 +30,11 @@ type Usecase struct {
 	MachineSlot    interface{ machine_slot.Usecase }
 	PaymentChannel interface{ payment_channel.Usecase }
 	Product        interface{ product.Usecase }
+	Report         usecase.Report
 	Role           interface{ role.Usecase }
 	Sync           usecase.Sync
 	System         interface{ system.Usecase }
-	Transaction    interface{ transaction.Usecase }
+	Transaction    usecase.Transaction
 	User           interface{ user.Usecase }
 }
 
@@ -60,6 +61,11 @@ func NewUsecase(adapter Service) Usecase {
 		product_usecase.New(
 			adapter.Repository.Product,
 		),
+		report.New(
+			adapter.Repository.Machine,
+			adapter.Repository.MachineSlot,
+			adapter.Repository.Transaction,
+		),
 		role_usecase.New(
 			adapter.Repository.Role,
 		),
@@ -71,7 +77,7 @@ func NewUsecase(adapter Service) Usecase {
 			adapter.Repository.Transaction,
 		),
 		system_usecase.New(),
-		transaction_usecase.New(
+		transaction.New(
 			adapter.API.RPC,
 			adapter.Repository.Machine,
 			adapter.Repository.Transaction,

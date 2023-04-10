@@ -19,7 +19,7 @@ type PaymentChannel struct {
 	TerminalID   string `json:"terminal_id"`
 }
 
-func PaymentChannelEntityToView(e *entity.PaymentChannel) *PaymentChannel {
+func ToPaymentChannel(e *entity.PaymentChannel) *PaymentChannel {
 	return &PaymentChannel{
 		ID:           e.ID,
 		Name:         e.Name,
@@ -39,7 +39,7 @@ func PaymentChannelEntityToView(e *entity.PaymentChannel) *PaymentChannel {
 func PaymentChannelEntityToList(es []entity.PaymentChannel) []PaymentChannel {
 	items := make([]PaymentChannel, len(es))
 	for i, e := range es {
-		items[i] = *PaymentChannelEntityToView(&e)
+		items[i] = *ToPaymentChannel(&e)
 	}
 
 	return items

@@ -14,7 +14,7 @@ type RegisterMachine struct {
 
 func (r *RegisterMachine) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("serial_number:=:%s", r.Data.SerialNumber),
+		fmt.Sprintf("serial_number||=||%s", r.Data.SerialNumber),
 	}
 }
 

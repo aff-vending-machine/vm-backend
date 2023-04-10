@@ -9,7 +9,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.UserView, error) {
+func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.User, error) {
 	if v := validate.Struct(req); !v.Validate() {
 		return nil, errors.Wrap(v.Errors.OneError(), "validate failed")
 	}
@@ -20,5 +20,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Use
 		return nil, errors.Wrapf(err, "unable to find user %d", req.ID)
 	}
 
-	return response.UserEntityToView(user), nil
+	return response.ToUser(user), nil
 }

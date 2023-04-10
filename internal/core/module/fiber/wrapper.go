@@ -29,7 +29,7 @@ func New(cfg config.FiberConfig) *Wrapper {
 	app.Use(cors.New(cors.Config{
 		AllowOrigins:     "*",
 		AllowMethods:     "GET,POST,PUT,PATCH,DELETE",
-		AllowHeaders:     "accept,content-type",
+		AllowHeaders:     "accept,content-type,authorization",
 		AllowCredentials: true,
 		MaxAge:           1728000,
 	}))

@@ -9,14 +9,14 @@ type GetPermissionLevel struct {
 
 func (r *GetPermissionLevel) ToUserFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.UserID),
-		":PRELOAD:Role",
+		fmt.Sprintf("id||=||%d", r.UserID),
+		"||PRELOAD||Role",
 	}
 }
 
 func (r *GetPermissionLevel) ToRoleFilter(roleID uint) []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", roleID),
-		":PRELOAD:Permissions",
+		fmt.Sprintf("id||=||%d", roleID),
+		"||PRELOAD||Permissions",
 	}
 }

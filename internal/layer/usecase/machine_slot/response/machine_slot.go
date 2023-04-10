@@ -14,21 +14,21 @@ type MachineSlot struct {
 	IsEnable bool              `json:"is_enable"`
 }
 
-func MachineSlotEntityToView(e *entity.MachineSlot) *MachineSlot {
+func ToMachineSlot(e *entity.MachineSlot) *MachineSlot {
 	return &MachineSlot{
 		ID:       e.ID,
 		Code:     e.Code,
 		Stock:    e.Stock,
 		Capacity: e.Capacity,
-		Product:  response.ProductEntityToView(e.Product),
+		Product:  response.ToProduct(e.Product),
 		IsEnable: e.IsEnable,
 	}
 }
 
-func MachineSlotEntityToList(es []entity.MachineSlot) []MachineSlot {
+func ToMachineSlotList(es []entity.MachineSlot) []MachineSlot {
 	items := make([]MachineSlot, len(es))
 	for i, e := range es {
-		items[i] = *MachineSlotEntityToView(&e)
+		items[i] = *ToMachineSlot(&e)
 	}
 
 	return items

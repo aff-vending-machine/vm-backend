@@ -28,17 +28,24 @@ func (uc *usecaseImpl) GetTransaction(ctx context.Context, req *request.Sync) er
 
 	ids := make([]uint, len(transactions))
 	for i, transaction := range transactions {
-		ids[i] = transaction.ID
-		_, err := uc.transactionRepo.FindOne(ctx, []string{fmt.Sprintf("merchant_order_id:=:%s", transaction.MerchantOrderID)})
+		_, err := uc.transactionRepo.FindOne(ctx, []string{fmt.Sprintf("merchant_order_id||=||%s", transaction.MerchantOrderID)})
 		if errs.Is(err, "not found") {
-			err = uc.transactionRepo.InsertOne(ctx, transaction.ToEntity(machine.ID))
+			err = uc.transactionRepo.InsertOne(ctx, transaction.ToEntity(machine.ID, machine.Name))
 		}
 		if err != nil {
 			log.Error().Err(err).Msg("unable to find or create transaction")
+			continue
 		}
+
+		ids[i] = transaction.ID
 	}
 
-	uc.rpcAPI.ClearTransaction(ctx, machine.SerialNumber, ids)
+	if len(ids) > 5 {
+		err := uc.rpcAPI.ClearTransaction(ctx, machine.SerialNumber, ids[:len(ids)-5])
+		if err != nil {
+			log.Error().Err(err).Uints("ids", ids).Msg("unable to clear transaction")
+		}
+	}
 
 	return nil
 }

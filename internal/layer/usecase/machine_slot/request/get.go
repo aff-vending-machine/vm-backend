@@ -11,8 +11,8 @@ type Get struct {
 
 func (r *Get) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("machine_id:=:%d", r.MachineID),
-		fmt.Sprintf("id:=:%d", r.ID),
-		":PRELOAD:Product",
+		fmt.Sprintf("machine_id||=||%d", r.MachineID),
+		fmt.Sprintf("id||=||%d", r.ID),
+		"||PRELOAD||Product",
 	}
 }

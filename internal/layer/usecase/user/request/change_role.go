@@ -11,13 +11,13 @@ type ChangeRole struct {
 
 func (r *ChangeRole) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.ID),
+		fmt.Sprintf("id||=||%d", r.ID),
 	}
 }
 
 func (r *ChangeRole) ToRoleFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.RoleID),
+		fmt.Sprintf("id||=||%d", r.RoleID),
 	}
 }
 

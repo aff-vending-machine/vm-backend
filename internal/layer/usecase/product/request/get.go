@@ -10,6 +10,6 @@ type Get struct {
 
 func (r *Get) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.ID),
+		fmt.Sprintf("id||=||%d", r.ID),
 	}
 }

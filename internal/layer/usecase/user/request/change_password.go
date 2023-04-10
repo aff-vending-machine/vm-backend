@@ -12,7 +12,7 @@ type ChangePassword struct {
 
 func (r *ChangePassword) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.ID),
+		fmt.Sprintf("id||=||%d", r.ID),
 	}
 }
 

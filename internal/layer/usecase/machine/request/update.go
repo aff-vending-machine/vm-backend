@@ -16,7 +16,7 @@ type Update struct {
 
 func (r *Update) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.ID),
+		fmt.Sprintf("id||=||%d", r.ID),
 	}
 }
 

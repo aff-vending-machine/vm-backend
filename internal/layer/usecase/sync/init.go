@@ -23,8 +23,8 @@ func New(r api.RPC, m repository.Machine, s repository.MachineSlot, p repository
 
 func makeCodeFilter(machineID uint, code string) []string {
 	return []string{
-		fmt.Sprintf("machine_id:=:%d", machineID),
-		fmt.Sprintf("code:=:%s", code),
+		fmt.Sprintf("machine_id||=||%d", machineID),
+		fmt.Sprintf("code||=||%s", code),
 	}
 }
 

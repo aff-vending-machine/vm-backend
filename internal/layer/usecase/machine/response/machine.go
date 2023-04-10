@@ -20,7 +20,7 @@ type Machine struct {
 	LastMaintenanceTime *time.Time             `json:"last_maintenance_time"`
 }
 
-func MachineEntityToView(e *entity.Machine) *Machine {
+func ToMachine(e *entity.Machine) *Machine {
 	return &Machine{
 		ID:                  e.ID,
 		Name:                e.Name,
@@ -28,7 +28,7 @@ func MachineEntityToView(e *entity.Machine) *Machine {
 		Location:            e.Location,
 		Type:                e.Type,
 		Vendor:              e.Vendor,
-		Slots:               response.MachineSlotEntityToList(e.Slots),
+		Slots:               response.ToMachineSlotList(e.Slots),
 		Status:              e.Status,
 		LastActiveTime:      e.LastActiveTime,
 		LastMaintenanceTime: e.LastMaintenanceTime,
@@ -38,7 +38,7 @@ func MachineEntityToView(e *entity.Machine) *Machine {
 func MachineEntityToList(es []entity.Machine) []Machine {
 	items := make([]Machine, len(es))
 	for i, e := range es {
-		items[i] = *MachineEntityToView(&e)
+		items[i] = *ToMachine(&e)
 	}
 
 	return items

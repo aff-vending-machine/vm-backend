@@ -8,7 +8,7 @@ type ValidateToken struct {
 
 func (r *ValidateToken) ToFilter(id uint) []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", id),
-		":PRELOAD:Role",
+		fmt.Sprintf("id||=||%d", id),
+		"||PRELOAD||Role",
 	}
 }

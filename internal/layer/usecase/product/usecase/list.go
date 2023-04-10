@@ -20,5 +20,5 @@ func (uc *usecaseImpl) List(ctx context.Context, req *request.Filter) ([]respons
 		return nil, errors.Wrap(err, "unable to find product")
 	}
 
-	return response.ProductEntityToList(entities), nil
+	return response.ToProductList(entities), nil
 }

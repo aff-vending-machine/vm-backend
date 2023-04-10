@@ -8,6 +8,7 @@ import (
 
 type Token struct {
 	ID    uint          `json:"sub"`
+	Name  string        `json:"name"`
 	Role  string        `json:"role"`
 	Type  string        `json:"type"`
 	Alive time.Duration `json:"-,omitempty"`
@@ -16,6 +17,7 @@ type Token struct {
 func NewAccessToken(user entity.User) Token {
 	return Token{
 		ID:    user.ID,
+		Name:  user.Username,
 		Role:  user.Role.Name,
 		Type:  "ACCESS_TOKEN",
 		Alive: 1 * time.Hour,
@@ -25,6 +27,7 @@ func NewAccessToken(user entity.User) Token {
 func NewRefreshToken(user entity.User) Token {
 	return Token{
 		ID:    user.ID,
+		Name:  user.Username,
 		Role:  user.Role.Name,
 		Type:  "REFRESH_TOKEN",
 		Alive: 24 * time.Hour,

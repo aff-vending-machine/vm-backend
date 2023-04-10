@@ -17,6 +17,7 @@ type HTTPTransport struct {
 	MachineSlot    http.MachineSlot
 	PaymentChannel http.PaymentChannel
 	Product        http.Product
+	Report         http.Report
 	Role           http.Role
 	Sync           http.Sync
 	Transaction    http.Transaction

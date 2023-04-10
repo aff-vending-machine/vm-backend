@@ -50,10 +50,10 @@ func NewLogger() fiber.Handler {
 
 		switch {
 		case code >= fiber.StatusBadRequest && code < fiber.StatusInternalServerError:
-			lg.Warn().Interface("response", c.Response().Body()).Msg("http client error")
+			lg.Warn().Msg("http client error")
 
 		case code >= http.StatusInternalServerError:
-			lg.Error().Interface("response", c.Response().Body()).Msg("http server error")
+			lg.Error().Msg("http server error")
 
 		default:
 			lg.Info().Msg("request")

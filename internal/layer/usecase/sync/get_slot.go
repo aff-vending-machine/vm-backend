@@ -68,7 +68,7 @@ func (uc *usecaseImpl) GetSlot(ctx context.Context, req *request.Sync) error {
 func (uc *usecaseImpl) findProductID(ctx context.Context, slot sync.Slot) uint {
 	productID := uint(0)
 	if slot.Product != nil {
-		product, err := uc.productRepo.FindOne(ctx, []string{fmt.Sprintf("sku:=:%s", slot.Product.SKU)})
+		product, err := uc.productRepo.FindOne(ctx, []string{fmt.Sprintf("sku||=||%s", slot.Product.SKU)})
 		if errs.Is(err, "not found") {
 			product = slot.Product.ToEntity()
 			err = uc.productRepo.InsertOne(ctx, product)

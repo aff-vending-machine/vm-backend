@@ -23,7 +23,7 @@ func (uc *usecase) generateToken(ctx context.Context, user *entity.User) (*respo
 		return nil, err
 	}
 
-	filter := []string{fmt.Sprintf("id:=:%d", user.ID)}
+	filter := []string{fmt.Sprintf("id||=||%d", user.ID)}
 	data := map[string]interface{}{"last_login": time.Now()}
 	_, err = uc.userRepo.UpdateMany(ctx, filter, data)
 	if err != nil {

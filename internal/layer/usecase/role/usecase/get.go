@@ -20,5 +20,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Rol
 		return nil, errors.Wrapf(err, "unable to find role %d", req.ID)
 	}
 
-	return response.RoleEntityToView(role), nil
+	return response.ToRole(role), nil
 }

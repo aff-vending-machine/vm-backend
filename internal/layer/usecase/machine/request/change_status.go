@@ -11,7 +11,7 @@ type ChangeStatus struct {
 
 func (r *ChangeStatus) ToFilter() []string {
 	return []string{
-		fmt.Sprintf("id:=:%d", r.ID),
+		fmt.Sprintf("id||=||%d", r.ID),
 	}
 }
 
