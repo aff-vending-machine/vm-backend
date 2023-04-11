@@ -21,20 +21,20 @@ func (r *RegisterMachine) ToFilter() []string {
 func (r *RegisterMachine) ToEntity() *entity.Machine {
 	t := time.Now()
 	return &entity.Machine{
-		Name:           r.Data.Name,
-		SerialNumber:   r.Data.SerialNumber,
-		Location:       r.Data.Location,
-		Type:           "<auto register>",
-		Vendor:         r.Data.Vendor,
-		LastActiveTime: &t,
-		Status:         "active",
+		Name:            r.Data.Name,
+		SerialNumber:    r.Data.SerialNumber,
+		Location:        r.Data.Location,
+		Type:            "<auto register>",
+		Vendor:          r.Data.Vendor,
+		SyncMachineTime: &t,
+		Status:          "active",
 	}
 }
 
 func (r *RegisterMachine) ToJsonUpdate(count int) map[string]interface{} {
 	return map[string]interface{}{
-		"last_active_time": time.Now(),
-		"status":           "active",
-		"count":            count + 1,
+		"sync_machine_time": time.Now(),
+		"status":            "active",
+		"count":             count + 1,
 	}
 }

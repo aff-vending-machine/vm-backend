@@ -25,7 +25,7 @@ RUN go build -o /bin/app /src/cmd/app
 ############################
 # STEP 2 the running container
 ############################
-FROM alpine AS final
+FROM alpine AS runner
 LABEL maintainer="Tanawat Hongthai <ztrixack.th@gmail.com>"
 
 # Import the user and group from the builder stage.

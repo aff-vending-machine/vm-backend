@@ -17,8 +17,9 @@ type Machine struct {
 	Vendor              string        `json:"vendor"`
 	Status              string        `json:"status"`
 	Count               int           `json:"count"`
-	LastActiveTime      *time.Time    `json:"last_active_time"`
-	LastMaintenanceTime *time.Time    `json:"last_maintenance_time"`
+	SyncMachineTime     *time.Time    `json:"sync_machine_time"`
+	SyncSlotTime        *time.Time    `json:"sync_slot_time"`
+	SyncTransactionTime *time.Time    `json:"sync_transaction_time"`
 	Slots               []MachineSlot `json:"slots" gorm:"foreignKey:MachineID"`
 }
 

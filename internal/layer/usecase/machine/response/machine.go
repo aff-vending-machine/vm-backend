@@ -16,8 +16,9 @@ type Machine struct {
 	Vendor              string                 `json:"vendor"`
 	Slots               []response.MachineSlot `json:"slots"`
 	Status              string                 `json:"status"`
-	LastActiveTime      *time.Time             `json:"last_active_time"`
-	LastMaintenanceTime *time.Time             `json:"last_maintenance_time"`
+	SyncMachineTime     *time.Time             `json:"sync_machine_time"`
+	SyncSlotTime        *time.Time             `json:"sync_slot_time"`
+	SyncTransactionTime *time.Time             `json:"sync_transaction_time"`
 }
 
 func ToMachine(e *entity.Machine) *Machine {
@@ -30,8 +31,9 @@ func ToMachine(e *entity.Machine) *Machine {
 		Vendor:              e.Vendor,
 		Slots:               response.ToMachineSlotList(e.Slots),
 		Status:              e.Status,
-		LastActiveTime:      e.LastActiveTime,
-		LastMaintenanceTime: e.LastMaintenanceTime,
+		SyncMachineTime:     e.SyncMachineTime,
+		SyncSlotTime:        e.SyncSlotTime,
+		SyncTransactionTime: e.SyncTransactionTime,
 	}
 }
 

@@ -3,6 +3,7 @@ package sync
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/sync/request"
 	"github.com/aff-vending-machine/vm-backend/pkg/errs"
@@ -28,13 +29,25 @@ func (uc *usecaseImpl) GetTransaction(ctx context.Context, req *request.Sync) er
 
 	ids := make([]uint, len(transactions))
 	for i, transaction := range transactions {
-		_, err := uc.transactionRepo.FindOne(ctx, []string{fmt.Sprintf("merchant_order_id||=||%s", transaction.MerchantOrderID)})
+		filter := []string{fmt.Sprintf("merchant_order_id||=||%s", transaction.MerchantOrderID)}
+		transInDB, err := uc.transactionRepo.FindOne(ctx, filter)
 		if errs.Is(err, "not found") {
 			err = uc.transactionRepo.InsertOne(ctx, transaction.ToEntity(machine.ID, machine.Name))
 		}
 		if err != nil {
 			log.Error().Err(err).Msg("unable to find or create transaction")
 			continue
+		}
+
+		if transInDB.OrderStatus != transaction.OrderStatus {
+			// updated from vending machine
+			if transInDB.OrderStatus != "DONE" && transInDB.OrderStatus != "CANCELLED" {
+				_, err := uc.transactionRepo.UpdateMany(ctx, filter, transaction.ToUpdate())
+				if err != nil {
+					log.Error().Err(err).Msg("unable to find or create transaction")
+					continue
+				}
+			}
 		}
 
 		ids[i] = transaction.ID
@@ -45,6 +58,11 @@ func (uc *usecaseImpl) GetTransaction(ctx context.Context, req *request.Sync) er
 		if err != nil {
 			log.Error().Err(err).Uints("ids", ids).Msg("unable to clear transaction")
 		}
+	}
+
+	_, err = uc.machineRepo.UpdateMany(ctx, req.ToMachineFilter(), map[string]interface{}{"sync_transaction_time": time.Now()})
+	if err != nil {
+		return errors.Wrapf(err, "unable to update machine %s", machine.SerialNumber)
 	}
 
 	return nil

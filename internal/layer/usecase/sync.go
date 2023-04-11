@@ -8,6 +8,7 @@ import (
 
 type Sync interface {
 	GetMachine(context.Context, *request.Sync) error
+	SetMachine(context.Context, *request.Sync) error
 	GetSlot(context.Context, *request.Sync) error
 	SetSlot(context.Context, *request.Sync) error
 	GetTransaction(context.Context, *request.Sync) error

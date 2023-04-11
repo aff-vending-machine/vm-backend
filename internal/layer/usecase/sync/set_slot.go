@@ -2,6 +2,7 @@ package sync
 
 import (
 	"context"
+	"time"
 
 	"github.com/aff-vending-machine/vm-backend/internal/core/domain/sync"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/sync/request"
@@ -27,6 +28,11 @@ func (uc *usecaseImpl) SetSlot(ctx context.Context, req *request.Sync) error {
 	err = uc.rpcAPI.SetSlot(ctx, machine.SerialNumber, sync.ToSlotList(slots))
 	if err != nil {
 		return errors.Wrapf(err, "unable to sync set to real machine %s", machine.SerialNumber)
+	}
+
+	_, err = uc.machineRepo.UpdateMany(ctx, req.ToMachineFilter(), map[string]interface{}{"sync_slot_time": time.Now()})
+	if err != nil {
+		return errors.Wrapf(err, "unable to update machine %s", machine.SerialNumber)
 	}
 
 	return nil
