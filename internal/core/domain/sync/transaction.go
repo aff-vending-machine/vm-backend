@@ -68,3 +68,30 @@ func (m *Transaction) ToEntity(machineID uint, name string) *entity.Transaction 
 		ErrorAt:             m.ErrorAt,
 	}
 }
+
+func (m *Transaction) ToUpdate() map[string]interface{} {
+	return map[string]interface{}{
+		"order_quantity":       m.OrderQuantity,
+		"order_price":          m.OrderPrice,
+		"order_status":         m.OrderStatus,
+		"ordered_at":           m.OrderedAt,
+		"payment_channel":      m.PaymentChannel,
+		"payment_requested_at": m.PaymentRequestedAt,
+		"reference1":           m.Reference1,
+		"reference2":           m.Reference2,
+		"reference3":           m.Reference3,
+		"cancelled_by":         m.CancelledBy,
+		"cancelled_at":         m.CancelledAt,
+		"confirmed_paid_by":    m.ConfirmedPaidBy,
+		"confirmed_paid_at":    m.ConfirmedPaidAt,
+		"ref_error":            m.RefError,
+		"refund_at":            m.RefundAt,
+		"refund_price":         m.RefundPrice,
+		"received_item_at":     m.ReceivedItemAt,
+		"received_quantity":    m.ReceivedQuantity,
+		"paid_price":           m.PaidPrice,
+		"is_error":             m.IsError,
+		"error":                m.Error,
+		"error_at":             m.ErrorAt,
+	}
+}

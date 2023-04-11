@@ -28,13 +28,25 @@ func (uc *usecaseImpl) GetTransaction(ctx context.Context, req *request.Sync) er
 
 	ids := make([]uint, len(transactions))
 	for i, transaction := range transactions {
-		_, err := uc.transactionRepo.FindOne(ctx, []string{fmt.Sprintf("merchant_order_id||=||%s", transaction.MerchantOrderID)})
+		filter := []string{fmt.Sprintf("merchant_order_id||=||%s", transaction.MerchantOrderID)}
+		transInDB, err := uc.transactionRepo.FindOne(ctx, filter)
 		if errs.Is(err, "not found") {
 			err = uc.transactionRepo.InsertOne(ctx, transaction.ToEntity(machine.ID, machine.Name))
 		}
 		if err != nil {
 			log.Error().Err(err).Msg("unable to find or create transaction")
 			continue
+		}
+
+		if transInDB.OrderStatus != transaction.OrderStatus {
+			// updated from vending machine
+			if transInDB.OrderStatus != "DONE" && transInDB.OrderStatus != "CANCELLED" {
+				_, err := uc.transactionRepo.UpdateMany(ctx, filter, transaction.ToUpdate())
+				if err != nil {
+					log.Error().Err(err).Msg("unable to find or create transaction")
+					continue
+				}
+			}
 		}
 
 		ids[i] = transaction.ID
