@@ -3,6 +3,7 @@ package sync
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/aff-vending-machine/vm-backend/internal/core/domain/sync"
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/sync/request"
@@ -60,6 +61,11 @@ func (uc *usecaseImpl) GetSlot(ctx context.Context, req *request.Sync) error {
 			uc.machineSlotRepo.UpdateMany(ctx, makeCodeFilter(req.MachineID, code), slot.ToJson(productID))
 			continue
 		}
+	}
+
+	_, err = uc.machineRepo.UpdateMany(ctx, req.ToMachineFilter(), map[string]interface{}{"sync_slot_time": time.Now()})
+	if err != nil {
+		return errors.Wrapf(err, "unable to update machine %s", machine.SerialNumber)
 	}
 
 	return nil

@@ -8,6 +8,7 @@ import (
 
 type RPC interface {
 	GetMachine(context.Context, string) (*sync.Machine, error)
+	SetMachine(context.Context, string, *sync.Machine) error
 	GetSlot(context.Context, string) ([]sync.Slot, error)
 	SetSlot(context.Context, string, []sync.Slot) error
 	GetTransaction(context.Context, string) ([]sync.Transaction, error)

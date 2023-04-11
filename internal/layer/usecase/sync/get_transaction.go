@@ -3,6 +3,7 @@ package sync
 import (
 	"context"
 	"fmt"
+	"time"
 
 	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/sync/request"
 	"github.com/aff-vending-machine/vm-backend/pkg/errs"
@@ -57,6 +58,11 @@ func (uc *usecaseImpl) GetTransaction(ctx context.Context, req *request.Sync) er
 		if err != nil {
 			log.Error().Err(err).Uints("ids", ids).Msg("unable to clear transaction")
 		}
+	}
+
+	_, err = uc.machineRepo.UpdateMany(ctx, req.ToMachineFilter(), map[string]interface{}{"sync_transaction_time": time.Now()})
+	if err != nil {
+		return errors.Wrapf(err, "unable to update machine %s", machine.SerialNumber)
 	}
 
 	return nil
