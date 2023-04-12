@@ -39,7 +39,7 @@ func (uc *usecaseImpl) GetTransaction(ctx context.Context, req *request.Sync) er
 			continue
 		}
 
-		if transInDB.OrderStatus != transaction.OrderStatus {
+		if transInDB != nil && transInDB.OrderStatus != transaction.OrderStatus {
 			// updated from vending machine
 			if transInDB.OrderStatus != "DONE" && transInDB.OrderStatus != "CANCELLED" {
 				_, err := uc.transactionRepo.UpdateMany(ctx, filter, transaction.ToUpdate())
