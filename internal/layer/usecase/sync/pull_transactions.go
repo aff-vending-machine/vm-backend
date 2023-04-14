@@ -32,7 +32,7 @@ func (uc *usecaseImpl) PullTransactions(ctx context.Context, req *request.Sync) 
 		filter := []string{fmt.Sprintf("merchant_order_id||=||%s", transaction.MerchantOrderID)}
 		transInDB, err := uc.transactionRepo.FindOne(ctx, filter)
 		if errs.Is(err, "not found") {
-			err = uc.transactionRepo.InsertOne(ctx, transaction.ToEntity(machine.ID, machine.Name))
+			err = uc.transactionRepo.InsertOne(ctx, transaction.ToEntity(machine.ID, machine.Name, machine.Branch))
 		}
 		if err != nil {
 			log.Error().Err(err).Msg("unable to find or create transaction")

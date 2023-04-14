@@ -12,6 +12,7 @@ type Transaction struct {
 	MachineName         string     `json:"machine_name"`
 	MerchantOrderID     string     `json:"merchant_order_id" gorm:"not null,uniqueIndex"` // key to find order
 	MachineSerialNumber string     `json:"machine_serial_number" gorm:"not null"`         // key to find machine
+	Branch              string     `json:"branch"`                                        // ordered
 	Location            string     `json:"location"`                                      // ordered
 	RawCart             string     `json:"raw_cart"`                                      // ordered
 	Note                string     `json:"note"`                                          // ordered
