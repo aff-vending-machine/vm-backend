@@ -12,7 +12,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func (uc *usecaseImpl) GetTransaction(ctx context.Context, req *request.Sync) error {
+func (uc *usecaseImpl) PullTransactions(ctx context.Context, req *request.Sync) error {
 	if v := validate.Struct(req); !v.Validate() {
 		return errors.Wrap(v.Errors.OneError(), "validate failed")
 	}

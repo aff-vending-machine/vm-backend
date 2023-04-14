@@ -13,7 +13,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func (uc *usecaseImpl) GetSlot(ctx context.Context, req *request.Sync) error {
+func (uc *usecaseImpl) FetchSlots(ctx context.Context, req *request.Sync) error {
 	if v := validate.Struct(req); !v.Validate() {
 		return errors.Wrap(v.Errors.OneError(), "validate failed")
 	}
