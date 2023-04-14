@@ -6,13 +6,15 @@ import (
 )
 
 type Filter struct {
-	Limit         *int    `json:"limit,omitempty" query:"limit"`
-	Offset        *int    `json:"offset,omitempty" query:"offset"`
-	SortBy        *string `json:"sort_by,omitempty" query:"sort_by"`
-	ID            *uint   `json:"id,omitempty" query:"id"`
-	MachineID     *uint   `json:"machine_id" query:"machine_id"`
-	OrderID       *string `json:"order_id,omitempty" query:"order_id"`
-	TransactionID *uint   `json:"transaction_id,omitempty" query:"transaction_id"`
+	Limit           *int    `json:"limit,omitempty" query:"limit"`
+	Offset          *int    `json:"offset,omitempty" query:"offset"`
+	SortBy          *string `json:"sort_by,omitempty" query:"sort_by"`
+	ID              *uint   `json:"id,omitempty" query:"id"`
+	MachineID       *uint   `json:"machine_id" query:"machine_id"`
+	MerchantOrderID *string `json:"merchant_order_id,omitempty" query:"merchant_order_id"`
+	Location        *string `json:"location,omitempty" query:"location"`
+	OrderStatus     *string `json:"order_status,omitempty" query:"order_status"`
+	PaymentChannel  *string `json:"payment_channel,omitempty" query:"payment_channel"`
 }
 
 func (r *Filter) ToFilter() []string {
@@ -34,12 +36,20 @@ func (r *Filter) ToFilter() []string {
 		filter = append(filter, fmt.Sprintf("machine_id||=||%d", *r.MachineID))
 	}
 
-	if r.OrderID != nil {
-		filter = append(filter, fmt.Sprintf("order_id||=||%s", *r.OrderID))
+	if r.MerchantOrderID != nil {
+		filter = append(filter, fmt.Sprintf("merchant_order_id||=||%s", *r.MerchantOrderID))
 	}
 
-	if r.TransactionID != nil {
-		filter = append(filter, fmt.Sprintf("transaction_id||=||%d", *r.TransactionID))
+	if r.Location != nil {
+		filter = append(filter, fmt.Sprintf("location||=||%s", *r.Location))
+	}
+
+	if r.OrderStatus != nil {
+		filter = append(filter, fmt.Sprintf("order_status||=||%s", *r.OrderStatus))
+	}
+
+	if r.PaymentChannel != nil {
+		filter = append(filter, fmt.Sprintf("payment_channel||=||%s", *r.PaymentChannel))
 	}
 
 	if r.SortBy != nil {
