@@ -10,7 +10,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-func (uc *usecaseImpl) SetSlot(ctx context.Context, req *request.Sync) error {
+func (uc *usecaseImpl) PushSlots(ctx context.Context, req *request.Sync) error {
 	if v := validate.Struct(req); !v.Validate() {
 		return errors.Wrap(v.Errors.OneError(), "validate failed")
 	}

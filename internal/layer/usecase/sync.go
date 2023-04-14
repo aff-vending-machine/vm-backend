@@ -7,10 +7,10 @@ import (
 )
 
 type Sync interface {
-	GetMachine(context.Context, *request.Sync) error
-	SetMachine(context.Context, *request.Sync) error
-	GetSlot(context.Context, *request.Sync) error
-	SetSlot(context.Context, *request.Sync) error
-	GetTransaction(context.Context, *request.Sync) error
+	FetchMachine(context.Context, *request.Sync) error
+	PushMachine(context.Context, *request.Sync) error
+	FetchSlots(context.Context, *request.Sync) error
+	PushSlots(context.Context, *request.Sync) error
+	PullTransactions(context.Context, *request.Sync) error
 	RegisterMachine(context.Context, *request.RegisterMachine) error
 }

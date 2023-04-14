@@ -5,7 +5,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-func (r *httpImpl) GetTransaction(c *fiber.Ctx) error {
+func (r *httpImpl) FetchSlots(c *fiber.Ctx) error {
 	ctx := c.UserContext()
 
 	req, err := makeSyncRequest(c)
@@ -14,7 +14,7 @@ func (r *httpImpl) GetTransaction(c *fiber.Ctx) error {
 	}
 
 	// usecase execution
-	err = r.usecase.GetTransaction(ctx, req)
+	err = r.usecase.FetchSlots(ctx, req)
 	if err != nil {
 		return http.UsecaseError(c, err)
 	}
