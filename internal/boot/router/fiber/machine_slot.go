@@ -12,6 +12,7 @@ func routeMachineSlot(router fiber.Router, endpoint http.MachineSlot) {
 	api.Get("slots/count", endpoint.Count)
 	api.Get("slots/:id", endpoint.ReadOne)
 	api.Post("slots", endpoint.Create)
+	api.Put("slots/bulk", endpoint.BulkUpdate)
 	api.Put("slots/:id", endpoint.Update)
 	api.Delete("slots/:id", endpoint.Delete)
 }

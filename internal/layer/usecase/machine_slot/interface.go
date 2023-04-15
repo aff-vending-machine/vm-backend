@@ -14,4 +14,5 @@ type Usecase interface {
 	Get(context.Context, *request.Get) (*response.MachineSlot, error)
 	List(context.Context, *request.Filter) ([]response.MachineSlot, error)
 	Update(context.Context, *request.Update) error
+	BulkUpdate(context.Context, *request.BulkUpdate) error
 }

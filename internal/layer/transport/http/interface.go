@@ -19,12 +19,13 @@ type Machine interface {
 }
 
 type MachineSlot interface {
-	Read(ctx *fiber.Ctx) error    // GET 	{machines/:machine_id/slots}
-	Count(ctx *fiber.Ctx) error   // GET 	{machines/:machine_id/slots/count}
-	ReadOne(ctx *fiber.Ctx) error // GET 	{machines/:machine_id/slots/:id}
-	Create(ctx *fiber.Ctx) error  // POST 	{machines/:machine_id/slots}
-	Update(ctx *fiber.Ctx) error  // PUT 	{machines/:machine_id/slots/:id}
-	Delete(ctx *fiber.Ctx) error  // DELETE {machines/:machine_id/slots/:id}
+	Read(ctx *fiber.Ctx) error       // GET 	{machines/:machine_id/slots}
+	Count(ctx *fiber.Ctx) error      // GET 	{machines/:machine_id/slots/count}
+	ReadOne(ctx *fiber.Ctx) error    // GET 	{machines/:machine_id/slots/:id}
+	Create(ctx *fiber.Ctx) error     // POST 	{machines/:machine_id/slots}
+	BulkUpdate(ctx *fiber.Ctx) error // PUT 	{machines/:machine_id/slots/bulk}
+	Update(ctx *fiber.Ctx) error     // PUT 	{machines/:machine_id/slots/:id}
+	Delete(ctx *fiber.Ctx) error     // DELETE 	{machines/:machine_id/slots/:id}
 }
 
 type PaymentChannel interface {
