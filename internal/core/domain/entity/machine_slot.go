@@ -13,7 +13,7 @@ type MachineSlot struct {
 	Stock     int       `json:"stock"`
 	Capacity  int       `json:"capacity"`
 	MachineID uint      `json:"machine_id"`                                                  // has many
-	ProductID uint      `json:"-"`                                                           // belong to
+	ProductID uint      `json:"product_id"`                                                  // belong to
 	Product   *Product  `json:"product,omitempty" gorm:"foreignKey:ProductID;references:ID"` // belong to
 	IsEnable  bool      `json:"is_enable"`
 }
