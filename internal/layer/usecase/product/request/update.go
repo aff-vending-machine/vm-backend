@@ -6,9 +6,11 @@ import (
 )
 
 type Update struct {
-	ID   uint    `json:"id" query:"id" validate:"required"`
-	Name *string `json:"name,omitempty"`
-	Type *string `json:"type,omitempty"`
+	ID       uint     `json:"id" query:"id" validate:"required"`
+	Name     *string  `json:"name,omitempty"`
+	Type     *string  `json:"type,omitempty"`
+	ImageURL *string  `json:"image_url,omitempty"`
+	Price    *float64 `json:"price,omitempty"`
 }
 
 func (r *Update) ToFilter() []string {

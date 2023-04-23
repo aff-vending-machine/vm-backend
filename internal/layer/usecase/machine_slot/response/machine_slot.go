@@ -6,22 +6,26 @@ import (
 )
 
 type MachineSlot struct {
-	ID       uint              `json:"id"`
-	Code     string            `json:"code"`
-	Stock    int               `json:"stock"`
-	Capacity int               `json:"capacity"`
-	Product  *response.Product `json:"product"`
-	IsEnable bool              `json:"is_enable"`
+	MachineID uint              `json:"machine_id"`
+	ID        uint              `json:"id"`
+	Code      string            `json:"code"`
+	Stock     int               `json:"stock"`
+	Capacity  int               `json:"capacity"`
+	ProductID uint              `json:"product_id"`
+	Product   *response.Product `json:"product"`
+	IsEnable  bool              `json:"is_enable"`
 }
 
 func ToMachineSlot(e *entity.MachineSlot) *MachineSlot {
 	return &MachineSlot{
-		ID:       e.ID,
-		Code:     e.Code,
-		Stock:    e.Stock,
-		Capacity: e.Capacity,
-		Product:  response.ToProduct(e.Product),
-		IsEnable: e.IsEnable,
+		MachineID: e.MachineID,
+		ID:        e.ID,
+		Code:      e.Code,
+		Stock:     e.Stock,
+		Capacity:  e.Capacity,
+		ProductID: e.ProductID,
+		Product:   response.ToProduct(e.Product),
+		IsEnable:  e.IsEnable,
 	}
 }
 
