@@ -13,6 +13,13 @@ func whitelist(c *fiber.Ctx, paths []string) bool {
 		return false
 	}
 
+	if c.Method() == fiber.MethodGet {
+		// GET /systems/dashboard
+		if paths[3] == "systems" && paths[4] == "dashboard" {
+			return true
+		}
+	}
+
 	if c.Method() == fiber.MethodPost {
 		// POST /users/me/change-password
 		if len(paths) == 6 && paths[3] == "users" && paths[4] == "me" && paths[5] == "change-password" {
