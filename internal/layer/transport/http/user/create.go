@@ -28,5 +28,7 @@ func makeCreateRequest(c *fiber.Ctx) (*request.Create, error) {
 	if err := c.BodyParser(&req); err != nil {
 		return nil, err
 	}
+	req.CreatedBy = http.String(c, "x-access")
+
 	return &req, nil
 }
