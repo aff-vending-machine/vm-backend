@@ -24,16 +24,11 @@ func (r *restImpl) ChangePassword(c *fiber.Ctx) error {
 }
 
 func makeChangePasswordRequest(c *fiber.Ctx) (*request.ChangePassword, error) {
-	id, err := c.ParamsInt("id", 0)
-	if err != nil {
-		return nil, err
-	}
-
 	var req request.ChangePassword
 	if err := c.BodyParser(&req); err != nil {
 		return nil, err
 	}
-	req.ID = uint(id)
+	req.ID = uint(http.Int(c, "x-access-id"))
 
 	return &req, nil
 }
