@@ -81,7 +81,6 @@ func (m *Transaction) ToUpdate() map[string]interface{} {
 		"order_price":          m.OrderPrice,
 		"order_status":         m.OrderStatus,
 		"ordered_at":           m.OrderedAt,
-		"payment_channel":      m.PaymentChannel,
 		"payment_requested_at": m.PaymentRequestedAt,
 		"reference1":           m.Reference1,
 		"reference2":           m.Reference2,
