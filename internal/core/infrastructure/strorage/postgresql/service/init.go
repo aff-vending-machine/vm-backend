@@ -1,0 +1,25 @@
+package service
+
+import (
+	"context"
+	"vm-backend/pkg/db"
+
+	"gorm.io/gorm"
+)
+
+type Repository[T any] interface {
+	Count(ctx context.Context, qry *db.Query) (int64, error)
+	FindMany(ctx context.Context, qry *db.Query) ([]T, error)
+	FindOne(ctx context.Context, qry *db.Query) (*T, error)
+	Create(ctx context.Context, entity *T) (uint, error)
+	Update(ctx context.Context, qry *db.Query, data map[string]interface{}) (int64, error)
+	Delete(ctx context.Context, qry *db.Query) (int64, error)
+}
+
+type RepositoryImpl[T any] struct {
+	db *gorm.DB
+}
+
+func New[T any](db *gorm.DB) Repository[T] {
+	return &RepositoryImpl[T]{db: db}
+}

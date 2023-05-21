@@ -1,24 +1,28 @@
 package request
 
 import (
-	"fmt"
+	"vm-backend/pkg/db"
 )
 
 type Sync struct {
 	MachineID uint `json:"machine_id" query:"machine_id" validate:"required"`
 }
 
-func (r *Sync) ToSlotFilter() []string {
-	return []string{
-		fmt.Sprintf("machine_id||=||%d", r.MachineID),
-		"||PRELOAD||Product",
-	}
+func (r *Sync) ToSlotQuery() *db.Query {
+	return db.NewQuery().
+		AddWhere("machine_id = ?", r.MachineID).
+		AddPreload("CatalogProduct")
 }
 
-func (r *Sync) ToMachineFilter() []string {
-	return []string{
-		fmt.Sprintf("id||=||%d", r.MachineID),
-		"||PRELOAD||Slots",
-		"||PRELOAD||Slots.Product",
-	}
+func (r *Sync) ToChannelQuery() *db.Query {
+	return db.NewQuery().
+		AddWhere("machine_id = ?", r.MachineID)
+}
+
+func (r *Sync) ToMachineQuery() *db.Query {
+	return db.NewQuery().
+		AddWhere("id = ?", r.MachineID).
+		AddPreload("Branch").
+		AddPreload("Slots").
+		AddPreload("Slots.CatalogProduct")
 }

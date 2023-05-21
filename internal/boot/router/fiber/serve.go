@@ -1,28 +1,31 @@
 package fiber
 
 import (
-	"github.com/aff-vending-machine/vm-backend/internal/boot/registry"
+	"fmt"
+	"vm-backend/internal/boot/router/fiber/apiv2"
+
 	"github.com/rs/zerolog/log"
 )
 
-func (s *server) Serve(driver registry.HTTPTransport) {
+func (s *routerImpl) Serve(transport Transport) {
 	// root resource
-	v1 := s.App.Group("/api/v1")
-	routeAuth(v1, driver.Auth)
+	v2 := s.Group("/api/v2")
+	apiv2.RouteAccount(v2, transport.Account)
 
-	v1.Use(driver.Auth.AuthorizationRequired, driver.Auth.PermissionRequired)
+	v2.Use(transport.Account.AuthorizationRequired, transport.Account.PermissionRequired)
 
-	routeMachine(v1, driver.Machine)
-	routeMachineSlot(v1, driver.MachineSlot)
-	routePaymentChannel(v1, driver.PaymentChannel)
-	routeProduct(v1, driver.Product)
-	routeReport(v1, driver.Report)
-	routeRole(v1, driver.Role)
-	routeSync(v1, driver.Sync)
-	routeTransaction(v1, driver.Transaction)
-	routeUser(v1, driver.User)
+	apiv2.RouteAccountRole(v2, transport.AccountRole)
+	apiv2.RouteAccountUser(v2, transport.AccountUser)
+	apiv2.RouteCatalogGroup(v2, transport.CatalogGroup)
+	apiv2.RouteCatalogProduct(v2, transport.CatalogProduct)
+	apiv2.RouteMachine(v2, transport.Machine)
+	apiv2.RouteMachineSlot(v2, transport.MachineSlot)
+	apiv2.RoutePaymentChannel(v2, transport.PaymentChannel)
+	apiv2.RoutePaymentTransaction(v2, transport.PaymentTransaction)
+	apiv2.RouteReport(v2, transport.Report)
+	apiv2.RouteSync(v2, transport.Sync)
 
-	go s.App.Listen(s.Address)
-
-	log.Info().Str("address", s.Address).Msg("http server listen")
+	addr := fmt.Sprintf(":%d", s.Port)
+	go s.Listen(addr)
+	log.Debug().Int("port", s.Port).Msg("http server listening ...")
 }

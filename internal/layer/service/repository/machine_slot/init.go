@@ -1,17 +1,21 @@
 package machine_slot
 
 import (
-	"github.com/aff-vending-machine/vm-backend/internal/core/domain/entity"
-	"github.com/aff-vending-machine/vm-backend/internal/core/module/repository"
+	"vm-backend/internal/core/domain/machine"
+	"vm-backend/internal/core/infrastructure/strorage/postgresql/service"
+
 	"gorm.io/gorm"
 )
 
 type repositoryImpl struct {
-	*repository.Template[entity.MachineSlot]
+	db *gorm.DB
+	service.Repository[machine.Slot]
 }
 
-func New(db *gorm.DB) *repositoryImpl {
-	based := repository.New[entity.MachineSlot](db)
-	db.AutoMigrate(&entity.MachineSlot{})
-	return &repositoryImpl{based}
+func NewRepository(db *gorm.DB) machine.SlotRepository {
+	db.AutoMigrate(&machine.Slot{})
+	return &repositoryImpl{
+		db,
+		service.New[machine.Slot](db),
+	}
 }

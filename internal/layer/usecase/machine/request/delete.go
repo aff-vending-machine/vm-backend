@@ -1,15 +1,13 @@
 package request
 
 import (
-	"fmt"
+	"vm-backend/pkg/db"
 )
 
 type Delete struct {
 	ID uint `json:"id" query:"id" validate:"required"`
 }
 
-func (r *Delete) ToFilter() []string {
-	return []string{
-		fmt.Sprintf("id||=||%d", r.ID),
-	}
+func (r *Delete) ToQuery() *db.Query {
+	return db.NewQuery().AddWhere("id = ?", r.ID)
 }

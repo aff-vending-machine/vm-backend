@@ -1,17 +1,16 @@
 package request
 
 import (
-	"fmt"
+	"vm-backend/pkg/db"
 )
 
 type Get struct {
-	ID uint `json:"id" query:"id" validate:"required"`
+	ID       uint    `json:"id" query:"id" validate:"required"`
+	Preloads *string `json:"preloads,omitempty" query:"preloads"`
 }
 
-func (r *Get) ToFilter() []string {
-	return []string{
-		fmt.Sprintf("id||=||%d", r.ID),
-		"||PRELOAD||Slots",
-		"||PRELOAD||Slots.Product",
-	}
+func (r *Get) ToQuery() *db.Query {
+	return db.NewQuery().
+		AddWhere("id = ?", r.ID).
+		PtrPreloads(r.Preloads)
 }

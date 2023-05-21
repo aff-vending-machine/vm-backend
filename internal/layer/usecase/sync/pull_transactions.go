@@ -2,11 +2,12 @@ package sync
 
 import (
 	"context"
-	"fmt"
 	"time"
 
-	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/sync/request"
-	"github.com/aff-vending-machine/vm-backend/pkg/errs"
+	"vm-backend/internal/layer/usecase/sync/request"
+	"vm-backend/pkg/db"
+	"vm-backend/pkg/errs"
+
 	"github.com/gookit/validate"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
@@ -14,37 +15,55 @@ import (
 
 func (uc *usecaseImpl) PullTransactions(ctx context.Context, req *request.Sync) error {
 	if v := validate.Struct(req); !v.Validate() {
-		return errors.Wrap(v.Errors.OneError(), "validate failed")
+		err := v.Errors.OneError()
+		log.Error().Err(err).Interface("request", req).Msg("unable to validate request")
+		return errors.Wrap(err, "unable to validate request")
 	}
 
-	machine, err := uc.machineRepo.FindOne(ctx, req.ToMachineFilter())
+	query := req.ToMachineQuery()
+	machine, err := uc.machineRepo.FindOne(ctx, query)
 	if err != nil {
-		return errors.Wrapf(err, "unable to find machine %d", req.MachineID)
+		log.Error().Err(err).Interface("query", query).Msg("unable to find machine")
+		return errors.Wrap(err, "unable to find machine")
 	}
 
-	transactions, err := uc.rpcAPI.GetTransaction(ctx, machine.SerialNumber)
+	channels, err := uc.channelRepo.FindMany(ctx, db.NewQuery())
 	if err != nil {
-		return errors.Wrapf(err, "unable to sync real machine %s", machine.SerialNumber)
+		log.Error().Err(err).Interface("query", query).Msg("unable to find many channels")
+		return errors.Wrap(err, "unable to find many channels")
+	}
+
+	channelGroup := make(map[string]uint, len(channels))
+	for _, channel := range channels {
+		channelGroup[channel.Channel] = channel.ID
+	}
+
+	transactions, err := uc.syncAPI.GetTransactions(ctx, machine.SerialNumber)
+	if err != nil {
+		log.Error().Err(err).Str("target", machine.SerialNumber).Msg("unable to get transactions")
+		return errors.Wrap(err, "unable to get transactions")
 	}
 
 	ids := make([]uint, len(transactions))
 	for i, transaction := range transactions {
-		filter := []string{fmt.Sprintf("merchant_order_id||=||%s", transaction.MerchantOrderID)}
-		transInDB, err := uc.transactionRepo.FindOne(ctx, filter)
-		if errs.Is(err, "not found") {
-			err = uc.transactionRepo.InsertOne(ctx, transaction.ToEntity(machine.ID, machine.Name, machine.Branch))
+		query := db.NewQuery().AddWhere("merchant_order_id", transaction.MerchantOrderID)
+		transInDB, err := uc.transactionRepo.FindOne(ctx, query)
+		if errs.Is(err, errs.ErrNotFound) {
+			channelID := channelGroup[transaction.PaymentChannel]
+			_, err = uc.transactionRepo.Create(ctx, transaction.ToDomain(machine.ID, machine.Name, machine.BranchID, channelID))
 		}
 		if err != nil {
-			log.Error().Err(err).Msg("unable to find or create transaction")
+			log.Error().Err(err).Interface("query", query).Msg("unable to find or create transaction")
 			continue
 		}
 
 		if transInDB != nil && transInDB.OrderStatus != transaction.OrderStatus {
 			// updated from vending machine
 			if transInDB.OrderStatus != "DONE" && transInDB.OrderStatus != "CANCELLED" {
-				_, err := uc.transactionRepo.UpdateMany(ctx, filter, transaction.ToUpdate())
+				update := transaction.ToUpdate()
+				_, err := uc.transactionRepo.Update(ctx, query, update)
 				if err != nil {
-					log.Error().Err(err).Msg("unable to find or create transaction")
+					log.Error().Err(err).Interface("query", query).Interface("update", update).Msg("unable to update transaction")
 					continue
 				}
 			}
@@ -54,15 +73,19 @@ func (uc *usecaseImpl) PullTransactions(ctx context.Context, req *request.Sync) 
 	}
 
 	if len(ids) > 5 {
-		err := uc.rpcAPI.ClearTransaction(ctx, machine.SerialNumber, ids[:len(ids)-5])
+		clearedIDs := ids[:len(ids)-5]
+		err := uc.syncAPI.ClearTransactions(ctx, machine.SerialNumber, clearedIDs)
 		if err != nil {
-			log.Error().Err(err).Uints("ids", ids).Msg("unable to clear transaction")
+			log.Error().Err(err).Str("target", machine.SerialNumber).Uints("ids", clearedIDs).Msg("unable to clear transactions")
 		}
 	}
 
-	_, err = uc.machineRepo.UpdateMany(ctx, req.ToMachineFilter(), map[string]interface{}{"sync_transaction_time": time.Now()})
+	query = req.ToMachineQuery()
+	update := map[string]interface{}{"sync_transaction_time": time.Now()}
+	_, err = uc.machineRepo.Update(ctx, query, update)
 	if err != nil {
-		return errors.Wrapf(err, "unable to update machine %s", machine.SerialNumber)
+		log.Error().Err(err).Interface("query", query).Interface("update", update).Msg("unable to update machine")
+		return errors.Wrap(err, "unable to update machine")
 	}
 
 	return nil

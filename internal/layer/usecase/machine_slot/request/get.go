@@ -1,18 +1,16 @@
 package request
 
-import (
-	"fmt"
-)
+import "vm-backend/pkg/db"
 
 type Get struct {
-	MachineID uint `json:"machine_id" query:"machine_id" validate:"required"`
-	ID        uint `json:"id" query:"id" validate:"required"`
+	MachineID uint    `json:"machine_id" query:"machine_id" validate:"required"`
+	ID        uint    `json:"id" query:"id" validate:"required"`
+	Preloads  *string `json:"preloads,omitempty" query:"preloads"`
 }
 
-func (r *Get) ToFilter() []string {
-	return []string{
-		fmt.Sprintf("machine_id||=||%d", r.MachineID),
-		fmt.Sprintf("id||=||%d", r.ID),
-		"||PRELOAD||Product",
-	}
+func (r *Get) ToQuery() *db.Query {
+	return db.NewQuery().
+		AddWhere("machine_id = ?", r.MachineID).
+		AddWhere("id = ?", r.ID).
+		PtrPreloads(r.Preloads)
 }

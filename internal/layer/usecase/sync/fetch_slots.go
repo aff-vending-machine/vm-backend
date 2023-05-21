@@ -2,12 +2,13 @@ package sync
 
 import (
 	"context"
-	"fmt"
 	"time"
 
-	"github.com/aff-vending-machine/vm-backend/internal/core/domain/sync"
-	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/sync/request"
-	"github.com/aff-vending-machine/vm-backend/pkg/errs"
+	"vm-backend/internal/core/domain/sync/models"
+	"vm-backend/internal/layer/usecase/sync/request"
+	"vm-backend/pkg/db"
+	"vm-backend/pkg/errs"
+
 	"github.com/gookit/validate"
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
@@ -15,17 +16,22 @@ import (
 
 func (uc *usecaseImpl) FetchSlots(ctx context.Context, req *request.Sync) error {
 	if v := validate.Struct(req); !v.Validate() {
-		return errors.Wrap(v.Errors.OneError(), "validate failed")
+		err := v.Errors.OneError()
+		log.Error().Err(err).Interface("request", req).Msg("unable to validate request")
+		return errors.Wrap(err, "unable to validate request")
 	}
 
-	machine, err := uc.machineRepo.FindOne(ctx, req.ToMachineFilter())
+	query := req.ToMachineQuery()
+	machine, err := uc.machineRepo.FindOne(ctx, query)
 	if err != nil {
-		return errors.Wrapf(err, "unable to find machine %d", req.MachineID)
+		log.Error().Err(err).Interface("query", query).Msg("unable to find machine")
+		return errors.Wrap(err, "unable to find machine")
 	}
 
-	slots, err := uc.rpcAPI.GetSlot(ctx, machine.SerialNumber)
+	slots, err := uc.syncAPI.GetSlots(ctx, machine.SerialNumber)
 	if err != nil {
-		return errors.Wrapf(err, "unable to sync real machine %s", machine.SerialNumber)
+		log.Error().Err(err).Str("target", machine.SerialNumber).Msg("unable to fetch slots")
+		return errors.Wrap(err, "unable to fetch slots")
 	}
 
 	mapCase := make(map[string]int)
@@ -43,14 +49,14 @@ func (uc *usecaseImpl) FetchSlots(ctx context.Context, req *request.Sync) error 
 	for code, condition := range mapCase {
 		// case #1 only center, remove form machine
 		if condition == 1 {
-			uc.machineSlotRepo.DeleteMany(ctx, makeCodeFilter(req.MachineID, code))
+			uc.slotRepo.Delete(ctx, makeCodeQuery(req.MachineID, code))
 			continue
 		}
 		// case #2 only machine, include to machine
 		if condition == 2 {
 			slot := slots[mapIndex[code]]
 			productID := uc.findProductID(ctx, slot)
-			uc.machineSlotRepo.InsertOne(ctx, slot.ToEntity(req.MachineID, productID))
+			uc.slotRepo.Create(ctx, slot.ToDomain(req.MachineID, productID))
 			continue
 		}
 
@@ -58,26 +64,30 @@ func (uc *usecaseImpl) FetchSlots(ctx context.Context, req *request.Sync) error 
 		if condition == 3 {
 			slot := slots[mapIndex[code]]
 			productID := uc.findProductID(ctx, slot)
-			uc.machineSlotRepo.UpdateMany(ctx, makeCodeFilter(req.MachineID, code), slot.ToJson(productID))
+			uc.slotRepo.Update(ctx, makeCodeQuery(req.MachineID, code), slot.ToUpdate(productID))
 			continue
 		}
 	}
 
-	_, err = uc.machineRepo.UpdateMany(ctx, req.ToMachineFilter(), map[string]interface{}{"sync_slot_time": time.Now()})
+	query = req.ToMachineQuery()
+	update := map[string]interface{}{"sync_slot_time": time.Now()}
+	_, err = uc.machineRepo.Update(ctx, query, update)
 	if err != nil {
-		return errors.Wrapf(err, "unable to update machine %s", machine.SerialNumber)
+		log.Error().Err(err).Interface("query", query).Interface("update", update).Msg("unable to update machine")
+		return errors.Wrap(err, "unable to update machine")
 	}
 
 	return nil
 }
 
-func (uc *usecaseImpl) findProductID(ctx context.Context, slot sync.Slot) uint {
+func (uc *usecaseImpl) findProductID(ctx context.Context, slot models.Slot) uint {
 	productID := uint(0)
 	if slot.Product != nil {
-		product, err := uc.productRepo.FindOne(ctx, []string{fmt.Sprintf("sku||=||%s", slot.Product.SKU)})
-		if errs.Is(err, "not found") {
+		query := db.NewQuery().AddWhere("sku = ?", slot.Product.SKU)
+		product, err := uc.productRepo.FindOne(ctx, query)
+		if errs.Is(err, errs.ErrNotFound) {
 			product = slot.Product.ToEntity()
-			err = uc.productRepo.InsertOne(ctx, product)
+			_, err = uc.productRepo.Create(ctx, product)
 		}
 		if err != nil {
 			log.Error().Err(err).Msg("unable to find or create product")

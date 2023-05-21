@@ -1,47 +1,33 @@
 package request
 
 import (
-	"fmt"
 	"time"
+	"vm-backend/pkg/db"
 )
 
 type Report struct {
-	MachineID *uint      `json:"machine_id,omitempty"`
+	MachineID uint       `json:"machine_id" query:"machine_id" validate:"required"`
+	ChannelID *uint      `json:"channel_id,omitempty" query:"channel_id"`
+	SortBy    *string    `json:"sort_by,omitempty" query:"sort_by"`
 	From      *time.Time `json:"from,omitempty"`
 	To        *time.Time `json:"to,omitempty"`
 }
 
-func (r *Report) ToSlotFilter() []string {
-	filter := []string{
-		"code||SORT||asc",
-	}
-
-	if r.MachineID != nil {
-		filter = append(filter, fmt.Sprintf("machine_id||=||%d", *r.MachineID))
-	}
-
-	return filter
-}
-
-func (r *Report) ToPaymentFilter() []string {
-	layout := "2006-01-02 15:04:05"
-
-	filter := []string{
-		"order_status||=||DONE",
-		"confirmed_paid_at||SORT||asc",
-	}
-
-	if r.MachineID != nil {
-		filter = append(filter, fmt.Sprintf("machine_id||=||%d", *r.MachineID))
-	}
-
+func (r *Report) ToTransactionQuery() *db.Query {
+	query := db.NewQuery().
+		AddWhere("order_status = ?", "DONE").
+		AddWhere("machine_id = ?", r.MachineID).
+		PtrWhere("channel_id = ?", r.ChannelID).
+		PtrOrder(r.SortBy).
+		AddPreload("Machine").
+		AddPreload("Channel")
 	if r.From != nil && r.To != nil {
-		filter = append(filter, fmt.Sprintf("confirmed_paid_at||BETWEEN||%s,%s||time", r.From.Format(layout), r.To.Format(layout)))
+		query = query.AddWhere("confirmed_paid_at BETWEEN ? AND ?", r.From, r.To)
 	} else if r.From != nil {
-		filter = append(filter, fmt.Sprintf("confirmed_paid_at||>||%s||time", r.From.Format(layout)))
+		query = query.AddWhere("confirmed_paid_at >= ?", r.From)
 	} else if r.To != nil {
-		filter = append(filter, fmt.Sprintf("confirmed_paid_at||<||%s||time", r.To.Format(layout)))
+		query = query.AddWhere("confirmed_paid_at <= ?", r.From)
 	}
 
-	return filter
+	return query
 }

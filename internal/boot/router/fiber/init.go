@@ -1,15 +1,18 @@
 package fiber
 
 import (
-	"github.com/aff-vending-machine/vm-backend/internal/core/module/fiber"
+	"sync"
+	"vm-backend/internal/core/infrastructure/network/fiber"
 )
 
-type server struct {
-	*fiber.Wrapper
+type routerImpl struct {
+	*fiber.Server
+	mu sync.Mutex
 }
 
-func New(app *fiber.Wrapper) *server {
-	return &server{
-		app,
+func New(server *fiber.Server) *routerImpl {
+	return &routerImpl{
+		server,
+		sync.Mutex{},
 	}
 }
