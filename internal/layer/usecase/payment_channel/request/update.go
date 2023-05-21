@@ -1,34 +1,33 @@
 package request
 
 import (
-	"encoding/json"
-	"fmt"
+	"vm-backend/pkg/conv"
+	"vm-backend/pkg/db"
 )
 
 type Update struct {
-	ID          uint    `json:"id" query:"id" validate:"required"`
-	Name        *string `json:"name"`
-	Channel     *string `json:"channel"`
-	Reference   *[]byte `json:"reference"`
-	Secret      *[]byte `json:"secret"`
-	DocumentURL *string `json:"document_url"`
-	LogoURL     *string `json:"logo_url"`
-	Vendor      *string `json:"vendor"`
-	Active      *bool   `json:"active"`
+	ID           uint    `json:"id" query:"id" validate:"required"`
+	Name         *string `json:"name,omitempty"`
+	Channel      *string `json:"channel,omitempty"`
+	Vendor       *string `json:"vendor,omitempty"`
+	IsEnable     *bool   `json:"is_enable,omitempty"`
+	Host         *string `json:"host,omitempty"`
+	MerchantID   *string `json:"merchant_id,omitempty"`
+	MerchantName *string `json:"merchant_name,omitempty"`
+	BillerCode   *string `json:"biller_code,omitempty"`
+	BillerID     *string `json:"biller_id,omitempty"`
+	Token        *string `json:"token,omitempty"`
+	StoreID      *string `json:"store_id,omitempty"`
+	TerminalID   *string `json:"terminal_id,omitempty"`
 }
 
-func (r *Update) ToFilter() []string {
-	return []string{
-		fmt.Sprintf("id||=||%d", r.ID),
-	}
+func (r *Update) ToQuery() *db.Query {
+	return db.NewQuery().
+		AddWhere("id = ?", r.ID)
 }
 
-func (r *Update) ToJson() map[string]interface{} {
-	var data map[string]interface{}
-
-	b, _ := json.Marshal(r)
-	json.Unmarshal(b, &data)
-
-	delete(data, "id")
-	return data
+func (r *Update) ToUpdate() map[string]interface{} {
+	result, _ := conv.StructToMap(r)
+	delete(result, "id")
+	return result
 }

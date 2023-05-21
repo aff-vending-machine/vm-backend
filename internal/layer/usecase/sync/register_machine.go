@@ -2,35 +2,59 @@ package sync
 
 import (
 	"context"
+	"time"
 
-	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/sync/request"
-	"github.com/aff-vending-machine/vm-backend/pkg/errs"
+	"vm-backend/internal/core/domain/machine"
+	"vm-backend/internal/layer/usecase/sync/request"
+	"vm-backend/pkg/errs"
+
 	"github.com/gookit/validate"
 	"github.com/pkg/errors"
+	"github.com/rs/zerolog/log"
 )
 
 func (uc *usecaseImpl) RegisterMachine(ctx context.Context, req *request.RegisterMachine) error {
 	if v := validate.Struct(req); !v.Validate() {
-		return errors.Wrap(v.Errors.OneError(), "validate failed")
+		err := v.Errors.OneError()
+		log.Error().Err(err).Interface("request", req).Msg("unable to validate request")
+		return errors.Wrap(err, "unable to validate request")
 	}
 
-	machine, err := uc.machineRepo.FindOne(ctx, req.ToFilter())
-	if errs.Is(err, "not found") {
-		err := uc.machineRepo.InsertOne(ctx, req.ToEntity())
+	query := req.ToQuery()
+	machine, err := uc.machineRepo.FindOne(ctx, query)
+	if errs.Is(err, errs.ErrNotFound) {
+		entity := makeMachine(req)
+		_, err := uc.machineRepo.Create(ctx, entity)
 		if err != nil {
-			return errors.Wrap(err, "unable to insert machine")
+			log.Error().Err(err).Interface("entity", entity).Msg("unable to create machine")
+			return errors.Wrap(err, "unable to create machine")
 		}
-
 		return nil
 	}
 	if err != nil {
-		return errors.Wrapf(err, "unable to find machine (%s)", req.Data.SerialNumber)
+		log.Error().Err(err).Interface("query", query).Msg("unable to find machine")
+		return errors.Wrap(err, "unable to find machine")
 	}
 
-	_, err = uc.machineRepo.UpdateMany(ctx, req.ToFilter(), req.ToJsonUpdate(machine.Count))
+	update := req.ToUpdate(machine.RegisterCount)
+	_, err = uc.machineRepo.Update(ctx, query, update)
 	if err != nil {
-		return errors.Wrapf(err, "unable to update machine (%s)", req.Data.SerialNumber)
+		log.Error().Err(err).Interface("query", query).Interface("update", update).Msg("unable to update machine")
+		return errors.Wrap(err, "unable to update machine")
 	}
 
 	return nil
+}
+
+func makeMachine(req *request.RegisterMachine) *machine.Machine {
+	t := time.Now()
+	return &machine.Machine{
+		Name:         req.Data.Name,
+		SerialNumber: req.Data.SerialNumber,
+		Location:     req.Data.Location,
+		Type:         "<auto register>",
+		Vendor:       req.Data.Vendor,
+		SyncTime:     &t,
+		Status:       "enable",
+	}
 }

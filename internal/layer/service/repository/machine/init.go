@@ -1,17 +1,21 @@
 package machine
 
 import (
-	"github.com/aff-vending-machine/vm-backend/internal/core/domain/entity"
-	"github.com/aff-vending-machine/vm-backend/internal/core/module/repository"
+	"vm-backend/internal/core/domain/machine"
+	"vm-backend/internal/core/infrastructure/strorage/postgresql/service"
+
 	"gorm.io/gorm"
 )
 
 type repositoryImpl struct {
-	*repository.Template[entity.Machine]
+	db *gorm.DB
+	service.Repository[machine.Machine]
 }
 
-func New(db *gorm.DB) *repositoryImpl {
-	based := repository.New[entity.Machine](db)
-	db.AutoMigrate(&entity.Machine{})
-	return &repositoryImpl{based}
+func NewRepositroy(db *gorm.DB) machine.Repository {
+	db.AutoMigrate(&machine.Machine{})
+	return &repositoryImpl{
+		db,
+		service.New[machine.Machine](db),
+	}
 }

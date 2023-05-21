@@ -1,17 +1,21 @@
 package payment_channel
 
 import (
-	"github.com/aff-vending-machine/vm-backend/internal/core/domain/entity"
-	"github.com/aff-vending-machine/vm-backend/internal/core/module/repository"
+	"vm-backend/internal/core/domain/payment"
+	"vm-backend/internal/core/infrastructure/strorage/postgresql/service"
+
 	"gorm.io/gorm"
 )
 
 type repositoryImpl struct {
-	*repository.Template[entity.PaymentChannel]
+	db *gorm.DB
+	service.Repository[payment.Channel]
 }
 
-func New(db *gorm.DB) *repositoryImpl {
-	based := repository.New[entity.PaymentChannel](db)
-	db.AutoMigrate(&entity.PaymentChannel{})
-	return &repositoryImpl{based}
+func NewRepository(db *gorm.DB) payment.ChannelRepository {
+	db.AutoMigrate(&payment.Channel{})
+	return &repositoryImpl{
+		db,
+		service.New[payment.Channel](db),
+	}
 }

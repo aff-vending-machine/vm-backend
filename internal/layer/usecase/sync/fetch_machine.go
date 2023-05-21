@@ -4,35 +4,40 @@ import (
 	"context"
 	"strings"
 
-	"github.com/aff-vending-machine/vm-backend/internal/layer/usecase/sync/request"
+	"vm-backend/internal/layer/usecase/sync/request"
+
 	"github.com/gookit/validate"
 	"github.com/pkg/errors"
+	"github.com/rs/zerolog/log"
 )
 
 func (uc *usecaseImpl) FetchMachine(ctx context.Context, req *request.Sync) error {
 	if v := validate.Struct(req); !v.Validate() {
-		return errors.Wrap(v.Errors.OneError(), "validate failed")
+		err := v.Errors.OneError()
+		log.Error().Err(err).Interface("request", req).Msg("unable to validate request")
+		return errors.Wrap(err, "unable to validate request")
 	}
 
-	filter := req.ToMachineFilter()
-	machine, err := uc.machineRepo.FindOne(ctx, filter)
+	query := req.ToMachineQuery()
+	machine, err := uc.machineRepo.FindOne(ctx, query)
 	if err != nil {
-		return errors.Wrapf(err, "unable to find machine %s", req.MachineID)
+		log.Error().Err(err).Interface("query", query).Msg("unable to find machine")
+		return errors.Wrap(err, "unable to find machine")
 	}
 
-	res, err := uc.rpcAPI.GetMachine(ctx, machine.SerialNumber)
+	res, err := uc.syncAPI.GetMachine(ctx, machine.SerialNumber)
 	if err != nil && strings.Contains(err.Error(), "internal") {
-		machine.Status = "maintenance"
-		uc.updateMachineStatus(ctx, filter, "maintenance")
+		uc.updateMachineStatus(ctx, query, "maintenance")
+		log.Error().Err(err).Str("target", machine.SerialNumber).Msg("machine is offline")
 		return errors.Wrapf(err, "real machine %s is not ready", machine.SerialNumber)
 	}
 	if err != nil {
-		machine.Status = "offline"
-		uc.updateMachineStatus(ctx, filter, "offline")
-		return errors.Wrapf(err, "unable to sync real machine %s", machine.SerialNumber)
+		uc.updateMachineStatus(ctx, query, "offline")
+		log.Error().Err(err).Str("target", machine.SerialNumber).Msg("unable to sync machine")
+		return errors.Wrapf(err, "unable to sync machine %s", machine.SerialNumber)
 	}
 
-	uc.machineRepo.UpdateMany(ctx, filter, res.ToJsonUpdate())
-
+	update := res.ToUpdate()
+	uc.machineRepo.Update(ctx, query, update)
 	return nil
 }

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/aff-vending-machine/vm-backend/config"
-	"github.com/aff-vending-machine/vm-backend/internal/boot/registry/app"
-	"github.com/aff-vending-machine/vm-backend/pkg/boot"
-	"github.com/aff-vending-machine/vm-backend/pkg/log"
+	"vm-backend/configs"
+	"vm-backend/internal/boot/app"
+	"vm-backend/pkg/boot"
+	"vm-backend/pkg/log"
 )
 
 func init() {
@@ -12,29 +12,27 @@ func init() {
 }
 
 func main() {
-	// Create boot with configuration
-	conf := config.Init("env/app")
-	boot.Init(conf)
-	defer boot.Serve()
+	// Start signal
+	boot.Signal.Start()
 
+	// Create boot with configuration
+	conf := configs.Init("env/app")
 	initLog(conf)
-	// initTrace(conf)
+
+	conf.App.Version = "2.0.0"
+	conf.Print()
 
 	// Run main application
 	app.Run(conf)
+
+	// Waiting for interrupt signal
+	boot.Signal.Wait()
 }
 
-func initLog(conf config.BootConfig) {
+func initLog(conf configs.Config) {
 	if conf.App.ENV == "local" {
 		log.SetOutput(log.ColorConsole())
 	}
+
 	log.SetLogLevel(conf.App.LogLevel)
 }
-
-// func initTrace(conf config.BootConfig) {
-// 	endpoint := "http://localhost:14268/api/traces"
-// 	provider, err := trace.Jaeger(endpoint, "raspi-ctrl", conf.App.ENV)
-// 	boot.TerminateWhenError(err)
-
-// 	trace.SetProvider(provider)
-// }
