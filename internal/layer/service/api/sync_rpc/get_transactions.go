@@ -21,7 +21,7 @@ func (r *rpcImpl) GetTransactions(ctx context.Context, target string) ([]models.
 		return nil, err
 	}
 
-	if res.IsSuccess() {
+	if !res.IsSuccess() {
 		return nil, fmt.Errorf(*res.Error)
 	}
 

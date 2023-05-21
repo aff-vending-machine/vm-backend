@@ -23,7 +23,7 @@ func (r *rpcImpl) SetMachine(ctx context.Context, target string, data *models.Ma
 		return err
 	}
 
-	if res.IsSuccess() {
+	if !res.IsSuccess() {
 		return fmt.Errorf(*res.Error)
 	}
 

@@ -27,7 +27,7 @@ func (r *rpcImpl) ClearTransactions(ctx context.Context, target string, ids []ui
 		return err
 	}
 
-	if res.IsSuccess() {
+	if !res.IsSuccess() {
 		return fmt.Errorf(*res.Error)
 	}
 

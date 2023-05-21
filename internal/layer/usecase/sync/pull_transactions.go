@@ -72,13 +72,13 @@ func (uc *usecaseImpl) PullTransactions(ctx context.Context, req *request.Sync) 
 		ids[i] = transaction.ID
 	}
 
-	if len(ids) > 5 {
-		clearedIDs := ids[:len(ids)-5]
-		err := uc.syncAPI.ClearTransactions(ctx, machine.SerialNumber, clearedIDs)
-		if err != nil {
-			log.Error().Err(err).Str("target", machine.SerialNumber).Uints("ids", clearedIDs).Msg("unable to clear transactions")
-		}
-	}
+	// if len(ids) > 5 {
+	// 	clearedIDs := ids[:len(ids)-5]
+	// 	err := uc.syncAPI.ClearTransactions(ctx, machine.SerialNumber, clearedIDs)
+	// 	if err != nil {
+	// 		log.Error().Err(err).Str("target", machine.SerialNumber).Uints("ids", clearedIDs).Msg("unable to clear transactions")
+	// 	}
+	// }
 
 	query = req.ToMachineQuery()
 	update := map[string]interface{}{"sync_transaction_time": time.Now()}
