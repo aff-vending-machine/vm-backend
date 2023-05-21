@@ -38,7 +38,7 @@ func (uc *usecaseImpl) FetchChannels(ctx context.Context, req *request.Sync) err
 		uc.slotRepo.Update(ctx, query, update)
 	}
 
-	query = req.ToMachineQuery()
+	query = db.NewQuery().AddWhere("id = ?", req.MachineID)
 	update := map[string]interface{}{"sync_channel_time": time.Now()}
 	_, err = uc.machineRepo.Update(ctx, query, update)
 	if err != nil {
