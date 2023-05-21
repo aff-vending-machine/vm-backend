@@ -69,7 +69,7 @@ func (uc *usecaseImpl) FetchSlots(ctx context.Context, req *request.Sync) error 
 		}
 	}
 
-	query = req.ToMachineQuery()
+	query = db.NewQuery().AddWhere("id = ?", req.MachineID)
 	update := map[string]interface{}{"sync_slot_time": time.Now()}
 	_, err = uc.machineRepo.Update(ctx, query, update)
 	if err != nil {

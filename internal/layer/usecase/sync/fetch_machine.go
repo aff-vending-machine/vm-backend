@@ -5,6 +5,7 @@ import (
 	"strings"
 
 	"vm-backend/internal/layer/usecase/sync/request"
+	"vm-backend/pkg/db"
 
 	"github.com/gookit/validate"
 	"github.com/pkg/errors"
@@ -37,6 +38,7 @@ func (uc *usecaseImpl) FetchMachine(ctx context.Context, req *request.Sync) erro
 		return errors.Wrapf(err, "unable to sync machine %s", machine.SerialNumber)
 	}
 
+	query = db.NewQuery().AddWhere("id = ?", req.MachineID)
 	update := res.ToUpdate()
 	uc.machineRepo.Update(ctx, query, update)
 	return nil
