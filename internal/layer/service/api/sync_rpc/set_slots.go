@@ -23,7 +23,7 @@ func (r *rpcImpl) SetSlots(ctx context.Context, target string, data []models.Slo
 		return err
 	}
 
-	if res.IsSuccess() {
+	if !res.IsSuccess() {
 		return fmt.Errorf(*res.Error)
 	}
 

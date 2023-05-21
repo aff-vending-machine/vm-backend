@@ -21,7 +21,7 @@ func (r *rpcImpl) GetSlots(ctx context.Context, target string) ([]models.Slot, e
 		return nil, err
 	}
 
-	if res.IsSuccess() {
+	if !res.IsSuccess() {
 		return nil, fmt.Errorf(*res.Error)
 	}
 

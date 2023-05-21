@@ -23,7 +23,7 @@ func (r *rpcImpl) SetChannels(ctx context.Context, target string, data []models.
 		return err
 	}
 
-	if res.IsSuccess() {
+	if !res.IsSuccess() {
 		return fmt.Errorf(*res.Error)
 	}
 
