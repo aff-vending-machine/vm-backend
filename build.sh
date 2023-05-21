@@ -1,1 +1,1 @@
-docker build --platform linux/amd64 -t vm-backend:0.0.0 ./scripts/dockerfile
+docker build --platform linux/amd64 -t vm-backend:0.0.0 .
