@@ -6,12 +6,13 @@ import (
 )
 
 type Update struct {
-	ID       uint     `json:"id" query:"id" validate:"required"`
-	GroupID  *uint    `json:"group_id,omitempty"`
-	Name     *string  `json:"name,omitempty"`
-	ImageURL *string  `json:"image_url,omitempty"`
-	Price    *float64 `json:"price,omitempty"`
-	IsEnable *bool    `json:"is_enable,omitempty"`
+	ID           uint     `json:"id" query:"id" validate:"required"`
+	GroupID      *uint    `json:"group_id,omitempty"`
+	Name         *string  `json:"name,omitempty"`
+	ImageURL     *string  `json:"image_url,omitempty"`
+	ProductPrice *float64 `json:"product_price,omitempty"`
+	SalePrice    *float64 `json:"sale_price,omitempty"`
+	IsEnable     *bool    `json:"is_enable,omitempty"`
 }
 
 func (r *Update) ToQuery() *db.Query {
