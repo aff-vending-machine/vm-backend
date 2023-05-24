@@ -11,6 +11,8 @@ func (r *RepositoryImpl[T]) Create(ctx context.Context, entity *T) (uint, error)
 		tx.Rollback()
 		return 0, err
 	}
-	tx.Commit()
+	if err := tx.Commit().Error; err != nil {
+		return 0, err
+	}
 	return uint(result.RowsAffected), nil
 }

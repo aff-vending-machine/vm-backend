@@ -21,7 +21,7 @@ func (uc *usecaseImpl) Update(ctx context.Context, req *request.Update) error {
 	data := req.ToUpdate()
 	_, err := uc.productRepo.Update(ctx, query, data)
 	if err != nil {
-		log.Error().Err(err).Interface("query", query).Msg("unable to update catalog product")
+		log.Error().Err(err).Interface("query", query).Interface("data", data).Msg("unable to update catalog product")
 		return errors.Wrapf(err, "unable to update catalog product %s", req.ID)
 	}
 
