@@ -14,6 +14,8 @@ func (r *RepositoryImpl[T]) Delete(ctx context.Context, query *db.Query) (int64,
 		tx.Rollback()
 		return 0, err
 	}
-	tx.Commit()
+	if err := tx.Commit().Error; err != nil {
+		return 0, err
+	}
 	return result.RowsAffected, nil
 }

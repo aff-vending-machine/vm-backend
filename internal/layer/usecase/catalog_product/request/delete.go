@@ -3,8 +3,8 @@ package request
 import "vm-backend/pkg/db"
 
 type Delete struct {
-	GroupID uint `json:"group_id"`
-	ID      uint `json:"id" query:"id" validate:"required"`
+	ID      uint  `json:"id" query:"id" validate:"required"`
+	GroupID *uint `json:"group_id,omitempty" query:"group_id"`
 }
 
 func (r *Delete) ToQuery() *db.Query {
