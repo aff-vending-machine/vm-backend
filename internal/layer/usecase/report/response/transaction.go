@@ -21,6 +21,7 @@ type Transaction struct {
 	ReceivedQuantity    int       `json:"received_quantity"`
 	OrderPrice          float64   `json:"order_price"`
 	PaidPrice           float64   `json:"paid_price"`
+	RawReference        string    `json:"raw_reference"`
 	Reference1          string    `json:"reference1"`
 	Reference2          string    `json:"reference2"`
 	Reference3          string    `json:"reference3"`

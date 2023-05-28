@@ -25,6 +25,7 @@ type Transaction struct {
 	OrderedAt           time.Time  `json:"ordered_at"`            // ordered
 	PaymentChannel      string     `json:"payment_channel"`       // ordered, key to find payment channel - MakeTransactionCreateRequest
 	PaymentRequestedAt  *time.Time `json:"payment_requested_at"`  // ordered - MakeTransactionCreateRequest
+	RawReference        *string    `json:"raw_reference"`         // raw_reference
 	Reference1          *string    `json:"reference1"`            // reference1 - MakeTransactionCreateResult
 	Reference2          *string    `json:"reference2"`            // reference2
 	Reference3          *string    `json:"reference3"`            // reference3
@@ -56,6 +57,7 @@ func (m *Transaction) ToDomain(machineID uint, machineName string, storeBranchID
 		OrderStatus:        m.OrderStatus,
 		OrderedAt:          m.OrderedAt,
 		PaymentRequestedAt: m.PaymentRequestedAt,
+		RawReference:       m.RawReference,
 		Reference1:         m.Reference1,
 		Reference2:         m.Reference2,
 		Reference3:         m.Reference3,
@@ -82,6 +84,7 @@ func (m *Transaction) ToUpdate() map[string]interface{} {
 		"order_status":         m.OrderStatus,
 		"ordered_at":           m.OrderedAt,
 		"payment_requested_at": m.PaymentRequestedAt,
+		"raw_reference":        m.RawReference,
 		"reference1":           m.Reference1,
 		"reference2":           m.Reference2,
 		"reference3":           m.Reference3,
