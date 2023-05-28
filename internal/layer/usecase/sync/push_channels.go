@@ -33,7 +33,7 @@ func (uc *usecaseImpl) PushChannels(ctx context.Context, req *request.Sync) erro
 		return errors.Wrap(err, "unable to find channels")
 	}
 
-	data := models.FromChannelList(channels, machine.ID)
+	data := models.FromChannelList(channels)
 	err = uc.syncAPI.SetChannels(ctx, machine.SerialNumber, data)
 	if err != nil {
 		log.Error().Err(err).Str("target", machine.SerialNumber).Interface("data", data).Msg("unable to sync machine")

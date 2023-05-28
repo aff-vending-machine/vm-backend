@@ -55,26 +55,27 @@ func FromProduct(e *catalog.Product) *Product {
 	}
 }
 
-func FromChannel(e *payment.Channel, machineID uint) *Channel {
+func FromChannel(e *payment.Channel) *Channel {
 	return &Channel{
-		Channel:    e.Channel,
-		MerchantID: machineID,
-		Name:       e.Name,
-		Vendor:     e.Vendor,
-		IsEnable:   e.IsEnable,
-		Host:       e.Host,
-		BillerCode: e.BillerCode,
-		BillerID:   e.BillerID,
-		Token:      e.Token,
-		StoreID:    e.StoreID,
-		TerminalID: e.TerminalID,
+		Channel:      e.Channel,
+		Name:         e.Name,
+		Vendor:       e.Vendor,
+		IsEnable:     e.IsEnable,
+		Host:         e.Host,
+		MerchantID:   e.MerchantID,
+		MerchantName: e.MerchantName,
+		BillerCode:   e.BillerCode,
+		BillerID:     e.BillerID,
+		Token:        e.Token,
+		StoreID:      e.StoreID,
+		TerminalID:   e.TerminalID,
 	}
 }
 
-func FromChannelList(entities []payment.Channel, machineID uint) []Channel {
+func FromChannelList(entities []payment.Channel) []Channel {
 	results := make([]Channel, len(entities))
 	for i, e := range entities {
-		results[i] = *FromChannel(&e, machineID)
+		results[i] = *FromChannel(&e)
 	}
 
 	return results
