@@ -23,7 +23,7 @@ func (uc *usecaseImpl) RegisterMachine(ctx context.Context, req *request.Registe
 	query := req.ToQuery()
 	machine, err := uc.machineRepo.FindOne(ctx, query)
 	if errs.Is(err, errs.ErrNotFound) {
-		entity := makeMachine(req)
+		entity := makeMachine(req, 1)
 		_, err := uc.machineRepo.Create(ctx, entity)
 		if err != nil {
 			log.Error().Err(err).Interface("entity", entity).Msg("unable to create machine")
@@ -46,10 +46,11 @@ func (uc *usecaseImpl) RegisterMachine(ctx context.Context, req *request.Registe
 	return nil
 }
 
-func makeMachine(req *request.RegisterMachine) *machine.Machine {
+func makeMachine(req *request.RegisterMachine, branchID uint) *machine.Machine {
 	t := time.Now()
 	return &machine.Machine{
 		Name:         req.Data.Name,
+		BranchID:     branchID,
 		SerialNumber: req.Data.SerialNumber,
 		Location:     req.Data.Location,
 		Type:         "<auto register>",
