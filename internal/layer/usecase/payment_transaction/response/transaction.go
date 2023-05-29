@@ -22,6 +22,7 @@ type Transaction struct {
 	OrderStatus        string     `json:"order_status"`
 	OrderedAt          time.Time  `json:"ordered_at"`
 	PaymentRequestedAt *time.Time `json:"payment_requested_at"`
+	RawReference       *string    `json:"raw_reference"`
 	Reference1         *string    `json:"reference1"`
 	Reference2         *string    `json:"reference2"`
 	Reference3         *string    `json:"reference3"`

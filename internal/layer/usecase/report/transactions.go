@@ -46,6 +46,7 @@ func (uc *usecaseImpl) Transactions(ctx context.Context, req *request.Report) ([
 			ReceivedQuantity:    t.ReceivedQuantity,
 			OrderPrice:          t.OrderPrice,
 			PaidPrice:           t.PaidPrice,
+			RawReference:        "",
 			Reference1:          "",
 			Reference2:          "",
 			Reference3:          "",
@@ -66,6 +67,10 @@ func (uc *usecaseImpl) Transactions(ctx context.Context, req *request.Report) ([
 
 		if t.ReceivedItemAt != nil {
 			res[i].ReceivedItemAt = *t.ReceivedItemAt
+		}
+
+		if t.RawReference != nil {
+			res[i].RawReference = *t.RawReference
 		}
 
 		if t.Reference1 != nil {
