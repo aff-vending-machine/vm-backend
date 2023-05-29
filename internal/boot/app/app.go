@@ -2,7 +2,6 @@ package app
 
 import (
 	"vm-backend/configs"
-	"vm-backend/internal/boot/migration"
 	"vm-backend/internal/boot/router/fiber"
 	"vm-backend/internal/boot/router/rabbitmq"
 
@@ -16,11 +15,6 @@ func Run(cfg configs.Config) {
 		usecase   = NewUsecase(service)
 		transport = NewTransport(usecase)
 	)
-
-	migration.MigrateUser(infra.PostgreSQL.DB)
-	migration.MigrateRolePermission(infra.PostgreSQL.DB)
-	migration.MigrateProduct(infra.PostgreSQL.DB)
-	migration.MigrateTransaction(infra.PostgreSQL.DB)
 
 	fiber.New(infra.Fiber).Serve(transport.Fiber)
 	rabbitmq.New(infra.RabbitMQ).Serve(transport.RabbitMQ)

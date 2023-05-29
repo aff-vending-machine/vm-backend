@@ -5,7 +5,6 @@ import (
 	"vm-backend/internal/core/domain/catalog"
 	"vm-backend/internal/core/domain/machine"
 	"vm-backend/pkg/db"
-	"vm-backend/pkg/errs"
 
 	"github.com/rs/zerolog/log"
 )
@@ -31,9 +30,7 @@ func NewUsecase(
 func (uc *usecaseImpl) isMachineExist(ctx context.Context, id uint) bool {
 	query := db.NewQuery().AddWhere("id = ?", id)
 	_, err := uc.machineRepo.FindOne(ctx, query)
-	if errs.Is(err, errs.ErrNotFound) {
-		return false
-	} else if err != nil {
+	if err != nil {
 		log.Error().Err(err).Interface("query", query).Msg("unable to find machine")
 		return false
 	}
@@ -44,9 +41,7 @@ func (uc *usecaseImpl) isMachineExist(ctx context.Context, id uint) bool {
 func (uc *usecaseImpl) isProductExist(ctx context.Context, id uint) bool {
 	query := db.NewQuery().AddWhere("id = ?", id)
 	_, err := uc.catalogProductRepo.FindOne(ctx, query)
-	if errs.Is(err, errs.ErrNotFound) {
-		return false
-	} else if err != nil {
+	if err != nil {
 		log.Error().Err(err).Interface("query", query).Msg("unable to find catalog product")
 		return false
 	}

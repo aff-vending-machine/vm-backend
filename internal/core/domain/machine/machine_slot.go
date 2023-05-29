@@ -16,8 +16,8 @@ type Slot struct {
 	ID               uint             `json:"id" gorm:"primarykey"`
 	MachineID        uint             `json:"machine_id"`
 	Machine          *Machine         `json:"machine,omitempty"`
-	CatalogProductID uint             `json:"product_id"`
-	CatalogProduct   *catalog.Product `json:"product,omitempty"`
+	CatalogProductID uint             `json:"catalog_product_id"`
+	CatalogProduct   *catalog.Product `json:"catalog_product,omitempty"`
 	CreatedAt        time.Time        `json:"created_at"`
 	UpdatedAt        time.Time        `json:"updated_at"`
 	Code             string           `json:"code"`
