@@ -10,7 +10,6 @@ type BulkUpdate struct {
 	Data      []struct {
 		ID               uint  `json:"id" validate:"required"`
 		CatalogProductID *uint `json:"catalog_product_id,omitempty"`
-		ProductID        *uint `json:"product_id,omitempty"`
 		Stock            *uint `json:"stock,omitempty"`
 		Capacity         *uint `json:"capacity,omitempty"`
 		IsEnable         *bool `json:"is_enable,omitempty"`
