@@ -22,9 +22,9 @@ func (uc *usecaseImpl) Create(ctx context.Context, req *request.Create) (uint, e
 		return 0, errors.Errorf("machine %s not found", req.MachineID)
 	}
 
-	if req.CatalogProductID != 0 {
-		if isExist := uc.isProductExist(ctx, req.CatalogProductID); !isExist {
-			return 0, errors.Errorf("product %s not found", req.CatalogProductID)
+	if req.ProductID != 0 {
+		if isExist := uc.isProductExist(ctx, req.ProductID); !isExist {
+			return 0, errors.Errorf("product %s not found", req.ProductID)
 		}
 	}
 
@@ -40,11 +40,11 @@ func (uc *usecaseImpl) Create(ctx context.Context, req *request.Create) (uint, e
 
 func makeMachineSlot(req *request.Create) *machine.Slot {
 	return &machine.Slot{
-		MachineID:        req.MachineID,
-		CatalogProductID: req.CatalogProductID,
-		Code:             req.Code,
-		Stock:            req.Stock,
-		Capacity:         req.Capacity,
-		IsEnable:         req.IsEnable,
+		MachineID: req.MachineID,
+		ProductID: req.ProductID,
+		Code:      req.Code,
+		Stock:     req.Stock,
+		Capacity:  req.Capacity,
+		IsEnable:  req.IsEnable,
 	}
 }

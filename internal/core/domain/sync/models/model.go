@@ -28,7 +28,7 @@ func FromSlot(e *machine.Slot) *Slot {
 		Code:     e.Code,
 		Stock:    e.Stock,
 		Capacity: e.Capacity,
-		Product:  FromProduct(e.CatalogProduct),
+		Product:  FromProduct(e.Product),
 		IsEnable: e.IsEnable,
 	}
 }
