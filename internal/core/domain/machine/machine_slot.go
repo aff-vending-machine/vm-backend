@@ -13,17 +13,17 @@ import (
 )
 
 type Slot struct {
-	ID               uint             `json:"id" gorm:"primarykey"`
-	MachineID        uint             `json:"machine_id"`
-	Machine          *Machine         `json:"machine,omitempty"`
-	CatalogProductID uint             `json:"catalog_product_id"`
-	CatalogProduct   *catalog.Product `json:"catalog_product,omitempty"`
-	CreatedAt        time.Time        `json:"created_at"`
-	UpdatedAt        time.Time        `json:"updated_at"`
-	Code             string           `json:"code"`
-	Stock            int              `json:"stock"`
-	Capacity         int              `json:"capacity"`
-	IsEnable         bool             `json:"is_enable"`
+	ID        uint             `json:"id" gorm:"primarykey"`
+	MachineID uint             `json:"machine_id"`
+	Machine   *Machine         `json:"machine,omitempty"`
+	ProductID uint             `json:"product_id"`
+	Product   *catalog.Product `json:"product,omitempty"`
+	CreatedAt time.Time        `json:"created_at"`
+	UpdatedAt time.Time        `json:"updated_at"`
+	Code      string           `json:"code"`
+	Stock     int              `json:"stock"`
+	Capacity  int              `json:"capacity"`
+	IsEnable  bool             `json:"is_enable"`
 }
 
 func (e Slot) TableName() string {

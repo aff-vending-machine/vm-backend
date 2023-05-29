@@ -14,12 +14,12 @@ type Slot struct {
 
 func (m *Slot) ToDomain(machineID, productID uint) *machine.Slot {
 	return &machine.Slot{
-		MachineID:        machineID,
-		CatalogProductID: productID,
-		Code:             m.Code,
-		Stock:            m.Stock,
-		Capacity:         m.Capacity,
-		IsEnable:         m.IsEnable,
+		MachineID: machineID,
+		ProductID: productID,
+		Code:      m.Code,
+		Stock:     m.Stock,
+		Capacity:  m.Capacity,
+		IsEnable:  m.IsEnable,
 	}
 }
 
