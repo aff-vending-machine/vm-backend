@@ -50,7 +50,12 @@ func (uc *usecaseImpl) PullTransactions(ctx context.Context, req *request.Sync) 
 		transInDB, err := uc.transactionRepo.FindOne(ctx, query)
 		if errs.Is(err, errs.ErrNotFound) {
 			channelID := channelGroup[transaction.PaymentChannel]
-			_, err = uc.transactionRepo.Create(ctx, transaction.ToDomain(machine.ID, machine.Name, machine.BranchID, channelID))
+			branchID := uint(0)
+			if machine.BranchID != nil {
+				branchID = *machine.BranchID
+			}
+
+			_, err = uc.transactionRepo.Create(ctx, transaction.ToDomain(machine.ID, machine.Name, branchID, channelID))
 		}
 		if err != nil {
 			log.Error().Err(err).Interface("query", query).Msg("unable to find or create transaction")

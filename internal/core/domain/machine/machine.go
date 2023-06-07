@@ -14,7 +14,7 @@ import (
 
 type Machine struct {
 	ID                  uint          `json:"id" gorm:"primarykey"`
-	BranchID            uint          `json:"branch_id"`
+	BranchID            *uint         `json:"branch_id"`
 	Branch              *store.Branch `json:"branch,omitempty"`
 	Slots               []Slot        `json:"slots" gorm:"foreignKey:MachineID"`
 	CreatedAt           time.Time     `json:"created_at"`

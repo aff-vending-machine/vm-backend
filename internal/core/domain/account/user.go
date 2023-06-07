@@ -3,6 +3,7 @@ package account
 import (
 	"context"
 	"time"
+	"vm-backend/internal/core/domain/store"
 	"vm-backend/internal/core/infrastructure/strorage/postgresql/service"
 	"vm-backend/internal/layer/usecase/account_user/request"
 	"vm-backend/internal/layer/usecase/account_user/response"
@@ -11,17 +12,19 @@ import (
 )
 
 type User struct {
-	ID        uint       `json:"id" gorm:"primarykey"`
-	RoleID    uint       `json:"role_id"`
-	Role      Role       `json:"role"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	Username  string     `json:"username" gorm:"uniqueIndex"`
-	Password  string     `json:"-"`
-	Contact   string     `json:"contact"`
-	CreatedBy string     `json:"created_by"`
-	LastLogin *time.Time `json:"last_login"`
-	LastToken string     `json:"-"`
+	ID        uint          `json:"id" gorm:"primarykey"`
+	BranchID  *uint         `json:"branch_id"`
+	Branch    *store.Branch `json:"branch"`
+	RoleID    uint          `json:"role_id"`
+	Role      Role          `json:"role"`
+	CreatedAt time.Time     `json:"created_at"`
+	UpdatedAt time.Time     `json:"updated_at"`
+	Username  string        `json:"username" gorm:"uniqueIndex"`
+	Password  string        `json:"-"`
+	Contact   string        `json:"contact"`
+	CreatedBy string        `json:"created_by"`
+	LastLogin *time.Time    `json:"last_login"`
+	LastToken string        `json:"-"`
 }
 
 func (e User) TableName() string {
