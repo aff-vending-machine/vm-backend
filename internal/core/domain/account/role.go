@@ -3,7 +3,7 @@ package account
 import (
 	"context"
 	"time"
-	"vm-backend/internal/core/infrastructure/strorage/postgresql/service"
+	"vm-backend/internal/core/infra/strorage/postgresql/service"
 	"vm-backend/internal/layer/usecase/account_role/request"
 	"vm-backend/internal/layer/usecase/account_role/response"
 

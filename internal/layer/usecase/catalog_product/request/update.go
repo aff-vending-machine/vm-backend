@@ -2,7 +2,7 @@ package request
 
 import (
 	"vm-backend/pkg/conv"
-	"vm-backend/pkg/db"
+	"vm-backend/pkg/helpers/db"
 )
 
 type Update struct {

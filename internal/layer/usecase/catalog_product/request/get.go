@@ -1,6 +1,6 @@
 package request
 
-import "vm-backend/pkg/db"
+import "vm-backend/pkg/helpers/db"
 
 type Get struct {
 	GroupID  uint    `json:"group_id" query:"group_id"`

@@ -3,7 +3,7 @@ package account
 import (
 	"strings"
 	"vm-backend/internal/core/domain/account"
-	"vm-backend/internal/core/infrastructure/network/fiber/http"
+	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/account/request"
 
 	"github.com/gofiber/fiber/v2"

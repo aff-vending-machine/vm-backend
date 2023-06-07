@@ -1,7 +1,7 @@
 package catalog_product
 
 import (
-	"vm-backend/internal/core/infrastructure/network/fiber/http"
+	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/catalog_product/request"
 
 	"github.com/gofiber/fiber/v2"

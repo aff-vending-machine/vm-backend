@@ -1,7 +1,7 @@
 package request
 
 import (
-	"vm-backend/pkg/db"
+	"vm-backend/pkg/helpers/db"
 )
 
 type ChangeRole struct {

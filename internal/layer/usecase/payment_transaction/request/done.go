@@ -3,7 +3,7 @@ package request
 import (
 	"fmt"
 	"time"
-	"vm-backend/pkg/db"
+	"vm-backend/pkg/helpers/db"
 )
 
 type Done struct {

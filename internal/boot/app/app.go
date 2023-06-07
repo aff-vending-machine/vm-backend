@@ -2,6 +2,7 @@ package app
 
 import (
 	"vm-backend/configs"
+	"vm-backend/internal/boot/app/registry"
 	"vm-backend/internal/boot/router/fiber"
 	"vm-backend/internal/boot/router/rabbitmq"
 
@@ -9,11 +10,13 @@ import (
 )
 
 func Run(cfg configs.Config) {
+	log.Debug().Msg("init application")
+
 	var (
-		infra     = NewInfrastructure(cfg)
-		service   = NewService(infra)
-		usecase   = NewUsecase(service)
-		transport = NewTransport(usecase)
+		infra     = registry.NewInfrastructure(cfg)
+		service   = registry.NewService(infra)
+		usecase   = registry.NewUsecase(service)
+		transport = registry.NewTransport(usecase)
 	)
 
 	fiber.New(infra.Fiber).Serve(transport.Fiber)

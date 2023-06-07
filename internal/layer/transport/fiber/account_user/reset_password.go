@@ -3,7 +3,7 @@ package account_user
 import (
 	"fmt"
 
-	"vm-backend/internal/core/infrastructure/network/fiber/http"
+	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/account_user/request"
 
 	"github.com/gofiber/fiber/v2"

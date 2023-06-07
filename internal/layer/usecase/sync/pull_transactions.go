@@ -5,8 +5,8 @@ import (
 	"time"
 
 	"vm-backend/internal/layer/usecase/sync/request"
-	"vm-backend/pkg/db"
-	"vm-backend/pkg/errs"
+	"vm-backend/pkg/helpers/db"
+	"vm-backend/pkg/helpers/errs"
 
 	"github.com/gookit/validate"
 	"github.com/pkg/errors"

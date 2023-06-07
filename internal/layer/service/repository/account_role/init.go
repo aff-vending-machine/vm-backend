@@ -2,7 +2,7 @@ package account_role
 
 import (
 	"vm-backend/internal/core/domain/account"
-	"vm-backend/internal/core/infrastructure/strorage/postgresql/service"
+	"vm-backend/internal/core/infra/strorage/postgresql/service"
 
 	"gorm.io/gorm"
 )

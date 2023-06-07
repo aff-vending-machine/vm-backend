@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 	"vm-backend/internal/core/domain/store"
-	"vm-backend/internal/core/infrastructure/strorage/postgresql/service"
+	"vm-backend/internal/core/infra/strorage/postgresql/service"
 	"vm-backend/internal/layer/usecase/account_user/request"
 	"vm-backend/internal/layer/usecase/account_user/response"
 

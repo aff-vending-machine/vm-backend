@@ -16,23 +16,18 @@ func main() {
 	boot.Signal.Start()
 
 	// Create boot with configuration
-	conf := configs.Init("env/app")
-	initLog(conf)
-
-	conf.App.Version = "2.0.0"
-	conf.Print()
+	cfg := configs.Init("env/app")
+	initLog(cfg)
+	cfg.Print()
 
 	// Run main application
-	app.Run(conf)
+	app.Run(cfg)
 
 	// Waiting for interrupt signal
 	boot.Signal.Wait()
 }
 
-func initLog(conf configs.Config) {
-	if conf.App.ENV == "local" {
-		log.SetOutput(log.ColorConsole())
-	}
-
-	log.SetLogLevel(conf.App.LogLevel)
+func initLog(cfg configs.Config) {
+	log.SetOutput(log.ColorConsole())
+	log.SetLogLevel(cfg.App.LogLevel)
 }

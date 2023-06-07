@@ -3,7 +3,7 @@ package account_password
 import (
 	"context"
 
-	"vm-backend/pkg/errs"
+	"vm-backend/pkg/helpers/errs"
 
 	"golang.org/x/crypto/bcrypt"
 )
