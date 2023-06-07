@@ -56,6 +56,6 @@ func makeMachine(req *request.RegisterMachine, branchID uint) *machine.Machine {
 		Type:         "<auto register>",
 		Vendor:       req.Data.Vendor,
 		SyncTime:     &t,
-		Status:       "enable",
+		Status:       "online",
 	}
 }
