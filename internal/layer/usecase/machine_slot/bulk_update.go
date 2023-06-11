@@ -19,7 +19,7 @@ func (uc *usecaseImpl) BulkUpdate(ctx context.Context, req *request.BulkUpdate) 
 
 	if isExist := uc.isMachineExist(ctx, req.MachineID); !isExist {
 		log.Error().Uint("machine_id", req.MachineID).Msg("machine not found")
-		return errors.Errorf("machine %s not found", req.MachineID)
+		return errors.Errorf("machine %d not found", req.MachineID)
 	}
 
 	for i, data := range req.Data {
