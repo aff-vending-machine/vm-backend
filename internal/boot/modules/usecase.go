@@ -6,6 +6,7 @@ import (
 	"vm-backend/internal/core/domain/machine"
 	"vm-backend/internal/core/domain/payment"
 	"vm-backend/internal/core/domain/report"
+	"vm-backend/internal/core/domain/store"
 	"vm-backend/internal/core/domain/sync"
 )
 
@@ -21,5 +22,6 @@ type Usecase struct {
 	PaymentChannel     payment.ChannelUsecase
 	PaymentTransaction payment.TransactionUsecase
 	Report             report.Usecase
+	StoreBranch        store.BranchUsecase
 	Sync               sync.Usecase
 }

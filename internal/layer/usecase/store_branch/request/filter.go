@@ -1,8 +1,6 @@
 package request
 
-import (
-	"vm-backend/pkg/helpers/db"
-)
+import "vm-backend/pkg/helpers/db"
 
 type Filter struct {
 	Limit    *int    `json:"limit,omitempty" query:"limit"`
@@ -10,19 +8,17 @@ type Filter struct {
 	SortBy   *string `json:"sort_by,omitempty" query:"sort_by"`
 	Preloads *string `json:"preloads,omitempty" query:"preloads"`
 	ID       *uint   `json:"id,omitempty" query:"id"`
-	RoleID   *string `json:"role_id,omitempty" query:"role_id"`
-	BranchID *string `json:"branch_id,omitempty" query:"branch_id"`
-	Username *string `json:"username,omitempty" query:"username"`
+	Name     *string `json:"name,omitempty" query:"name"`
+	Location *string `json:"location,omitempty" query:"location"`
 }
 
 func (r *Filter) ToQuery() *db.Query {
 	return db.NewQuery().
-		PtrLimit(r.Limit).
 		PtrOffset(r.Offset).
+		PtrLimit(r.Limit).
 		PtrOrder(r.SortBy).
 		PtrWhere("id = ?", r.ID).
-		PtrWhere("role_id = ?", r.RoleID).
-		PtrWhere("branch_id = ?", r.BranchID).
-		PtrWhere("username = ?", r.Username).
+		PtrWhere("name = ?", r.Name).
+		PtrWhere("location = ?", r.Location).
 		PtrPreloads(r.Preloads)
 }

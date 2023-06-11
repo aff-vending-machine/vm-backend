@@ -14,6 +14,7 @@ import (
 	"vm-backend/internal/layer/transport/fiber/payment_channel"
 	"vm-backend/internal/layer/transport/fiber/payment_transaction"
 	"vm-backend/internal/layer/transport/fiber/report"
+	"vm-backend/internal/layer/transport/fiber/store_branch"
 	"vm-backend/internal/layer/transport/fiber/sync_http"
 	"vm-backend/internal/layer/transport/rabbitmq/sync_amqp"
 )
@@ -31,6 +32,7 @@ func NewTransport(usecase modules.Usecase) modules.Transport {
 			PaymentChannel:     payment_channel.NewTransport(usecase.PaymentChannel),
 			PaymentTransaction: payment_transaction.NewTransport(usecase.PaymentTransaction),
 			Report:             report.NewTransport(usecase.Report),
+			StoreBranch:        store_branch.NewTransport(usecase.StoreBranch),
 			Sync:               sync_http.NewTransport(usecase.Sync),
 		},
 		RabbitMQ: rabbitmq.Transport{

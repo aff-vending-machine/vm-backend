@@ -61,9 +61,7 @@ func makeGetPermissionLevel(c *fiber.Ctx) (*request.GetPermissionLevel, error) {
 		return nil, nil
 	}
 
-	selection := paths[3]
-	scope, _ := strings.CutSuffix(selection, "s")
-
+	scope := paths[3]
 	userID, err := getUserID(c)
 	if err != nil {
 		return nil, err

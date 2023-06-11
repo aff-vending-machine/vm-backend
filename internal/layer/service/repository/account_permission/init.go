@@ -1,4 +1,4 @@
-package account_role
+package account_permission
 
 import (
 	"vm-backend/internal/core/domain/account"
@@ -9,13 +9,13 @@ import (
 
 type repositoryImpl struct {
 	db *gorm.DB
-	service.Repository[account.Role]
+	service.Repository[account.Permission]
 }
 
-func NewRepository(db *gorm.DB) account.RoleRepository {
-	db.AutoMigrate(&account.Role{})
+func NewRepository(db *gorm.DB) account.PermissionRepository {
+	db.AutoMigrate(&account.Permission{})
 	return &repositoryImpl{
 		db,
-		service.New[account.Role](db),
+		service.New[account.Permission](db),
 	}
 }

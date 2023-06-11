@@ -26,13 +26,13 @@ func (uc *usecase) GetPermissionLevel(ctx context.Context, req *request.GetPermi
 	}
 
 	if user.HasRole("") {
-		log.Error().Interface("query", query).Msg("user has no role")
+		log.Error().Interface("query", query).Interface("user", user).Msg("user has no role")
 		return nil, errors.New("user has no role")
 	}
 
 	permission := user.Role.HasPermission(req.Scope)
 	if permission == 0 {
-		log.Error().Interface("query", query).Msg("user has no permission")
+		log.Error().Str("scope", req.Scope).Interface("user", user).Msg("user has no permission")
 		return nil, fmt.Errorf("user has no permission")
 	}
 
