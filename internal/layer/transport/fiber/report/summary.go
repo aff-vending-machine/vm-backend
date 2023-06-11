@@ -1,6 +1,7 @@
 package report
 
 import (
+	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/report/request"
 
@@ -29,5 +30,7 @@ func makeSummaryRequest(c *fiber.Ctx) (*request.Summary, error) {
 	if err := c.QueryParser(&req); err != nil {
 		return nil, err
 	}
+	req.BranchID = account.GetBranchID(c, req.BranchID)
+
 	return &req, nil
 }

@@ -1,6 +1,7 @@
 package account
 
 import (
+	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/account/request"
 
@@ -23,8 +24,12 @@ func (r *transportImpl) AuthorizationRequired(c *fiber.Ctx) error {
 	}
 
 	// save session data in context
-	c.Locals("x-access-id", claims.UserID)
-	c.Locals("x-access", claims.Username)
+	c.Locals(account.AccessIDKey, claims.UserID)
+	c.Locals(account.AccessKey, claims.Username)
+	c.Locals(account.RoleIDKey, claims.RoleID)
+	c.Locals(account.RoleKey, claims.Role)
+	c.Locals(account.BranchIDKey, claims.BranchID)
+	c.Locals(account.BranchKey, claims.Branch)
 
 	return c.Next()
 }

@@ -1,6 +1,7 @@
 package report
 
 import (
+	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/core/domain/report"
 	"vm-backend/internal/layer/usecase/report/request"
 
@@ -26,6 +27,7 @@ func makeReportRequest(c *fiber.Ctx) (*request.Report, error) {
 		return nil, err
 	}
 	req.MachineID = uint(machineID)
+	req.BranchID = account.GetBranchID(c, req.BranchID)
 
 	return &req, nil
 }

@@ -1,6 +1,7 @@
 package account_user
 
 import (
+	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/account_user/request"
 
@@ -29,6 +30,7 @@ func makeDeleteRequest(c *fiber.Ctx) (*request.Delete, error) {
 	if err != nil {
 		return nil, err
 	}
+	branchID := account.GetBranchID(c, nil)
 
-	return &request.Delete{ID: uint(id)}, nil
+	return &request.Delete{ID: uint(id), BranchID: branchID}, nil
 }

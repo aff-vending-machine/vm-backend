@@ -2,7 +2,6 @@ package account
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 	"vm-backend/internal/core/domain/account"
 
@@ -51,17 +50,4 @@ func getBearerAuthorization(ctx *fiber.Ctx) (string, error) {
 	}
 
 	return authFields[1], nil
-}
-
-func getUserID(ctx *fiber.Ctx) (uint, error) {
-	if ctx.Locals("x-access-id") == nil {
-		return 0, fmt.Errorf("user id is not exist")
-	}
-
-	str := fmt.Sprintf("%v", ctx.Locals("x-access-id"))
-	id, err := strconv.Atoi(str)
-	if err != nil {
-		return 0, err
-	}
-	return uint(id), nil
 }

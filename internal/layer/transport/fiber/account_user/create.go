@@ -1,6 +1,7 @@
 package account_user
 
 import (
+	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/account_user/request"
 
@@ -29,7 +30,8 @@ func makeCreateRequest(c *fiber.Ctx) (*request.Create, error) {
 	if err := c.BodyParser(&req); err != nil {
 		return nil, err
 	}
-	req.CreatedBy = http.String(c, "x-access")
+	req.CreatedBy = http.String(c, account.AccessKey)
+	req.BranchID = account.GetBranchID(c, req.BranchID)
 
 	return &req, nil
 }
