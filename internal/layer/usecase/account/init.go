@@ -5,7 +5,7 @@ import (
 	"time"
 	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/layer/usecase/account/response"
-	"vm-backend/pkg/db"
+	"vm-backend/pkg/helpers/db"
 )
 
 type usecase struct {

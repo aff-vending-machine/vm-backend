@@ -2,7 +2,7 @@ package catalog_product
 
 import (
 	"vm-backend/internal/core/domain/catalog"
-	"vm-backend/internal/core/infrastructure/strorage/postgresql/service"
+	"vm-backend/internal/core/infra/strorage/postgresql/service"
 
 	"gorm.io/gorm"
 )

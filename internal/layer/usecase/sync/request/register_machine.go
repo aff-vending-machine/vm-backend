@@ -3,7 +3,7 @@ package request
 import (
 	"time"
 	"vm-backend/internal/core/domain/sync/models"
-	"vm-backend/pkg/db"
+	"vm-backend/pkg/helpers/db"
 )
 
 type RegisterMachine struct {

@@ -8,7 +8,7 @@ import (
 	"vm-backend/internal/core/domain/machine"
 	"vm-backend/internal/core/domain/payment"
 	"vm-backend/internal/core/domain/sync"
-	"vm-backend/pkg/db"
+	"vm-backend/pkg/helpers/db"
 )
 
 type usecaseImpl struct {

@@ -3,7 +3,7 @@ package catalog
 import (
 	"context"
 	"time"
-	"vm-backend/internal/core/infrastructure/strorage/postgresql/service"
+	"vm-backend/internal/core/infra/strorage/postgresql/service"
 	"vm-backend/internal/layer/usecase/catalog_group/request"
 	"vm-backend/internal/layer/usecase/catalog_group/response"
 

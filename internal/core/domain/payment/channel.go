@@ -3,7 +3,7 @@ package payment
 import (
 	"context"
 	"time"
-	"vm-backend/internal/core/infrastructure/strorage/postgresql/service"
+	"vm-backend/internal/core/infra/strorage/postgresql/service"
 	"vm-backend/internal/layer/usecase/payment_channel/request"
 	"vm-backend/internal/layer/usecase/payment_channel/response"
 
@@ -12,6 +12,7 @@ import (
 
 type Channel struct {
 	ID           uint      `json:"id" gorm:"primarykey"`
+	MachineID    uint      `json:"machine_id"`
 	CreatedAt    time.Time `json:"created_at"`
 	UpdatedAt    time.Time `json:"updated_at"`
 	Name         string    `json:"name"`

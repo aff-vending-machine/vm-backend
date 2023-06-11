@@ -1,6 +1,6 @@
 package request
 
-import "vm-backend/pkg/db"
+import "vm-backend/pkg/helpers/db"
 
 type Disable struct {
 	ID uint `json:"id" query:"id" validate:"required"`

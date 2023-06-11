@@ -4,7 +4,7 @@ import (
 	"context"
 	"vm-backend/internal/core/domain/catalog"
 	"vm-backend/internal/core/domain/machine"
-	"vm-backend/pkg/db"
+	"vm-backend/pkg/helpers/db"
 
 	"github.com/rs/zerolog/log"
 )

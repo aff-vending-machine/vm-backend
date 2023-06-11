@@ -2,7 +2,7 @@ package account
 
 import (
 	"time"
-	"vm-backend/internal/core/infrastructure/strorage/postgresql/service"
+	"vm-backend/internal/core/infra/strorage/postgresql/service"
 )
 
 type Permission struct {

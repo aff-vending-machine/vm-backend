@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"vm-backend/internal/core/domain/catalog"
-	"vm-backend/internal/core/infrastructure/strorage/postgresql/service"
+	"vm-backend/internal/core/infra/strorage/postgresql/service"
 	"vm-backend/internal/layer/usecase/machine_slot/request"
 	"vm-backend/internal/layer/usecase/machine_slot/response"
 

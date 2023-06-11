@@ -2,7 +2,7 @@ package sync_rpc
 
 import (
 	"vm-backend/internal/core/domain/sync"
-	"vm-backend/internal/core/infrastructure/network/rabbitmq"
+	"vm-backend/internal/core/infra/network/rabbitmq"
 )
 
 type rpcImpl struct {

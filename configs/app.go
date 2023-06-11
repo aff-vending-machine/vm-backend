@@ -3,9 +3,8 @@ package configs
 type AppConfig struct {
 	ENV      string       `default:"production" mapstructure:"ENV"`
 	LogLevel int          `default:"0" mapstructure:"LOG_LEVEL"`
-	Version  string       `default:"0.0.1" mapstructure:"-"`
+	Version  string       `default:"0.0.0" mapstructure:"VERSION"`
 	Preload  bool         `default:"false" mapstructure:"PRELOAD"`
-	Jaeger   bool         `default:"false" mapstructure:"JAEGER"`
 	BCrypt   BCryptConfig `mapstructure:"BCRYPT"`
 	JWT      JWTConfig    `mapstructure:"JWT"`
 }

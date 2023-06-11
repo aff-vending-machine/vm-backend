@@ -1,8 +1,8 @@
 package request
 
 import (
-	"vm-backend/pkg/conv"
-	"vm-backend/pkg/db"
+	"vm-backend/pkg/helpers/conv"
+	"vm-backend/pkg/helpers/db"
 )
 
 type BulkUpdate struct {

@@ -28,14 +28,19 @@ func (uc *usecaseImpl) Create(ctx context.Context, req *request.Create) (uint, e
 }
 
 func makeMachine(req *request.Create) *machine.Machine {
+	var branchID *uint
+	if req.BranchID > 0 {
+		branchID = &req.BranchID
+	}
+
 	return &machine.Machine{
-		BranchID:      req.BranchID,
+		BranchID:      branchID,
 		Name:          req.Name,
 		SerialNumber:  req.SerialNumber,
 		Location:      req.Location,
 		Type:          req.Type,
 		Vendor:        req.Vendor,
-		Status:        "enable",
+		Status:        "online",
 		RegisterCount: 0,
 	}
 }

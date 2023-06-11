@@ -6,7 +6,7 @@ import (
 
 	"vm-backend/internal/core/domain/machine"
 	"vm-backend/internal/layer/usecase/sync/request"
-	"vm-backend/pkg/errs"
+	"vm-backend/pkg/helpers/errs"
 
 	"github.com/gookit/validate"
 	"github.com/pkg/errors"
@@ -47,15 +47,20 @@ func (uc *usecaseImpl) RegisterMachine(ctx context.Context, req *request.Registe
 }
 
 func makeMachine(req *request.RegisterMachine, branchID uint) *machine.Machine {
+	var id *uint
 	t := time.Now()
+	if branchID > 0 {
+		id = &branchID
+	}
+
 	return &machine.Machine{
 		Name:         req.Data.Name,
-		BranchID:     branchID,
+		BranchID:     id,
 		SerialNumber: req.Data.SerialNumber,
 		Location:     req.Data.Location,
 		Type:         "<auto register>",
 		Vendor:       req.Data.Vendor,
 		SyncTime:     &t,
-		Status:       "enable",
+		Status:       "online",
 	}
 }

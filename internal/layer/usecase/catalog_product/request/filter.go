@@ -1,6 +1,6 @@
 package request
 
-import "vm-backend/pkg/db"
+import "vm-backend/pkg/helpers/db"
 
 type Filter struct {
 	Limit    *int    `json:"limit,omitempty" query:"limit"`

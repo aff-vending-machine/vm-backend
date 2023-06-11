@@ -2,7 +2,7 @@ package rabbitmq
 
 import (
 	"sync"
-	"vm-backend/internal/core/infrastructure/network/rabbitmq"
+	"vm-backend/internal/core/infra/network/rabbitmq"
 )
 
 type routerImpl struct {

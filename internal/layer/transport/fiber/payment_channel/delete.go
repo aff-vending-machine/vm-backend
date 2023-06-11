@@ -1,7 +1,7 @@
 package payment_channel
 
 import (
-	"vm-backend/internal/core/infrastructure/network/fiber/http"
+	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/payment_channel/request"
 
 	"github.com/gofiber/fiber/v2"

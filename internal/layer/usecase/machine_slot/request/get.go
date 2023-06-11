@@ -1,6 +1,6 @@
 package request
 
-import "vm-backend/pkg/db"
+import "vm-backend/pkg/helpers/db"
 
 type Get struct {
 	MachineID uint    `json:"machine_id" query:"machine_id" validate:"required"`

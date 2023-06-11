@@ -5,7 +5,7 @@ import (
 
 	"vm-backend/internal/layer/usecase/catalog_group/request"
 	"vm-backend/internal/layer/usecase/catalog_group/response"
-	"vm-backend/pkg/conv"
+	"vm-backend/pkg/helpers/conv"
 
 	"github.com/gookit/validate"
 	"github.com/pkg/errors"

@@ -2,7 +2,7 @@ package payment_transaction
 
 import (
 	"vm-backend/internal/core/domain/payment"
-	"vm-backend/internal/core/infrastructure/strorage/postgresql/service"
+	"vm-backend/internal/core/infra/strorage/postgresql/service"
 
 	"gorm.io/gorm"
 )

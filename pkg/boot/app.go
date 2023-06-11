@@ -10,6 +10,8 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
+type ClosedFn func() error
+
 var Signal = NewApp()
 
 type App struct {
@@ -17,6 +19,7 @@ type App struct {
 	Cancel       context.CancelFunc
 	stopChan     chan bool
 	shutdownChan chan struct{}
+	ClosedFn     []ClosedFn
 }
 
 func NewApp() *App {
@@ -26,6 +29,7 @@ func NewApp() *App {
 		Cancel:       cancel,
 		stopChan:     make(chan bool, 1),
 		shutdownChan: make(chan struct{}),
+		ClosedFn:     make([]ClosedFn, 0),
 	}
 }
 
@@ -53,18 +57,21 @@ func (a *App) Wait() {
 	<-a.shutdownChan
 }
 
+func (a *App) AddClosedFn(fn ClosedFn) {
+	a.ClosedFn = append(a.ClosedFn, fn)
+}
+
 func (a *App) shutdown() {
 	a.Cancel()
-	if err := cleanup(); err != nil {
-		log.Error().Err(err).Msg("Error during shutdown")
+	for _, close := range a.ClosedFn {
+		if err := close(); err != nil {
+			log.Error().Err(err).Msg("Error during close module")
+		}
 	}
+
 	log.Info().Msg("Shutting down gracefully...")
 
 	// Signal that the shutdown is complete
 	close(a.shutdownChan)
 	os.Exit(0)
-}
-
-func cleanup() error {
-	return nil
 }

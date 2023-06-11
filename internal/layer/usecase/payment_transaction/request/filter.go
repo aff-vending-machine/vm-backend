@@ -2,7 +2,7 @@ package request
 
 import (
 	"time"
-	"vm-backend/pkg/db"
+	"vm-backend/pkg/helpers/db"
 )
 
 type Filter struct {

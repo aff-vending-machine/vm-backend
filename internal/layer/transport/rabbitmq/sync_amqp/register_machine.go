@@ -3,7 +3,7 @@ package sync_amqp
 import (
 	"encoding/json"
 
-	"vm-backend/internal/core/infrastructure/network/rabbitmq"
+	"vm-backend/internal/core/infra/network/rabbitmq"
 	"vm-backend/internal/layer/usecase/sync/request"
 )
 
