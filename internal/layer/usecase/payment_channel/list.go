@@ -5,7 +5,7 @@ import (
 
 	"vm-backend/internal/layer/usecase/payment_channel/request"
 	"vm-backend/internal/layer/usecase/payment_channel/response"
-	"vm-backend/pkg/conv"
+	"vm-backend/pkg/helpers/conv"
 
 	"github.com/gookit/validate"
 	"github.com/pkg/errors"

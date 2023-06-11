@@ -4,7 +4,7 @@ import (
 	"context"
 	"vm-backend/internal/layer/usecase/machine/request"
 	"vm-backend/internal/layer/usecase/machine/response"
-	"vm-backend/pkg/conv"
+	"vm-backend/pkg/helpers/conv"
 
 	"github.com/gookit/validate"
 	"github.com/pkg/errors"

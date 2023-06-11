@@ -3,7 +3,7 @@ package account_token
 import (
 	"context"
 	"vm-backend/internal/core/domain/account"
-	"vm-backend/pkg/conv"
+	"vm-backend/pkg/helpers/conv"
 )
 
 func (m *managementImpl) ValidateAccessToken(ctx context.Context, t string) (*account.Token, error) {
