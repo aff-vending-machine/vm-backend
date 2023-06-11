@@ -11,6 +11,7 @@ import (
 )
 
 func CreateBranchFromMachine(repo modules.RepositoryService) {
+	log.Debug().Msg("create branch from machine")
 	ctx := context.Background()
 	machines, err := repo.Machine.FindMany(ctx, db.NewQuery())
 	if err != nil {

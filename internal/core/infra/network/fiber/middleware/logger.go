@@ -26,10 +26,29 @@ func NewLogger() fiber.Handler {
 			}
 		}
 
+		accessScope := "<unknown>"
+		if c.Locals("x-access-scope") != nil {
+			casted, ok := c.Locals("x-access-scope").(string)
+			if ok {
+				accessScope = casted
+			}
+		}
+
+		accessCondition := "<unknown>"
+		if c.Locals("x-access-condition") != nil {
+			casted, ok := c.Locals("x-access-condition").(string)
+			if ok {
+				accessCondition = casted
+			}
+		}
+
 		event := log.With().
 			Str("request-id", requestID).
+			Str("access-scope", accessScope).
+			Str("access-condition", accessCondition).
 			Str("method", c.Method()).
 			Str("path", c.Path()).
+			Str("query", string(c.Request().URI().QueryString())).
 			Int("header-size", len(c.Request().Header.Header())).
 			Int("body-size", len(c.Request().Body())).
 			Str("agent", c.Get(fiber.HeaderUserAgent)).
