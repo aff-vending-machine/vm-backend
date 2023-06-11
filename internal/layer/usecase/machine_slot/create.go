@@ -19,12 +19,12 @@ func (uc *usecaseImpl) Create(ctx context.Context, req *request.Create) (uint, e
 	}
 
 	if isExist := uc.isMachineExist(ctx, req.MachineID); !isExist {
-		return 0, errors.Errorf("machine %s not found", req.MachineID)
+		return 0, errors.Errorf("machine %d not found", req.MachineID)
 	}
 
 	if req.ProductID != 0 {
 		if isExist := uc.isProductExist(ctx, req.ProductID); !isExist {
-			return 0, errors.Errorf("product %s not found", req.ProductID)
+			return 0, errors.Errorf("product %d not found", req.ProductID)
 		}
 	}
 
@@ -32,7 +32,7 @@ func (uc *usecaseImpl) Create(ctx context.Context, req *request.Create) (uint, e
 	_, err := uc.machineSlotRepo.Create(ctx, entity)
 	if err != nil {
 		log.Error().Err(err).Interface("entity", entity).Msg("unable to create machine slot")
-		return 0, errors.Wrapf(err, "unable to create machine slot at machine %s", req.MachineID)
+		return 0, errors.Wrapf(err, "unable to create machine slot at machine %d", req.MachineID)
 	}
 
 	return entity.ID, nil

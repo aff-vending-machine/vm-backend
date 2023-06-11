@@ -3,6 +3,8 @@ package request
 import (
 	"time"
 	"vm-backend/pkg/helpers/db"
+
+	"github.com/rs/zerolog/log"
 )
 
 type Filter struct {
@@ -40,6 +42,8 @@ func (r *Filter) ToQuery() *db.Query {
 	} else if r.To != nil {
 		query = query.AddWhere("confirmed_paid_at <= ?", r.From)
 	}
+
+	log.Debug().Interface("query", query).Msg("query")
 
 	return query
 }

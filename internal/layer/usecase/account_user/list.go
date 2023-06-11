@@ -20,6 +20,7 @@ func (uc *usecaseImpl) List(ctx context.Context, req *request.Filter) ([]respons
 	}
 
 	query := req.ToQuery()
+	log.Debug().Interface("query", query).Msg("find users")
 	entities, err := uc.userRepo.FindMany(ctx, query)
 	if err != nil {
 		log.Error().Err(err).Interface("query", query).Msg("unable to find users")

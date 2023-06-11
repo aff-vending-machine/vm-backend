@@ -13,7 +13,7 @@ type repositoryImpl struct {
 }
 
 func NewRepository(db *gorm.DB) account.RoleRepository {
-	db.AutoMigrate(&account.Role{}, &account.Permission{})
+	db.AutoMigrate(&account.Role{})
 	return &repositoryImpl{
 		db,
 		service.New[account.Role](db),

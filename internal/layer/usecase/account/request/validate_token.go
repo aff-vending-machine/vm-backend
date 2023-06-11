@@ -10,5 +10,6 @@ func (r *ValidateToken) ToUserQuery(id uint) *db.Query {
 	return db.NewQuery().
 		AddWhere("id = ?", id).
 		AddPreload("Role").
-		AddPreload("Role.Permissions")
+		AddPreload("Role.Permissions").
+		AddPreload("Branch")
 }

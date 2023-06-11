@@ -1,6 +1,7 @@
 package payment_transaction
 
 import (
+	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/payment_transaction/request"
 
@@ -29,6 +30,7 @@ func makeGetRequest(c *fiber.Ctx) (*request.Get, error) {
 	if err != nil {
 		return nil, err
 	}
+	branchID := account.GetBranchID(c, nil)
 
-	return &request.Get{ID: uint(id)}, nil
+	return &request.Get{ID: uint(id), BranchID: branchID}, nil
 }

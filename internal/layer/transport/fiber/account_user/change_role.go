@@ -1,6 +1,7 @@
 package account_user
 
 import (
+	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/account_user/request"
 
@@ -35,6 +36,7 @@ func makeChangeRoleRequest(c *fiber.Ctx) (*request.ChangeRole, error) {
 		return nil, err
 	}
 	req.ID = uint(id)
+	req.BranchID = account.GetBranchID(c, nil)
 
 	return &req, nil
 }

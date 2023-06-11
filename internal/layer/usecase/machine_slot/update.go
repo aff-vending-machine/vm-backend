@@ -18,7 +18,7 @@ func (uc *usecaseImpl) Update(ctx context.Context, req *request.Update) error {
 	}
 
 	if isExist := uc.isMachineExist(ctx, req.MachineID); !isExist {
-		return errors.Errorf("machine %s not found", req.MachineID)
+		return errors.Errorf("machine %d not found", req.MachineID)
 	}
 
 	query := req.ToQuery()
@@ -26,7 +26,7 @@ func (uc *usecaseImpl) Update(ctx context.Context, req *request.Update) error {
 	_, err := uc.machineSlotRepo.Update(ctx, query, update)
 	if err != nil {
 		log.Error().Err(err).Interface("query", query).Interface("data", update).Msg("unable to update machine slot")
-		return errors.Wrapf(err, "unable to update machine slot %s", req.ID)
+		return errors.Wrapf(err, "unable to update machine slot %d", req.ID)
 	}
 
 	return nil

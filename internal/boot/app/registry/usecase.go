@@ -12,6 +12,7 @@ import (
 	"vm-backend/internal/layer/usecase/payment_channel"
 	"vm-backend/internal/layer/usecase/payment_transaction"
 	"vm-backend/internal/layer/usecase/report"
+	"vm-backend/internal/layer/usecase/store_branch"
 	"vm-backend/internal/layer/usecase/sync"
 )
 
@@ -27,6 +28,7 @@ func NewUsecase(service modules.Service) modules.Usecase {
 		PaymentChannel:     payment_channel.NewUsecase(service.Repository.PaymentChannel),
 		PaymentTransaction: payment_transaction.NewUsecase(service.Repository.Machine, service.Repository.PaymentTransaction),
 		Report:             report.NewUsecase(service.Repository.Machine, service.Repository.MachineSlot, service.Repository.PaymentChannel, service.Repository.PaymentTransaction),
+		StoreBranch:        store_branch.NewUsecase(service.Repository.StoreBranch),
 		Sync:               sync.NewUsecase(service.API.SyncAPI, service.Repository.PaymentChannel, service.Repository.Machine, service.Repository.MachineSlot, service.Repository.CatalogProduct, service.Repository.PaymentTransaction),
 	}
 }

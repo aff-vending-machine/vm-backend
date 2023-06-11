@@ -5,6 +5,7 @@ import (
 	"vm-backend/internal/core/domain/catalog"
 	"vm-backend/internal/core/domain/machine"
 	"vm-backend/internal/core/domain/payment"
+	"vm-backend/internal/core/domain/store"
 	"vm-backend/internal/core/domain/sync"
 )
 
@@ -34,4 +35,5 @@ type RepositoryService struct {
 	MachineSlot        machine.SlotRepository
 	PaymentChannel     payment.ChannelRepository
 	PaymentTransaction payment.TransactionRepository
+	StoreBranch        store.BranchRepository
 }

@@ -3,6 +3,7 @@ package account
 import (
 	"context"
 	"fmt"
+	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/layer/usecase/account/request"
 	"vm-backend/internal/layer/usecase/account/response"
 
@@ -11,7 +12,7 @@ import (
 	"github.com/rs/zerolog/log"
 )
 
-func (uc *usecase) GetPermissionLevel(ctx context.Context, req *request.GetPermissionLevel) (*response.PermissionLevel, error) {
+func (uc *usecase) GetAccountPermission(ctx context.Context, req *request.GetAccountPermission) (*response.AccountPermission, error) {
 	if v := validate.Struct(req); !v.Validate() {
 		err := v.Errors.OneError()
 		log.Error().Err(err).Interface("request", req).Msg("unable to validate request")
@@ -26,15 +27,20 @@ func (uc *usecase) GetPermissionLevel(ctx context.Context, req *request.GetPermi
 	}
 
 	if user.HasRole("") {
-		log.Error().Interface("query", query).Msg("user has no role")
+		log.Error().Interface("query", query).Interface("user", user).Msg("user has no role")
 		return nil, errors.New("user has no role")
 	}
 
-	permission := user.Role.HasPermission(req.Scope)
-	if permission == 0 {
-		log.Error().Interface("query", query).Msg("user has no permission")
+	level := user.Role.HasPermission(req.Scope)
+	if level == 0 {
+		log.Error().Str("scope", req.Scope).Interface("user", user).Msg("user has no permission")
 		return nil, fmt.Errorf("user has no permission")
 	}
 
-	return &response.PermissionLevel{Level: permission}, nil
+	branchID := uint(0)
+	if level != account.Admin && user.BranchID != nil {
+		branchID = *user.BranchID
+	}
+
+	return &response.AccountPermission{Level: level, BranchID: branchID}, nil
 }

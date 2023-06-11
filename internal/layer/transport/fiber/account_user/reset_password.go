@@ -3,6 +3,7 @@ package account_user
 import (
 	"fmt"
 
+	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/account_user/request"
 
@@ -32,10 +33,10 @@ func makeResetPasswordRequest(c *fiber.Ctx) (*request.ResetPassword, error) {
 		return nil, err
 	}
 
-	if c.Locals("level") == nil {
-		return &request.ResetPassword{ID: uint(id), Level: 0}, nil
+	if c.Locals(account.PermissionLevelKey) == nil {
+		return &request.ResetPassword{ID: uint(id)}, nil
 	}
-	local := c.Locals("level")
+	local := c.Locals(account.PermissionLevelKey)
 
 	level := 0
 	switch lvl := local.(type) {
@@ -49,5 +50,7 @@ func makeResetPasswordRequest(c *fiber.Ctx) (*request.ResetPassword, error) {
 		return nil, fmt.Errorf("level is not number type: %T", local)
 	}
 
-	return &request.ResetPassword{ID: uint(id), Level: level}, nil
+	branchID := account.GetBranchID(c, nil)
+
+	return &request.ResetPassword{ID: uint(id), Level: level, BranchID: branchID}, nil
 }

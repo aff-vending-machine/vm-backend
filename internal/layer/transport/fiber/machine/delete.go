@@ -1,6 +1,7 @@
 package machine
 
 import (
+	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/machine/request"
 
@@ -30,5 +31,7 @@ func makeDeleteRequest(c *fiber.Ctx) (*request.Delete, error) {
 		return nil, err
 	}
 
-	return &request.Delete{ID: uint(id)}, nil
+	branchID := account.GetBranchID(c, nil)
+
+	return &request.Delete{ID: uint(id), BranchID: branchID}, nil
 }

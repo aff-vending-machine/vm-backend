@@ -22,7 +22,7 @@ func (uc *usecaseImpl) Update(ctx context.Context, req *request.Update) error {
 	_, err := uc.catalogGroupRepo.Update(ctx, query, data)
 	if err != nil {
 		log.Error().Err(err).Interface("query", query).Msg("unable to update catalog group")
-		return errors.Wrapf(err, "unable to update catalog group %s", req.ID)
+		return errors.Wrapf(err, "unable to update catalog group %d", req.ID)
 	}
 
 	return nil

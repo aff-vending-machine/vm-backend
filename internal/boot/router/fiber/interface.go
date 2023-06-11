@@ -6,6 +6,7 @@ import (
 	"vm-backend/internal/core/domain/machine"
 	"vm-backend/internal/core/domain/payment"
 	"vm-backend/internal/core/domain/report"
+	"vm-backend/internal/core/domain/store"
 	"vm-backend/internal/core/domain/sync"
 )
 
@@ -20,5 +21,6 @@ type Transport struct {
 	PaymentChannel     payment.ChannelTransport
 	PaymentTransaction payment.TransactionTransport
 	Report             report.Transport
+	StoreBranch        store.BranchTransport
 	Sync               sync.HTTPTransport
 }

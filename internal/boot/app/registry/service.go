@@ -5,6 +5,7 @@ import (
 	"vm-backend/internal/layer/service/api/sync_rpc"
 	"vm-backend/internal/layer/service/management/account_password"
 	"vm-backend/internal/layer/service/management/account_token"
+	"vm-backend/internal/layer/service/repository/account_permission"
 	"vm-backend/internal/layer/service/repository/account_role"
 	"vm-backend/internal/layer/service/repository/account_user"
 	"vm-backend/internal/layer/service/repository/catalog_group"
@@ -13,6 +14,7 @@ import (
 	"vm-backend/internal/layer/service/repository/machine_slot"
 	"vm-backend/internal/layer/service/repository/payment_channel"
 	"vm-backend/internal/layer/service/repository/payment_transaction"
+	"vm-backend/internal/layer/service/repository/store_branch"
 )
 
 func NewService(infra modules.Infrastructure) modules.Service {
@@ -25,6 +27,7 @@ func NewService(infra modules.Infrastructure) modules.Service {
 			AccountToken:    account_token.NewManagement(infra.App.JWT),
 		},
 		Repository: modules.RepositoryService{
+			AccountPermission:  account_permission.NewRepository(infra.PostgreSQL.DB),
 			AccountRole:        account_role.NewRepository(infra.PostgreSQL.DB),
 			AccountUser:        account_user.NewRepository(infra.PostgreSQL.DB),
 			CatalogGroup:       catalog_group.NewRepository(infra.PostgreSQL.DB),
@@ -33,6 +36,7 @@ func NewService(infra modules.Infrastructure) modules.Service {
 			MachineSlot:        machine_slot.NewRepository(infra.PostgreSQL.DB),
 			PaymentChannel:     payment_channel.NewRepository(infra.PostgreSQL.DB),
 			PaymentTransaction: payment_transaction.NewRepository(infra.PostgreSQL.DB),
+			StoreBranch:        store_branch.NewRepository(infra.PostgreSQL.DB),
 		},
 	}
 }

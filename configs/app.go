@@ -1,12 +1,12 @@
 package configs
 
 type AppConfig struct {
-	ENV      string       `default:"production" mapstructure:"ENV"`
-	LogLevel int          `default:"0" mapstructure:"LOG_LEVEL"`
-	Version  string       `default:"0.0.0" mapstructure:"VERSION"`
-	Preload  bool         `default:"false" mapstructure:"PRELOAD"`
-	BCrypt   BCryptConfig `mapstructure:"BCRYPT"`
-	JWT      JWTConfig    `mapstructure:"JWT"`
+	ENV       string       `default:"production" mapstructure:"ENV"`
+	LogLevel  int          `default:"0" mapstructure:"LOG_LEVEL"`
+	Version   string       `default:"0.0.0" mapstructure:"VERSION"`
+	Migration bool         `default:"false" mapstructure:"MIGRATION"`
+	BCrypt    BCryptConfig `mapstructure:"BCRYPT"`
+	JWT       JWTConfig    `mapstructure:"JWT"`
 }
 
 type BCryptConfig struct {

@@ -1,6 +1,7 @@
 package account_user
 
 import (
+	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/account_user/request"
 
@@ -29,7 +30,8 @@ func makeChangePasswordRequest(c *fiber.Ctx) (*request.ChangePassword, error) {
 	if err := c.BodyParser(&req); err != nil {
 		return nil, err
 	}
-	req.ID = uint(http.Int(c, "x-access-id"))
+	req.ID = uint(http.Int(c, account.AccessIDKey))
+	req.BranchID = account.GetBranchID(c, nil)
 
 	return &req, nil
 }

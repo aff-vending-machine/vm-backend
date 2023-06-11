@@ -1,6 +1,7 @@
 package payment_transaction
 
 import (
+	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/payment_transaction/request"
 
@@ -32,7 +33,8 @@ func makeDoneRequest(c *fiber.Ctx) (*request.Done, error) {
 
 	var req request.Done
 	req.ID = uint(id)
-	req.Caller = getUser(c)
+	req.Caller = account.GetAccess(c)
+	req.BranchID = account.GetBranchID(c, req.BranchID)
 
 	return &req, nil
 }

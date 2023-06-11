@@ -23,6 +23,7 @@ func (s *routerImpl) Serve(transport Transport) {
 	apiv2.RoutePaymentChannel(v2, transport.PaymentChannel)
 	apiv2.RoutePaymentTransaction(v2, transport.PaymentTransaction)
 	apiv2.RouteReport(v2, transport.Report)
+	apiv2.RouteStoreBranch(v2, transport.StoreBranch)
 	apiv2.RouteSync(v2, transport.Sync)
 
 	addr := fmt.Sprintf(":%d", s.Port)

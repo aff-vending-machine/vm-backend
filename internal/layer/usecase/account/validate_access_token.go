@@ -27,6 +27,9 @@ func (uc *usecase) ValidateAccessToken(ctx context.Context, req *request.Validat
 		UserID:   claims.ID,
 		Username: claims.Name,
 		Role:     claims.Role,
+		RoleID:   claims.RoleID,
+		Branch:   claims.Branch,
+		BranchID: claims.BranchID,
 		Type:     claims.Type,
 	}, nil
 }

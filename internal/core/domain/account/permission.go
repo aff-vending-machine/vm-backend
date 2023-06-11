@@ -1,6 +1,7 @@
 package account
 
 import (
+	"strings"
 	"time"
 	"vm-backend/internal/core/infra/strorage/postgresql/service"
 )
@@ -11,6 +12,7 @@ type Permission struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	Scope     string    `json:"scope"`
+	AltScope  string    `json:"alt_scope"`
 	Level     int       `json:"level"`
 }
 
@@ -18,8 +20,9 @@ func (e Permission) TableName() string {
 	return "account_permissions"
 }
 
-func (e Permission) HasScope(scope string) bool {
-	return e.Scope == scope
+func (e Permission) HasScope(s string) bool {
+	scope := strings.ToLower(s)
+	return strings.ToLower(e.Scope) == scope || strings.ToLower(e.AltScope) == scope
 }
 
 type PermissionRepository interface {

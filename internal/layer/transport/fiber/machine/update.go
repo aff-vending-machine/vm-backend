@@ -1,6 +1,7 @@
 package machine
 
 import (
+	"vm-backend/internal/core/domain/account"
 	"vm-backend/internal/core/infra/network/fiber/http"
 	"vm-backend/internal/layer/usecase/machine/request"
 
@@ -35,6 +36,7 @@ func makeUpdateRequest(c *fiber.Ctx) (*request.Update, error) {
 		return nil, err
 	}
 	req.ID = uint(id)
+	req.BranchIDForQuery = account.GetBranchID(c, nil)
 
 	return &req, nil
 }
