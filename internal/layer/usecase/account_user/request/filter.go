@@ -10,8 +10,8 @@ type Filter struct {
 	SortBy   *string `json:"sort_by,omitempty" query:"sort_by"`
 	Preloads *string `json:"preloads,omitempty" query:"preloads"`
 	ID       *uint   `json:"id,omitempty" query:"id"`
-	RoleID   *string `json:"role_id,omitempty" query:"role_id"`
-	BranchID *string `json:"branch_id,omitempty" query:"branch_id"`
+	RoleID   *uint   `json:"role_id,omitempty" query:"role_id"`
+	BranchID *uint   `json:"branch_id,omitempty" query:"branch_id"`
 	Username *string `json:"username,omitempty" query:"username"`
 }
 

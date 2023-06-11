@@ -7,6 +7,7 @@ import (
 
 type Report struct {
 	MachineID uint       `json:"machine_id" query:"machine_id" validate:"required"`
+	BranchID  *uint      `json:"branch_id,omitempty" query:"branch_id"`
 	ChannelID *uint      `json:"channel_id,omitempty" query:"channel_id"`
 	SortBy    *string    `json:"sort_by,omitempty" query:"sort_by"`
 	From      *time.Time `json:"from,omitempty"`
@@ -17,6 +18,7 @@ func (r *Report) ToTransactionQuery() *db.Query {
 	query := db.NewQuery().
 		AddWhere("order_status = ?", "DONE").
 		AddWhere("machine_id = ?", r.MachineID).
+		PtrWhere("branch_id = ?", r.BranchID).
 		PtrWhere("channel_id = ?", r.ChannelID).
 		PtrOrder(r.SortBy).
 		AddPreload("Machine").

@@ -7,13 +7,15 @@ import (
 )
 
 type Done struct {
-	ID     uint   `json:"id" query:"id" validate:"required"`
-	Caller string `json:"caller" query:"caller" validate:"required"`
+	ID       uint   `json:"id" query:"id" validate:"required"`
+	Caller   string `json:"caller" query:"caller" validate:"required"`
+	BranchID *uint  `json:"branch_id" query:"branch_id"`
 }
 
 func (r *Done) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.ID)
+		AddWhere("id = ?", r.ID).
+		PtrWhere("branch_id = ?", r.BranchID)
 }
 
 func (r *Done) ToUpdate(quantity int, price float64, confirmed *string) map[string]interface{} {

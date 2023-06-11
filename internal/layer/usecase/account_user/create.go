@@ -39,5 +39,6 @@ func makeUser(req *request.Create, hashed string) *account.User {
 		Password:  hashed,
 		CreatedBy: req.CreatedBy,
 		RoleID:    req.RoleID,
+		BranchID:  req.BranchID,
 	}
 }

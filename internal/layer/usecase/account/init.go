@@ -52,13 +52,24 @@ func (uc *usecase) generateToken(ctx context.Context, user *account.User) (*resp
 		return nil, err
 	}
 
+	branchID := uint(0)
+	branchName := "all"
+
+	if user.BranchID != nil {
+		branchID = *user.BranchID
+		branchName = user.Branch.Name
+	}
+
 	return &response.AuthResult{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 		User: response.User{
-			ID:       user.ID,
+			UserID:   user.ID,
 			Username: user.Username,
+			RoleID:   user.RoleID,
 			Role:     user.Role.Name,
+			BranchID: branchID,
+			Branch:   branchName,
 		},
 	}, nil
 }
