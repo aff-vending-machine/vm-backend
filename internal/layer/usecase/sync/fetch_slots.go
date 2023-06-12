@@ -85,7 +85,7 @@ func (uc *usecaseImpl) findProductID(ctx context.Context, slot models.Slot) uint
 	if slot.Product != nil {
 		query := db.NewQuery().Where("sku = ?", slot.Product.SKU)
 		product, err := uc.productRepo.FindOne(ctx, query)
-		if errs.Is(err, errs.ErrNotFound) {
+		if errs.HasMsg(err, errs.ErrNotFound) {
 			product = slot.Product.ToEntity()
 			_, err = uc.productRepo.Create(ctx, product)
 		}

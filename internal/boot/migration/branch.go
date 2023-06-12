@@ -28,7 +28,7 @@ func CreateBranchFromMachine(repo modules.RepositoryService) {
 		}
 
 		branch, err := repo.StoreBranch.FindOne(ctx, db.NewQuery().Where("location", branchLocation))
-		if errs.Not(err, errs.ErrNotFound) {
+		if errs.NoMsg(err, errs.ErrNotFound) {
 			log.Error().Err(err).Str("location", branchLocation).Msg("unable to find branch")
 			return
 		}

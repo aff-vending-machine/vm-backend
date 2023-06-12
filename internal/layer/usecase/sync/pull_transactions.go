@@ -48,7 +48,7 @@ func (uc *usecaseImpl) PullTransactions(ctx context.Context, req *request.Sync) 
 	for i, transaction := range transactions {
 		query := db.NewQuery().Where("merchant_order_id", transaction.MerchantOrderID)
 		transInDB, err := uc.transactionRepo.FindOne(ctx, query)
-		if errs.Is(err, errs.ErrNotFound) {
+		if errs.HasMsg(err, errs.ErrNotFound) {
 			channelID := channelGroup[transaction.PaymentChannel]
 			branchID := uint(0)
 			if machine.BranchID != nil {
