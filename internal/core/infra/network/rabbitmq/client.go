@@ -59,7 +59,7 @@ func (c *Client) EmitRPC(ctx context.Context, queueTarget string, routingKey str
 		return nil, err
 	}
 
-	corrId := gen.GenerateUUIDv4()
+	corrId := gen.UUIDv4()
 
 	log.Debug().Str("correlation_id", corrId).Str("key", routingKey).Str("reply_to", q.Name).Msg("rpc: emit")
 
@@ -108,7 +108,7 @@ func (c *Client) EmitTopic(ctx context.Context, exchange string, queue string, r
 	}
 	defer channel.Close()
 
-	corrId := gen.GenerateUUIDv4()
+	corrId := gen.UUIDv4()
 
 	log.Debug().Str("correlation_id", corrId).Str("exchange", exchange).Str("Queue", queue).Str("routingKey", routingKey).Msg("topic: emit")
 
