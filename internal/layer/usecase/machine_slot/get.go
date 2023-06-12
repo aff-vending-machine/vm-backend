@@ -26,5 +26,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Slo
 		return nil, errors.Wrapf(err, "unable to find slot %d in machine %d", req.ID, req.MachineID)
 	}
 
-	return conv.StructTo[response.Slot](entity)
+	return conv.ToStruct[response.Slot](entity)
 }

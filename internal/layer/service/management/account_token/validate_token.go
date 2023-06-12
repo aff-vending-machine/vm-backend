@@ -12,7 +12,7 @@ func (m *managementImpl) ValidateAccessToken(ctx context.Context, t string) (*ac
 		return nil, err
 	}
 
-	return conv.StructTo[account.Token](claims)
+	return conv.ToStruct[account.Token](claims)
 }
 
 func (m *managementImpl) ValidateRefreshToken(ctx context.Context, t string) (*account.Token, error) {
@@ -21,5 +21,5 @@ func (m *managementImpl) ValidateRefreshToken(ctx context.Context, t string) (*a
 		return nil, err
 	}
 
-	return conv.StructTo[account.Token](claims)
+	return conv.ToStruct[account.Token](claims)
 }

@@ -26,5 +26,5 @@ func (uc *usecaseImpl) List(ctx context.Context, req *request.Filter) ([]respons
 		return nil, errors.Wrap(err, "unable to find many machine slot")
 	}
 
-	return conv.StructToArray[response.Slot](entities)
+	return conv.ToArray[response.Slot](entities)
 }

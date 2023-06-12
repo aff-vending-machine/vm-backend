@@ -26,5 +26,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Rol
 		return nil, errors.Wrap(err, "unable to get role")
 	}
 
-	return conv.StructTo[response.Role](entity)
+	return conv.ToStruct[response.Role](entity)
 }

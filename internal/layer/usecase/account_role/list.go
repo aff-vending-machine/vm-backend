@@ -26,5 +26,5 @@ func (uc *usecaseImpl) List(ctx context.Context, req *request.Filter) ([]respons
 		return nil, errors.Wrap(err, "unable to find roles")
 	}
 
-	return conv.StructToArray[response.Role](entities)
+	return conv.ToArray[response.Role](entities)
 }

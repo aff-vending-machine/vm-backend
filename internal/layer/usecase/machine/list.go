@@ -25,5 +25,5 @@ func (uc *usecaseImpl) List(ctx context.Context, req *request.Filter) ([]respons
 		return nil, errors.Wrap(err, "unable to find machines")
 	}
 
-	return conv.StructToArray[response.Machine](entities)
+	return conv.ToArray[response.Machine](entities)
 }

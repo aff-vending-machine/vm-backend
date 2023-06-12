@@ -17,7 +17,7 @@ func (r *Update) ToQuery() *db.Query {
 }
 
 func (r *Update) ToUpdate() map[string]interface{} {
-	result, _ := conv.StructToMap(r)
+	result, _ := conv.ToMap(r)
 	delete(result, "id")
 	return result
 }
