@@ -40,8 +40,8 @@ func NewUsecase(
 
 func makeCodeQuery(machineID uint, code string) *db.Query {
 	return db.NewQuery().
-		AddWhere("machine_id = ?", machineID).
-		AddWhere("code = ?", code)
+		Where("machine_id = ?", machineID).
+		Where("code = ?", code)
 }
 
 func (uc *usecaseImpl) updateMachineStatus(ctx context.Context, query *db.Query, status string) {

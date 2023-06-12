@@ -10,19 +10,19 @@ type Sync struct {
 
 func (r *Sync) ToSlotQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("machine_id = ?", r.MachineID).
-		AddPreload("Product")
+		Where("machine_id = ?", r.MachineID).
+		Preload("Product")
 }
 
 func (r *Sync) ToChannelQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("machine_id = ?", r.MachineID)
+		Where("machine_id = ?", r.MachineID)
 }
 
 func (r *Sync) ToMachineQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.MachineID).
-		AddPreload("Branch").
-		AddPreload("Slots").
-		AddPreload("Slots.Product")
+		Where("id = ?", r.MachineID).
+		Preload("Branch").
+		Preload("Slots").
+		Preload("Slots.Product")
 }

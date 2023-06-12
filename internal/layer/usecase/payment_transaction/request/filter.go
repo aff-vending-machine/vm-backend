@@ -24,23 +24,23 @@ type Filter struct {
 
 func (r *Filter) ToQuery() *db.Query {
 	query := db.NewQuery().
-		PtrLimit(r.Limit).
-		PtrOffset(r.Offset).
-		PtrOrder(r.SortBy).
-		PtrWhere("id = ?", r.ID).
-		PtrWhere("branch_id = ?", r.BranchID).
-		PtrWhere("machine_id = ?", r.MachineID).
-		PtrWhere("channel_id = ?", r.ChannelID).
-		PtrWhere("merchant_order_id = ?", r.MerchantOrderID).
-		PtrWhere("order_status = ?", r.OrderStatus).
-		PtrPreloads(r.Preloads)
+		LimitIfNotNil(r.Limit).
+		OffsetIf(r.Offset).
+		OrderIf(r.SortBy).
+		WhereIf("id = ?", r.ID).
+		WhereIf("branch_id = ?", r.BranchID).
+		WhereIf("machine_id = ?", r.MachineID).
+		WhereIf("channel_id = ?", r.ChannelID).
+		WhereIf("merchant_order_id = ?", r.MerchantOrderID).
+		WhereIf("order_status = ?", r.OrderStatus).
+		PreloadsIf(r.Preloads)
 
 	if r.From != nil && r.To != nil {
-		query = query.AddWhere("confirmed_paid_at BETWEEN ? AND ?", r.From, r.To)
+		query = query.Where("confirmed_paid_at BETWEEN ? AND ?", r.From, r.To)
 	} else if r.From != nil {
-		query = query.AddWhere("confirmed_paid_at >= ?", r.From)
+		query = query.Where("confirmed_paid_at >= ?", r.From)
 	} else if r.To != nil {
-		query = query.AddWhere("confirmed_paid_at <= ?", r.From)
+		query = query.Where("confirmed_paid_at <= ?", r.From)
 	}
 
 	log.Debug().Interface("query", query).Msg("query")

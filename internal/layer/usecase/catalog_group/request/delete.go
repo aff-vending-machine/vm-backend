@@ -8,5 +8,5 @@ type Delete struct {
 
 func (r *Delete) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.ID)
+		Where("id = ?", r.ID)
 }

@@ -6,24 +6,24 @@ import (
 )
 
 type Query struct {
-	Limit    *int
-	Offset   *int
-	Where    []Where
-	Order    *Order
-	Perloads []Preload // gorm only
+	LimitVal   *int
+	OffsetVal  *int
+	WhereVal   []where
+	OrderVal   *order
+	PerloadVal []preload // gorm only
 }
 
-type Where struct {
+type where struct {
 	Query string
 	Args  []interface{}
 }
 
-type Order struct {
+type order struct {
 	Field     string
 	Decending bool
 }
 
-type Preload struct {
+type preload struct {
 	Query string
 	Args  []interface{}
 }
@@ -32,7 +32,47 @@ func NewQuery() *Query {
 	return &Query{}
 }
 
-func (q *Query) PtrWhere(query string, args ...interface{}) *Query {
+// Where appends a where clause
+func (q *Query) Where(query string, args ...interface{}) *Query {
+	q.WhereVal = append(q.WhereVal, where{Query: query, Args: args})
+	return q
+}
+
+// Preload appends a preload
+func (q *Query) Preload(query string, args ...interface{}) *Query {
+	q.PerloadVal = append(q.PerloadVal, preload{Query: query, Args: args})
+	return q
+}
+
+// Limit sets the limit
+func (q *Query) Limit(limit int) *Query {
+	q.LimitVal = &limit
+	return q
+}
+
+// Offset sets the offset
+func (q *Query) Offset(offset int) *Query {
+	q.OffsetVal = &offset
+	return q
+}
+
+// Order sets the order
+func (q *Query) Order(sort string) *Query {
+	decending := strings.Contains(sort, "desc")
+	q.OrderVal = &order{Field: strings.TrimSuffix(sort, ":desc"), Decending: decending}
+	return q
+}
+
+func (q *Query) Clear() *Query {
+	q.WhereVal = []where{}
+	q.LimitVal = nil
+	q.OffsetVal = nil
+	q.PerloadVal = []preload{}
+	return q
+}
+
+// WhereIf adds a where clause if the pointer is not nil
+func (q *Query) WhereIf(query string, args ...interface{}) *Query {
 	// Return early if there are no arguments
 	if len(args) == 0 {
 		return q
@@ -45,33 +85,34 @@ func (q *Query) PtrWhere(query string, args ...interface{}) *Query {
 	}
 
 	// Add the where clause
-	q.Where = append(q.Where, Where{Query: query, Args: args})
+	q.Where(query, args...)
 	return q
 }
 
-func (q *Query) PtrOrder(order *string) *Query {
-	if order == nil {
+// OrderIf sets the order if the pointer is not nil
+func (q *Query) OrderIf(sort *string) *Query {
+	if sort == nil {
 		return q
 	}
 
-	sortBy := strings.Split(*order, ":")
-	decending := len(sortBy) > 1 && sortBy[1] == "desc"
-
-	q.Order = &Order{Field: sortBy[0], Decending: decending}
+	q.Order(*sort)
 	return q
 }
 
-func (q *Query) PtrLimit(limit *int) *Query {
-	q.Limit = limit
+// LimitIfNotNil sets the limit if the pointer is not nil
+func (q *Query) LimitIfNotNil(limit *int) *Query {
+	q.LimitVal = limit
 	return q
 }
 
-func (q *Query) PtrOffset(offset *int) *Query {
-	q.Offset = offset
+// OffsetIf sets the offset if the pointer is not nil
+func (q *Query) OffsetIf(offset *int) *Query {
+	q.OffsetVal = offset
 	return q
 }
 
-func (q *Query) PtrPreloads(preloads *string) *Query {
+// PreloadsIf adds preloads if the pointer is not nil
+func (q *Query) PreloadsIf(preloads *string) *Query {
 	// Return early if there are no arguments
 	if preloads == nil {
 		return q
@@ -79,45 +120,9 @@ func (q *Query) PtrPreloads(preloads *string) *Query {
 
 	list := strings.Split(*preloads, ":")
 	for _, preload := range list {
-		q.AddPreload(preload)
+		q.Preload(preload)
 	}
 
 	// Add the where clause
-	return q
-}
-
-func (q *Query) AddWhere(query string, args ...interface{}) *Query {
-	q.Where = append(q.Where, Where{Query: query, Args: args})
-	return q
-}
-
-func (q *Query) AddPreload(query string, args ...interface{}) *Query {
-	q.Perloads = append(q.Perloads, Preload{Query: query, Args: args})
-	return q
-}
-
-func (q *Query) SetLimit(limit int) *Query {
-	q.Limit = &limit
-	return q
-}
-
-func (q *Query) SetOffset(offset int) *Query {
-	q.Offset = &offset
-	return q
-}
-
-func (q *Query) SetOrder(order string) *Query {
-	sortBy := strings.Split(order, ":")
-	decending := len(sortBy) > 1 && sortBy[1] == "desc"
-
-	q.Order = &Order{Field: sortBy[0], Decending: decending}
-	return q
-}
-
-func (q *Query) Clear() *Query {
-	q.Where = []Where{}
-	q.Limit = nil
-	q.Offset = nil
-	q.Perloads = []Preload{}
 	return q
 }

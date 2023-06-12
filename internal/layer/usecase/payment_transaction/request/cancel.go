@@ -14,8 +14,8 @@ type Cancel struct {
 
 func (r *Cancel) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.ID).
-		PtrWhere("branch_id = ?", r.BranchID)
+		Where("id = ?", r.ID).
+		WhereIf("branch_id = ?", r.BranchID)
 }
 
 func (r *Cancel) ToUpdate() map[string]interface{} {

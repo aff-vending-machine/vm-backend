@@ -12,13 +12,13 @@ type ChangeRole struct {
 
 func (r *ChangeRole) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.ID).
-		PtrWhere("branch_id = ?", r.BranchID)
+		Where("id = ?", r.ID).
+		WhereIf("branch_id = ?", r.BranchID)
 }
 
 func (r *ChangeRole) ToRoleQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.RoleID)
+		Where("id = ?", r.RoleID)
 }
 
 func (r *ChangeRole) ToUpdate() map[string]interface{} {

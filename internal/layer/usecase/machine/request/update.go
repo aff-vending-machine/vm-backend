@@ -17,8 +17,8 @@ type Update struct {
 
 func (r *Update) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.ID).
-		PtrWhere("branch_id = ?", r.BranchIDForQuery)
+		Where("id = ?", r.ID).
+		WhereIf("branch_id = ?", r.BranchIDForQuery)
 }
 
 func (r *Update) ToUpdate() map[string]interface{} {

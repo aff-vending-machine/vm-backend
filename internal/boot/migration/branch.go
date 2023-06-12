@@ -27,7 +27,7 @@ func CreateBranchFromMachine(repo modules.RepositoryService) {
 			continue
 		}
 
-		branch, err := repo.StoreBranch.FindOne(ctx, db.NewQuery().AddWhere("location", branchLocation))
+		branch, err := repo.StoreBranch.FindOne(ctx, db.NewQuery().Where("location", branchLocation))
 		if errs.Not(err, errs.ErrNotFound) {
 			log.Error().Err(err).Str("location", branchLocation).Msg("unable to find branch")
 			return
@@ -53,7 +53,7 @@ func CreateBranchFromMachine(repo modules.RepositoryService) {
 			continue
 		}
 
-		_, err = repo.Machine.Update(ctx, db.NewQuery().AddWhere("id = ?", machine.ID), map[string]interface{}{"branch_id": branch.ID})
+		_, err = repo.Machine.Update(ctx, db.NewQuery().Where("id = ?", machine.ID), map[string]interface{}{"branch_id": branch.ID})
 		if err != nil {
 			log.Error().Err(err).Uint("id", machine.ID).Uint("branch_id", branch.ID).Msg("unable to update machine")
 			return

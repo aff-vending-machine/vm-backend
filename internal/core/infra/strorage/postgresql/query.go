@@ -11,30 +11,30 @@ func MakeQuery(db *gorm.DB, query *db.Query) *gorm.DB {
 		return db
 	}
 
-	if query.Limit != nil && *query.Limit > 0 {
-		db = db.Limit(*query.Limit)
+	if query.LimitVal != nil && *query.LimitVal > 0 {
+		db = db.Limit(*query.LimitVal)
 	}
 
-	if query.Offset != nil && *query.Offset > 0 {
-		db = db.Offset(*query.Offset)
+	if query.OffsetVal != nil && *query.OffsetVal > 0 {
+		db = db.Offset(*query.OffsetVal)
 	}
 
-	if len(query.Where) > 0 {
-		for _, where := range query.Where {
+	if len(query.WhereVal) > 0 {
+		for _, where := range query.WhereVal {
 			db = db.Where(where.Query, where.Args...)
 		}
 	}
 
-	if query.Order != nil {
-		if query.Order.Decending {
-			db = db.Order(query.Order.Field + " DESC")
+	if query.OrderVal != nil {
+		if query.OrderVal.Decending {
+			db = db.Order(query.OrderVal.Field + " DESC")
 		} else {
-			db = db.Order(query.Order.Field)
+			db = db.Order(query.OrderVal.Field)
 		}
 	}
 
-	if len(query.Perloads) > 0 {
-		for _, perload := range query.Perloads {
+	if len(query.PerloadVal) > 0 {
+		for _, perload := range query.PerloadVal {
 			db = db.Preload(perload.Query, perload.Args...)
 		}
 	}

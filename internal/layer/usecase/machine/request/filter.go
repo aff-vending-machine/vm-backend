@@ -18,13 +18,13 @@ type Filter struct {
 
 func (r *Filter) ToQuery() *db.Query {
 	return db.NewQuery().
-		PtrLimit(r.Limit).
-		PtrOffset(r.Offset).
-		PtrOrder(r.SortBy).
-		PtrWhere("id = ?", r.ID).
-		PtrWhere("branch_id = ?", r.BranchID).
-		PtrWhere("name = ?", r.Name).
-		PtrWhere("serial_number = ?", r.SerialNumber).
-		PtrWhere("status = ?", r.Status).
-		PtrPreloads(r.Preloads)
+		LimitIfNotNil(r.Limit).
+		OffsetIf(r.Offset).
+		OrderIf(r.SortBy).
+		WhereIf("id = ?", r.ID).
+		WhereIf("branch_id = ?", r.BranchID).
+		WhereIf("name = ?", r.Name).
+		WhereIf("serial_number = ?", r.SerialNumber).
+		WhereIf("status = ?", r.Status).
+		PreloadsIf(r.Preloads)
 }

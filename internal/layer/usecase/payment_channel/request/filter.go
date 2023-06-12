@@ -15,12 +15,12 @@ type Filter struct {
 
 func (r *Filter) ToQuery() *db.Query {
 	return db.NewQuery().
-		PtrLimit(r.Limit).
-		PtrOffset(r.Offset).
-		PtrOrder(r.SortBy).
-		PtrWhere("id = ?", r.ID).
-		PtrWhere("channel = ?", r.Channel).
-		PtrWhere("vendor = ?", r.Vendor).
-		PtrWhere("is_enable = ?", r.IsEnable).
-		PtrPreloads(r.Preloads)
+		LimitIfNotNil(r.Limit).
+		OffsetIf(r.Offset).
+		OrderIf(r.SortBy).
+		WhereIf("id = ?", r.ID).
+		WhereIf("channel = ?", r.Channel).
+		WhereIf("vendor = ?", r.Vendor).
+		WhereIf("is_enable = ?", r.IsEnable).
+		PreloadsIf(r.Preloads)
 }

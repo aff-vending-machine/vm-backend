@@ -8,7 +8,7 @@ type Enable struct {
 
 func (r *Enable) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.ID)
+		Where("id = ?", r.ID)
 }
 
 func (r *Enable) ToUpdate() map[string]interface{} {

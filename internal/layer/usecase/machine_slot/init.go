@@ -28,7 +28,7 @@ func NewUsecase(
 }
 
 func (uc *usecaseImpl) isMachineExist(ctx context.Context, id uint) bool {
-	query := db.NewQuery().AddWhere("id = ?", id)
+	query := db.NewQuery().Where("id = ?", id)
 	_, err := uc.machineRepo.FindOne(ctx, query)
 	if err != nil {
 		log.Error().Err(err).Interface("query", query).Msg("unable to find machine")
@@ -39,7 +39,7 @@ func (uc *usecaseImpl) isMachineExist(ctx context.Context, id uint) bool {
 }
 
 func (uc *usecaseImpl) isProductExist(ctx context.Context, id uint) bool {
-	query := db.NewQuery().AddWhere("id = ?", id)
+	query := db.NewQuery().Where("id = ?", id)
 	_, err := uc.catalogProductRepo.FindOne(ctx, query)
 	if err != nil {
 		log.Error().Err(err).Interface("query", query).Msg("unable to find catalog product")

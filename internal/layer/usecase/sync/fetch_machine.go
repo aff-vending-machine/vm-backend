@@ -38,7 +38,7 @@ func (uc *usecaseImpl) FetchMachine(ctx context.Context, req *request.Sync) erro
 		return errors.Wrapf(err, "unable to sync machine %s", machine.SerialNumber)
 	}
 
-	query = db.NewQuery().AddWhere("id = ?", req.MachineID)
+	query = db.NewQuery().Where("id = ?", req.MachineID)
 	update := res.ToUpdate()
 	uc.machineRepo.Update(ctx, query, update)
 	return nil

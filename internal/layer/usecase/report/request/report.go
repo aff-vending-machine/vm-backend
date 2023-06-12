@@ -16,19 +16,19 @@ type Report struct {
 
 func (r *Report) ToTransactionQuery() *db.Query {
 	query := db.NewQuery().
-		AddWhere("order_status = ?", "DONE").
-		AddWhere("machine_id = ?", r.MachineID).
-		PtrWhere("branch_id = ?", r.BranchID).
-		PtrWhere("channel_id = ?", r.ChannelID).
-		PtrOrder(r.SortBy).
-		AddPreload("Machine").
-		AddPreload("Channel")
+		Where("order_status = ?", "DONE").
+		Where("machine_id = ?", r.MachineID).
+		WhereIf("branch_id = ?", r.BranchID).
+		WhereIf("channel_id = ?", r.ChannelID).
+		OrderIf(r.SortBy).
+		Preload("Machine").
+		Preload("Channel")
 	if r.From != nil && r.To != nil {
-		query = query.AddWhere("confirmed_paid_at BETWEEN ? AND ?", r.From, r.To)
+		query = query.Where("confirmed_paid_at BETWEEN ? AND ?", r.From, r.To)
 	} else if r.From != nil {
-		query = query.AddWhere("confirmed_paid_at >= ?", r.From)
+		query = query.Where("confirmed_paid_at >= ?", r.From)
 	} else if r.To != nil {
-		query = query.AddWhere("confirmed_paid_at <= ?", r.From)
+		query = query.Where("confirmed_paid_at <= ?", r.From)
 	}
 
 	return query

@@ -11,7 +11,7 @@ type GetAccountPermission struct {
 
 func (r *GetAccountPermission) ToUserQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.UserID).
-		AddPreload("Role").
-		AddPreload("Role.Permissions")
+		Where("id = ?", r.UserID).
+		Preload("Role").
+		Preload("Role.Permissions")
 }
