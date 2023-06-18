@@ -1,11 +1,12 @@
 package response
 
 type Stock struct {
-	Code       string  `json:"code"`
-	Name       string  `json:"name"`
-	Sold       int     `json:"sold"`
-	SalePrice  float64 `json:"sale_price"`
-	TotalPrice float64 `json:"total_price"`
+	Code          string             `json:"code"`
+	Name          string             `json:"name"`
+	Sold          int                `json:"sold"`
+	SalePrice     float64            `json:"sale_price"`
+	TotalPayments map[string]float64 `json:"total_payments"`
+	TotalPrice    float64            `json:"total_price"`
 }
 
 type CartItem struct {
