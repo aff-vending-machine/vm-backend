@@ -232,7 +232,58 @@ func TestQuery_Offset(t *testing.T) {
 	}
 }
 
+func TestQuery_OrderEmpty(t *testing.T) {
+	q := NewQuery()
+	order := ""
+
+	result := q.Order(order)
+
+	if result.OrderVal != nil {
+		t.Error("Expected Order to be nil")
+	}
+}
+
 func TestQuery_Order(t *testing.T) {
+	q := NewQuery()
+	order := "field"
+
+	result := q.Order(order)
+
+	expectedField := "field"
+	expectedDescending := false
+	if result.OrderVal == nil {
+		t.Error("Expected Order to be non-nil")
+	} else {
+		if result.OrderVal.Field != expectedField {
+			t.Errorf("Expected Order Field to be %q, got %q", expectedField, result.OrderVal.Field)
+		}
+		if result.OrderVal.Decending != expectedDescending {
+			t.Errorf("Expected Order Decending to be %t, got %t", expectedDescending, result.OrderVal.Decending)
+		}
+	}
+}
+
+func TestQuery_OrderAsc(t *testing.T) {
+	q := NewQuery()
+	order := "field:asc"
+
+	result := q.Order(order)
+
+	expectedField := "field"
+	expectedDescending := false
+	if result.OrderVal == nil {
+		t.Error("Expected Order to be non-nil")
+	} else {
+		if result.OrderVal.Field != expectedField {
+			t.Errorf("Expected Order Field to be %q, got %q", expectedField, result.OrderVal.Field)
+		}
+		if result.OrderVal.Decending != expectedDescending {
+			t.Errorf("Expected Order Decending to be %t, got %t", expectedDescending, result.OrderVal.Decending)
+		}
+	}
+}
+
+func TestQuery_OrderDesc(t *testing.T) {
 	q := NewQuery()
 	order := "field:desc"
 
