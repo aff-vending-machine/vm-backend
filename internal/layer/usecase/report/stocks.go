@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"sort"
-	"strconv"
-	"strings"
 
 	"vm-backend/internal/layer/usecase/report/request"
 	"vm-backend/internal/layer/usecase/report/response"
@@ -15,6 +13,14 @@ import (
 	"github.com/pkg/errors"
 	"github.com/rs/zerolog/log"
 )
+
+type StockData struct {
+	Code     string
+	Name     string
+	Price    float64
+	Quantity int
+	Payments map[string]float64
+}
 
 func (uc *usecaseImpl) Stocks(ctx context.Context, req *request.Report) ([]response.Stock, error) {
 	if v := validate.Struct(req); !v.Validate() {
@@ -34,13 +40,15 @@ func (uc *usecaseImpl) Stocks(ctx context.Context, req *request.Report) ([]respo
 		return []response.Stock{}, nil
 	}
 
+	channels := make([]string, len(transactions))
 	carts := make([]string, len(transactions))
 	for i, transaction := range transactions {
 		carts[i] = transaction.RawCart
+		channels[i] = transaction.Channel.Channel
 	}
 
-	quantityByCodename := make(map[string]int)
-	for _, cartJSON := range carts {
+	dataByCodename := make(map[string]StockData)
+	for i, cartJSON := range carts {
 		var cart []response.CartItem
 		err := json.Unmarshal([]byte(cartJSON), &cart)
 		if err != nil {
@@ -48,24 +56,34 @@ func (uc *usecaseImpl) Stocks(ctx context.Context, req *request.Report) ([]respo
 			continue
 		}
 
+		channel := channels[i]
+
 		for _, item := range cart {
 			codename := fmt.Sprintf("%s:%s:%0.02f", item.Code, item.Name, item.Price)
-			quantityByCodename[codename] += item.Quantity
+			quantity := dataByCodename[codename].Quantity + item.Quantity
+			payments := dataByCodename[codename].Payments
+			payments[channel] += float64(item.Quantity) * item.Price
+
+			dataByCodename[codename] = StockData{
+				Code:     item.Code,
+				Name:     item.Name,
+				Price:    item.Price,
+				Quantity: quantity,
+				Payments: payments,
+			}
 		}
 	}
+
 	stocks := make([]response.Stock, 0)
 
-	for codename, quantity := range quantityByCodename {
-		cnp := strings.Split(codename, ":")
-		code := cnp[0]
-		name := cnp[1]
-		price, _ := strconv.ParseFloat(cnp[2], 64)
+	for _, data := range dataByCodename {
 		stock := response.Stock{
-			Code:       code,
-			Name:       name,
-			Sold:       quantity,
-			SalePrice:  price,
-			TotalPrice: float64(quantity) * price,
+			Code:          data.Code,
+			Name:          data.Name,
+			Sold:          data.Quantity,
+			SalePrice:     data.Price,
+			TotalPayments: data.Payments,
+			TotalPrice:    float64(data.Quantity) * data.Price,
 		}
 
 		stocks = append(stocks, stock)
