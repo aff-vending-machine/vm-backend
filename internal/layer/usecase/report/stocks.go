@@ -61,7 +61,11 @@ func (uc *usecaseImpl) Stocks(ctx context.Context, req *request.Report) ([]respo
 		for _, item := range cart {
 			codename := fmt.Sprintf("%s:%s:%0.02f", item.Code, item.Name, item.Price)
 			quantity := dataByCodename[codename].Quantity + item.Quantity
-			payments := dataByCodename[codename].Payments
+			payments := make(map[string]float64)
+			if dataByCodename[codename].Payments != nil {
+				payments = dataByCodename[codename].Payments
+			}
+
 			payments[channel] += float64(item.Quantity) * item.Price
 
 			dataByCodename[codename] = StockData{
