@@ -58,8 +58,22 @@ func (q *Query) Offset(offset int) *Query {
 
 // Order sets the order
 func (q *Query) Order(sort string) *Query {
-	decending := strings.Contains(sort, "desc")
-	q.OrderVal = &order{Field: strings.TrimSuffix(sort, ":desc"), Decending: decending}
+	if sort == "" {
+		return q
+	}
+
+	// Convert to lowercase for case insensitive comparison
+	sort = strings.ToLower(sort)
+	field, decending := sort, false
+
+	if strings.HasSuffix(sort, ":desc") {
+		field = strings.TrimSuffix(sort, ":desc")
+		decending = true
+	} else if strings.HasSuffix(sort, ":asc") {
+		field = strings.TrimSuffix(sort, ":asc")
+	}
+
+	q.OrderVal = &order{Field: field, Decending: decending}
 	return q
 }
 
