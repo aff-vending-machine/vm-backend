@@ -19,15 +19,32 @@ func CreateBranchFromMachine(repo modules.RepositoryService) {
 		return
 	}
 
+	testBranch, err := repo.StoreBranch.FindOne(ctx, db.NewQuery().Where("id = ?", 1))
+	if errs.HasMsg(err, errs.ErrNotFound) {
+		log.Info().Msg("test branch created")
+		repo.StoreBranch.Create(ctx, &store.Branch{
+			Name:     "Test",
+			Location: "AT44",
+			IsEnable: false,
+		})
+	}
+	if testBranch != nil && testBranch.Location != "AT44" {
+		log.Info().Msg("test branch updated")
+		repo.StoreBranch.Update(ctx, db.NewQuery().Where("id = ?", 1), map[string]interface{}{
+			"name":     "Test",
+			"location": "AT44",
+		})
+	}
+
 	for _, machine := range machines {
 		branchLocation := machine.Location
 
-		if machine.BranchID != nil {
-			// machine has branch id, skip
+		if machine.BranchID != nil && *machine.BranchID > 1 {
+			// machine has branch id more than 1 (test_branch), skip
 			continue
 		}
 
-		branch, err := repo.StoreBranch.FindOne(ctx, db.NewQuery().Where("location", branchLocation))
+		branch, err := repo.StoreBranch.FindOne(ctx, db.NewQuery().Where("location = ?", branchLocation))
 		if errs.NoMsg(err, errs.ErrNotFound) {
 			log.Error().Err(err).Str("location", branchLocation).Msg("unable to find branch")
 			return
