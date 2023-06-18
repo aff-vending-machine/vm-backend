@@ -10,7 +10,7 @@ type Get struct {
 
 func (r *Get) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.ID).
-		PtrWhere("group_id = ?", r.GroupID).
-		PtrPreloads(r.Preloads)
+		Where("id = ?", r.ID).
+		WhereIf("group_id = ?", r.GroupID).
+		PreloadsIf(r.Preloads)
 }

@@ -31,7 +31,7 @@ func UpdateBranchInTransactions(repo modules.RepositoryService) {
 	for _, machine := range machines {
 		branchID := locationMap[machine.Location]
 
-		total, err := repo.PaymentTransaction.Update(ctx, db.NewQuery().AddWhere("machine_id = ?", machine.ID).AddWhere("branch_id = ?", 1), map[string]interface{}{"branch_id": branchID})
+		total, err := repo.PaymentTransaction.Update(ctx, db.NewQuery().Where("machine_id = ?", machine.ID).Where("branch_id = ?", 1), map[string]interface{}{"branch_id": branchID})
 		if err != nil {
 			log.Error().Err(err).Uint("id", machine.ID).Uint("branch_id", branchID).Msg("unable to update transaction")
 			return

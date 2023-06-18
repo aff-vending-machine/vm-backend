@@ -26,5 +26,5 @@ func (uc *usecaseImpl) List(ctx context.Context, req *request.Filter) ([]respons
 		return nil, errors.Wrap(err, "unable to find many payment channel")
 	}
 
-	return conv.StructToArray[response.Channel](entities)
+	return conv.ToArray[response.Channel](entities)
 }

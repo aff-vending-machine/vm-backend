@@ -11,7 +11,7 @@ type Login struct {
 
 func (r *Login) ToUserQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("username = ?", r.Username).
-		AddPreload("Role").
-		AddPreload("Branch")
+		Where("username = ?", r.Username).
+		Preload("Role").
+		Preload("Branch")
 }

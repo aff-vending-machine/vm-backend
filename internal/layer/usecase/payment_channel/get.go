@@ -26,5 +26,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Cha
 		return nil, errors.Wrap(err, "unable to find payment channel")
 	}
 
-	return conv.StructTo[response.Channel](entity)
+	return conv.ToStruct[response.Channel](entity)
 }

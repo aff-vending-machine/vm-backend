@@ -27,5 +27,5 @@ func (uc *usecaseImpl) List(ctx context.Context, req *request.Filter) ([]respons
 		return nil, errors.Wrap(err, "unable to find users")
 	}
 
-	return conv.StructToArray[response.User](entities)
+	return conv.ToArray[response.User](entities)
 }

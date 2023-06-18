@@ -42,7 +42,7 @@ func (uc *usecase) generateToken(ctx context.Context, user *account.User) (*resp
 		return nil, err
 	}
 
-	query := db.NewQuery().AddWhere("id = ?", user.ID)
+	query := db.NewQuery().Where("id = ?", user.ID)
 	data := map[string]interface{}{
 		"last_login": time.Now(),
 		"last_token": accessToken,

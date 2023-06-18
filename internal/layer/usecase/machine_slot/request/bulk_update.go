@@ -18,12 +18,12 @@ type BulkUpdate struct {
 
 func (r *BulkUpdate) ToQuery(id uint) *db.Query {
 	return db.NewQuery().
-		AddWhere("machine_id = ?", r.MachineID).
-		AddWhere("id = ?", id)
+		Where("machine_id = ?", r.MachineID).
+		Where("id = ?", id)
 }
 
 func (r *BulkUpdate) ToUpdate(index int) map[string]interface{} {
-	result, _ := conv.StructToMap(r.Data[index])
+	result, _ := conv.ToMap(r.Data[index])
 	delete(result, "id")
 	return result
 }

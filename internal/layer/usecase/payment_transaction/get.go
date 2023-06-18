@@ -26,5 +26,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Tra
 		return nil, errors.Wrap(err, "unable to get transaction")
 	}
 
-	return conv.StructTo[response.Transaction](entity)
+	return conv.ToStruct[response.Transaction](entity)
 }

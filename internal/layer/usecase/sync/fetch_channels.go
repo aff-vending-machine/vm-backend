@@ -33,12 +33,12 @@ func (uc *usecaseImpl) FetchChannels(ctx context.Context, req *request.Sync) err
 	}
 
 	for _, channel := range channels {
-		query := db.NewQuery().AddWhere("channel = ? AND machine_id = ?", channel.Name, machine.ID)
+		query := db.NewQuery().Where("channel = ? AND machine_id = ?", channel.Name, machine.ID)
 		update := channel.ToUpdate()
 		uc.slotRepo.Update(ctx, query, update)
 	}
 
-	query = db.NewQuery().AddWhere("id = ?", req.MachineID)
+	query = db.NewQuery().Where("id = ?", req.MachineID)
 	update := map[string]interface{}{"sync_channel_time": time.Now()}
 	_, err = uc.machineRepo.Update(ctx, query, update)
 	if err != nil {

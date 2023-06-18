@@ -23,6 +23,7 @@ func Run(cfg configs.Config) {
 	if cfg.App.Migration {
 		log.Info().Msg("migration")
 		migration.CreateBranchFromMachine(service.Repository)
+		migration.UpdatePermissionLevel(service.Repository)
 		migration.UpdateAlternativeScope(service.Repository)
 		migration.UpdateBranchInTransactions(service.Repository)
 	}

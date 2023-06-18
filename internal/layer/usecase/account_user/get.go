@@ -26,5 +26,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Use
 		return nil, errors.Wrap(err, "unable to find user")
 	}
 
-	return conv.StructTo[response.User](entity)
+	return conv.ToStruct[response.User](entity)
 }

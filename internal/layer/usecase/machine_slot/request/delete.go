@@ -11,6 +11,6 @@ type Delete struct {
 
 func (r *Delete) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("machine_id = ?", r.MachineID).
-		AddWhere("id = ?", r.ID)
+		Where("machine_id = ?", r.MachineID).
+		Where("id = ?", r.ID)
 }

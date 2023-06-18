@@ -26,5 +26,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Gro
 		return nil, errors.Wrapf(err, "unable to find group %d", req.ID)
 	}
 
-	return conv.StructTo[response.Group](entity)
+	return conv.ToStruct[response.Group](entity)
 }

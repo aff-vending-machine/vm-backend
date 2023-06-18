@@ -13,10 +13,10 @@ type Filter struct {
 
 func (r *Filter) ToQuery() *db.Query {
 	return db.NewQuery().
-		PtrOffset(r.Offset).
-		PtrLimit(r.Limit).
-		PtrOrder(r.SortBy).
-		PtrWhere("id = ?", r.ID).
-		PtrWhere("name = ?", r.Name).
-		PtrPreloads(r.Preloads)
+		OffsetIf(r.Offset).
+		LimitIfNotNil(r.Limit).
+		OrderIf(r.SortBy).
+		WhereIf("id = ?", r.ID).
+		WhereIf("name = ?", r.Name).
+		PreloadsIf(r.Preloads)
 }

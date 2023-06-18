@@ -17,11 +17,11 @@ type Update struct {
 
 func (r *Update) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.ID)
+		Where("id = ?", r.ID)
 }
 
 func (r *Update) ToUpdate() map[string]interface{} {
-	result, _ := conv.StructToMap(r)
+	result, _ := conv.ToMap(r)
 	delete(result, "id")
 	return result
 }

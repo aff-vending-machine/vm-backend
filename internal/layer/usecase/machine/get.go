@@ -25,5 +25,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Mac
 		return nil, errors.Wrapf(err, "unable to find machine %d", req.ID)
 	}
 
-	return conv.StructTo[response.Machine](entity)
+	return conv.ToStruct[response.Machine](entity)
 }

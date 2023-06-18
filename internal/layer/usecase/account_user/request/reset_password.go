@@ -10,8 +10,8 @@ type ResetPassword struct {
 
 func (r *ResetPassword) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.ID).
-		PtrWhere("branch_id = ?", r.BranchID)
+		Where("id = ?", r.ID).
+		WhereIf("branch_id = ?", r.BranchID)
 }
 
 func (r *ResetPassword) ToUpdate(hashed string) map[string]interface{} {

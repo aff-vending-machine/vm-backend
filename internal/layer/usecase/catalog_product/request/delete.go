@@ -9,6 +9,6 @@ type Delete struct {
 
 func (r *Delete) ToQuery() *db.Query {
 	return db.NewQuery().
-		PtrWhere("group_id = ?", r.GroupID).
-		AddWhere("id = ?", r.ID)
+		WhereIf("group_id = ?", r.GroupID).
+		Where("id = ?", r.ID)
 }

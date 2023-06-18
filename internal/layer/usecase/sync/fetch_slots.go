@@ -69,7 +69,7 @@ func (uc *usecaseImpl) FetchSlots(ctx context.Context, req *request.Sync) error 
 		}
 	}
 
-	query = db.NewQuery().AddWhere("id = ?", req.MachineID)
+	query = db.NewQuery().Where("id = ?", req.MachineID)
 	update := map[string]interface{}{"sync_slot_time": time.Now()}
 	_, err = uc.machineRepo.Update(ctx, query, update)
 	if err != nil {
@@ -83,9 +83,9 @@ func (uc *usecaseImpl) FetchSlots(ctx context.Context, req *request.Sync) error 
 func (uc *usecaseImpl) findProductID(ctx context.Context, slot models.Slot) uint {
 	productID := uint(0)
 	if slot.Product != nil {
-		query := db.NewQuery().AddWhere("sku = ?", slot.Product.SKU)
+		query := db.NewQuery().Where("sku = ?", slot.Product.SKU)
 		product, err := uc.productRepo.FindOne(ctx, query)
-		if errs.Is(err, errs.ErrNotFound) {
+		if errs.HasMsg(err, errs.ErrNotFound) {
 			product = slot.Product.ToEntity()
 			_, err = uc.productRepo.Create(ctx, product)
 		}

@@ -82,33 +82,33 @@ func Forbidden(ctx *fiber.Ctx, cause error) error {
 
 func translateError(err error) (int, string) {
 	// 400
-	if errs.Is(err, "invalid request") {
+	if errs.HasMsg(err, "invalid request") {
 		return fiber.StatusBadRequest, errors.Cause(err).Error()
 	}
 
-	if errs.Is(err, "exist") {
+	if errs.HasMsg(err, "exist") {
 		return fiber.StatusBadRequest, errors.Cause(err).Error()
 	}
 
-	if errs.Is(err, "device id") {
+	if errs.HasMsg(err, "device id") {
 		return fiber.StatusBadRequest, "device ID is invalid"
 	}
 
-	if errs.Is(err, "decrypt") {
+	if errs.HasMsg(err, "decrypt") {
 		return fiber.StatusBadRequest, "data is invalid"
 	}
 
-	if errs.Is(err, "invalid data") {
+	if errs.HasMsg(err, "invalid data") {
 		return fiber.StatusBadRequest, "data is invalid"
 	}
 
 	// 401
-	if errs.Is(err, "password") {
+	if errs.HasMsg(err, "password") {
 		return fiber.StatusBadRequest, "password is not match"
 	}
 
 	// 403
-	if errs.Is(err, "signature") {
+	if errs.HasMsg(err, "signature") {
 		return fiber.StatusBadRequest, errors.Cause(err).Error()
 	}
 
@@ -116,14 +116,14 @@ func translateError(err error) (int, string) {
 		return fiber.StatusForbidden, "no permission"
 	}
 
-	if errs.Is(err, "no permission") {
+	if errs.HasMsg(err, "no permission") {
 		return fiber.StatusForbidden, err.Error()
 	}
 
 	// 404
 
 	// 500
-	if errs.Is(err, "rpc error") {
+	if errs.HasMsg(err, "rpc error") {
 		return fiber.StatusInternalServerError, errors.Cause(err).Error()
 	}
 

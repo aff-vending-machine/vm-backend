@@ -26,5 +26,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Pro
 		return nil, errors.Wrapf(err, "unable to find product %d", req.ID)
 	}
 
-	return conv.StructTo[response.Product](entity)
+	return conv.ToStruct[response.Product](entity)
 }

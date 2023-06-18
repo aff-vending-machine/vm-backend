@@ -14,8 +14,8 @@ type Done struct {
 
 func (r *Done) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.ID).
-		PtrWhere("branch_id = ?", r.BranchID)
+		Where("id = ?", r.ID).
+		WhereIf("branch_id = ?", r.BranchID)
 }
 
 func (r *Done) ToUpdate(quantity int, price float64, confirmed *string) map[string]interface{} {

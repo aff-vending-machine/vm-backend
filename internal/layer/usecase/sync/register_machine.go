@@ -22,7 +22,7 @@ func (uc *usecaseImpl) RegisterMachine(ctx context.Context, req *request.Registe
 
 	query := req.ToQuery()
 	machine, err := uc.machineRepo.FindOne(ctx, query)
-	if errs.Is(err, errs.ErrNotFound) {
+	if errs.HasMsg(err, errs.ErrNotFound) {
 		entity := makeMachine(req, 1)
 		_, err := uc.machineRepo.Create(ctx, entity)
 		if err != nil {

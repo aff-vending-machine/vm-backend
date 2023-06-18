@@ -9,6 +9,6 @@ type Get struct {
 
 func (r *Get) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.ID).
-		PtrPreloads(r.Preloads)
+		Where("id = ?", r.ID).
+		PreloadsIf(r.Preloads)
 }

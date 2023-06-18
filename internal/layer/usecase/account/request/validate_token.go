@@ -8,8 +8,8 @@ type ValidateToken struct {
 
 func (r *ValidateToken) ToUserQuery(id uint) *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", id).
-		AddPreload("Role").
-		AddPreload("Role.Permissions").
-		AddPreload("Branch")
+		Where("id = ?", id).
+		Preload("Role").
+		Preload("Role.Permissions").
+		Preload("Branch")
 }

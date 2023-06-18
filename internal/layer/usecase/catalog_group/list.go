@@ -26,5 +26,5 @@ func (uc *usecaseImpl) List(ctx context.Context, req *request.Filter) ([]respons
 		return nil, errors.Wrap(err, "unable to find catalog groups")
 	}
 
-	return conv.StructToArray[response.Group](entities)
+	return conv.ToArray[response.Group](entities)
 }

@@ -26,5 +26,5 @@ func (uc *usecaseImpl) Get(ctx context.Context, req *request.Get) (*response.Bra
 		return nil, errors.Wrapf(err, "unable to find branch %d", req.ID)
 	}
 
-	return conv.StructTo[response.Branch](entity)
+	return conv.ToStruct[response.Branch](entity)
 }

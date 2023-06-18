@@ -11,7 +11,7 @@ type RegisterMachine struct {
 }
 
 func (r *RegisterMachine) ToQuery() *db.Query {
-	return db.NewQuery().AddWhere("serial_number", r.Data.SerialNumber)
+	return db.NewQuery().Where("serial_number", r.Data.SerialNumber)
 }
 
 func (r *RegisterMachine) ToUpdate(count int) map[string]interface{} {

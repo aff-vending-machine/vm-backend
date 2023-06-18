@@ -14,26 +14,26 @@ type Summary struct {
 
 func (r *Summary) ToMachineQuery() *db.Query {
 	return db.NewQuery().
-		SetOrder("id:asc").
-		PtrWhere("branch_id = ?", r.BranchID)
+		Order("id:asc").
+		WhereIf("branch_id = ?", r.BranchID)
 }
 
 func (r *Summary) ToChannelQuery() *db.Query {
 	return db.NewQuery().
-		SetOrder("id:asc")
+		Order("id:asc")
 }
 
 func (r *Summary) ToTransactionQuery() *db.Query {
 	query := db.NewQuery().
-		AddWhere("order_status = ?", "DONE").
-		PtrWhere("branch_id = ?", r.BranchID).
-		PtrOrder(r.SortBy)
+		Where("order_status = ?", "DONE").
+		WhereIf("branch_id = ?", r.BranchID).
+		OrderIf(r.SortBy)
 	if r.From != nil && r.To != nil {
-		query = query.AddWhere("confirmed_paid_at BETWEEN ? AND ?", r.From, r.To)
+		query = query.Where("confirmed_paid_at BETWEEN ? AND ?", r.From, r.To)
 	} else if r.From != nil {
-		query = query.AddWhere("confirmed_paid_at >= ?", r.From)
+		query = query.Where("confirmed_paid_at >= ?", r.From)
 	} else if r.To != nil {
-		query = query.AddWhere("confirmed_paid_at <= ?", r.From)
+		query = query.Where("confirmed_paid_at <= ?", r.From)
 	}
 
 	return query

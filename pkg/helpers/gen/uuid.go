@@ -3,8 +3,9 @@ package gen
 import (
 	"math/rand"
 	"time"
-	"unsafe"
 )
+
+var src = rand.NewSource(time.Now().UnixNano())
 
 type options struct {
 	letter  string
@@ -13,35 +14,45 @@ type options struct {
 	idxMax  float64
 }
 
-var src = rand.NewSource(time.Now().UnixNano())
+// Random generates a random string of length n using alphanumeric characters.
+func Random(n int) string {
+	const (
+		letter  = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ" // 62 letters
+		idxBits = 6                                                                // 00111111 = max 63 letters
+		idxMask = (1 << idxBits) - 1
+		idxMax  = 63 / idxBits
+	)
 
-func GenerateRandom(n int) string {
-	return generate(n, options{
-		letter:  "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ", // 62 letters
-		idxBits: 6,                                                                // 00111111 = max 63 letters
-		idxMask: (1 << 6) - 1,
-		idxMax:  63 / 6,
-	})
+	return generate(n, options{letter, idxBits, idxMask, idxMax})
 }
 
-func GenerateUUIDv4() string {
-	id := generate(32, options{
-		letter:  "0123456789abcdefghijklmnopqrstuvwxyz", // 36 letters
-		idxBits: 6,                                      // 00111111 = max 63 letters
-		idxMask: (1 << 6) - 1,
-		idxMax:  63 / 6,
-	})
+// UUIDv4 generates a random string following the UUIDv4 format.
+func UUIDv4() string {
+	const (
+		letter  = "0123456789abcdef" // 16 letters (hexadecimal)
+		idxBits = 4                  // 00001111 = max 15 letters
+		idxMask = (1 << idxBits) - 1
+		idxMax  = 15 / idxBits
+	)
 
-	return id[0:8] + "-" + id[8:12] + "-" + id[12:16] + "-" + id[16:20] + "-" + id[20:]
+	id := generate(32, options{letter, idxBits, idxMask, idxMax})
+	ninth := string(letter[rand.Intn(4)+8])
+
+	// Set the fourth character of the third group to '4'
+	// Set the ninth character of the fourth group to '8', '9', 'a', or 'b'
+	return id[0:8] + "-" + id[8:12] + "-4" + id[13:16] + "-" + ninth + id[17:20] + "-" + id[20:]
 }
 
-func GenerateOTP() string {
-	return generate(6, options{
-		letter:  "0123456789", // 10 letters
-		idxBits: 4,            // 00001111 = max 15 letters
-		idxMask: (1 << 4) - 1,
-		idxMax:  15 / 4,
-	})
+// OTP generates a random string of length 6 following the OTP format using digits.
+func OTP() string {
+	const (
+		letter  = "0123456789" // 10 letters (decimal)
+		idxBits = 4            // 00001111 = max 15 letters
+		idxMask = (1 << idxBits) - 1
+		idxMax  = 15 / idxBits
+	)
+
+	return generate(6, options{letter, idxBits, idxMask, idxMax})
 }
 
 func generate(n int, opt options) string {
@@ -58,5 +69,6 @@ func generate(n int, opt options) string {
 		remain--
 	}
 
-	return *(*string)(unsafe.Pointer(&b))
+	return string(b)
+	// return *(*string)(unsafe.Pointer(&b))
 }

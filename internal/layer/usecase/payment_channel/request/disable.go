@@ -8,7 +8,7 @@ type Disable struct {
 
 func (r *Disable) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("id = ?", r.ID)
+		Where("id = ?", r.ID)
 }
 
 func (r *Disable) ToUpdate() map[string]interface{} {

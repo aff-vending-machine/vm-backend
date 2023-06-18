@@ -16,12 +16,12 @@ type Update struct {
 
 func (r *Update) ToQuery() *db.Query {
 	return db.NewQuery().
-		AddWhere("machine_id = ?", r.MachineID).
-		AddWhere("id = ?", r.ID)
+		Where("machine_id = ?", r.MachineID).
+		Where("id = ?", r.ID)
 }
 
 func (r *Update) ToUpdate() map[string]interface{} {
-	result, _ := conv.StructToMap(r)
+	result, _ := conv.ToMap(r)
 	delete(result, "machine_id")
 	delete(result, "id")
 	return result
