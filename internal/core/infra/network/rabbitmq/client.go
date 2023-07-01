@@ -43,8 +43,8 @@ func (c *Client) EmitRPC(ctx context.Context, queueTarget string, routingKey str
 	if err != nil {
 		return nil, err
 	}
-	defer channel.QueuePurge(q.Name, false)
 	defer channel.QueueDelete(q.Name, false, false, false)
+	defer channel.QueuePurge(q.Name, false)
 
 	messages, err := channel.Consume(
 		q.Name,         // queue name

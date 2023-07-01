@@ -76,8 +76,16 @@ func GetAccess(c *fiber.Ctx) string {
 
 func GetBranchID(c *fiber.Ctx, id *uint) *uint {
 	rejected := uint(0)
-	if c.Locals(PermissionLevelKey) == Editor {
-		return id
+
+	if c.Locals(PermissionLevelKey) == nil {
+		return &rejected
+	}
+
+	if permissionLevel, ok := c.Locals(PermissionLevelKey).(int); ok {
+		if permissionLevel >= Editor {
+			// use from filter
+			return id
+		}
 	}
 
 	if c.Locals(BranchIDKey) == nil {
@@ -86,10 +94,11 @@ func GetBranchID(c *fiber.Ctx, id *uint) *uint {
 
 	if branchID, ok := c.Locals(BranchIDKey).(uint); ok {
 		if branchID == 0 {
-			// all branches
-			return nil
+			// use from filter
+			return id
 		}
 
+		// use from account
 		return &branchID
 	}
 
